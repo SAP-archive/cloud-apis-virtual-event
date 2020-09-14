@@ -81,7 +81,7 @@ If you've ever been asked, on a web page, by e.g. Google or GitHub, to allow acc
 
 **Client Credentials**
 
-One can almost see this as the other side of the coin to the Authorization Code grant type, in that the attainment of an access token is still the key goal, but this time the flow is outside the context of any human. In other words, this is where the Client (the script or program that is to make calls to the APIs) is acting on its own behalf, rather than on behalf of any Resource Owner (think of it as if the Client in this case is also the Resource Owner).
+One can almost see this as the other side of the coin to the Authorization Code grant type, in that the attainment of an access token is still the key goal, but this time the flow is outside the context of any human. In other words, this is where the Client (the script or program that is to make calls to the APIs) is acting on its own behalf, rather than on behalf of any Resource Owner (think of it as if the Client in this case is also the Resource Owner). In this flow, the Client provides its own credentials in the form of a so called "client ID" and "client secret" pair of values.
 
 This is a very common grant type used for access to SAP Cloud Platform APIs, especially for automated and "headless" activities.
 
@@ -96,8 +96,28 @@ Also known simply as the "Password" grant type, this is a flow designed for use 
 While this grant type is also considered legacy, it is used currently to protect the [Cloud Management APIs on SAP Cloud Platform](https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/3670474a58c24ac2b082e76cbbd9dc19.html), so worth understanding, at least for the moment.
 
 
+### 4. See where these grant types are used for APIs on SAP Cloud Platform
 
+Remember in the previous exercise, at the end of each of the steps, you looked briefly at what was required to obtain authentication for calls to the APIs? In this step we'll revisit those points in the context of what we now know about OAuth 2.0.
+
+:point_right: Revisit the [Workflow API for Cloud Foundry](https://api.sap.com/api/SAP_CP_Workflow_CF/resource) page (make sure you're still logged in to the API Hub) and look again at the "Configure Environments" facility. You should see a form that looks something like this, in the context of saving a set of values to define a new API credentials environment:
+
+![Create New Environment form](create-new-environment.png)
+
+The only possible "Authentication Type" is OAuth 2.0 and with the requirement of "Client ID" and "Client Secret" values, we can (correctly) work out that this is the Client Credentials grant type. Directly below those two fields we also see the "Token URL" field which is the endpoint for the Authorization Server (see the roles earlier in this exercise).
+
+:point_right: Revisit the [Authorization](https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/latest/en-US/3670474a58c24ac2b082e76cbbd9dc19.html) link from the Core Service APIs page, which leads to the "Manage Authentication and Authorization Process for Cloud Management APIs" page in the SAP Help Portal. Here you'll see, currently, that the "_core service APIs of SAP Cloud Platform are protected with the OAuth 2.0 Password Grant type_". The process described further down on that page shows the use of this grant type, with the supply of the Resource Owner's username and password credentials.
+
+> The use of this legacy grant type will be replaced by the use of the Client Credentials grant type in the future.
+
+:point_right: Revisit the authentication requirements for the Enterprise Messaging "management" APIs, by going back to the [Use REST APIs to Send and Receive Messages](https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/00160292a8ed445daa0185589d9b43c5.html) resource in the SAP Help Portal. In the few moments that you spent staring at this, you may have come across this in the Procedure section:
+
+```
+grant_type=client_credential&response_type=token
+```
+
+This indeed confirms that the Client Credentials grant type is used to protect the resources for the "managment" APIs (and the "messaging" APIs too - see the equivalent section in [Use REST APIs to Send and Receive Messages](https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/577ea7ce5cef4e2ea974c03d5549b3ff.html).
 
 ## Summary
 
-At this point you're ready to make your first SAP Cloud Platform API call to endpoints protected with OAuth 2.0.
+Great, now you understand some key concepts in OAuth 2.0, including roles and grant types, and can relate these to how APIs in SAP Cloud Platform are protected. At this point you're ready to make your first SAP Cloud Platform API calls to endpoints protected with OAuth 2.0.
