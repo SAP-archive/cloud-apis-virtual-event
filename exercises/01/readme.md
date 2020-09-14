@@ -57,6 +57,8 @@ While the API Hub is the primary source of API information, there is API informa
 
 :point_right: Select this link to view the different APIs available, for Accounts, Entitlements, Provisioning and more. Note again that these APIs are presented in a similar way to how APIs are presented in the API Hub, with version and type information.
 
+![Core Service APIs](core-service-apis.png)
+
 :point_right: Select one of the APIs, such as for the Accounts service, and get a feel for how the endpoints are presented; in a similar way to what we saw in the API Hub, the endpoints are grouped together. For the Accounts Service, the groups are Global Account Operations, Directory Operations, Subaccount Operations and Job Management.
 
 > It may be that once these APIs move out of beta, they may find a place in the API Hub. But it's important to know that not every API is immediately listed there.
