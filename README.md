@@ -26,7 +26,7 @@ If you finish an exercise early, please resist the temptation to continue with t
 
 Here's an overview of the exercises.
 
-- [Exercise 01 - ...](exercises/01/)
+- [Exercise 01 - Get an overview of API resources](exercises/01/)
 
 ## Requirements
 
