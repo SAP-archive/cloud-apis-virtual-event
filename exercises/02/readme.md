@@ -23,11 +23,26 @@ Immediately we can see how OAuth 2.0 differs from, say, the use of HTTP Basic Au
 
 - HTTP Basic Authentication requires the use of a username and password; once compromised, those credentials are hard to revoke cleanly and without causing issues for other systems with which they were shared
 
-- Rather than just a resource and a username / password credential pair with HTTP Basic Authentication, the OAuth 2.0 approach identifies multiple actors in any given scenario - such as the resource owner, a third party application, and so on
+- Rather than just a resource and a username & password credential pair with HTTP Basic Authentication, the OAuth 2.0 approach identifies multiple actors in any given scenario - such as the resource owner, a third party application, and so on
 
-At the beginning of the O'Reilly book [Getting Started with OAuth 2.0](https://www.oreilly.com/library/view/getting-started-with/9781449317843/) the author [Ryan Boyd](https://www.linkedin.com/in/ryguyrg/) describes this difference in a light-hearted manner by recounting a scene from the movie "Ferris Bueller's Day Off", where a valet parking attendant, given the keys to an expensive 1961 Ferrari to park, takes it out for a joyride instead of just parking it in the garage. Giving the valet the keys, and thereby full access to the car, is the equivalent of using a username and password based authentication mechanism. Ideally the car owner would have given the valet limited access preventing such a scenario, and preventing other access such as driving at high speed, going further than a few hundred meters, or opening the glove compartment or trunk.
+At the beginning of the O'Reilly book [Getting Started with OAuth 2.0](https://www.oreilly.com/library/view/getting-started-with/9781449317843/) the author [Ryan Boyd](https://www.linkedin.com/in/ryguyrg/) describes this difference in a light-hearted manner by recounting a scene from the movie "Ferris Bueller's Day Off", where a valet parking attendant, given the keys to an expensive 1961 Ferrari to park, takes it out for a joyride instead of just parking it in the garage. Giving the valet the keys, and thereby full access to the car, is the equivalent of using a username & password based authentication mechanism. Ideally the car owner would have given the valet limited access preventing such a scenario, by providing scope limited in time and features - not allowing access to driving at high speed, going further than a few hundred meters, or opening the glove compartment or trunk.
 
 The idea of OAuth 2.0 is to facilitate delegated access via tokens; tokens that have a limited scope, a limited lifespan, and that are granted either directly or via interaction with a resource owner.
+
+
+### 2. Understand the roles in OAuth 2.0
+
+As mentioned in the previous step, there are multiple actors at play in an OAuth 2.0 scenario. These actors have different roles, and they can be summarized as follows:
+
+- Client: the application that requires access to resources
+
+- Resource Server: where the resources are, i.e. where the endpoints are that the Client wishes to consume
+
+- Resource Owner: the owner of the resources to which access is required; ultimately, this might be a system, or a human
+
+- Authorization Server: A server that (in the case where approval or denial of delegated access requires a decision by a human Resource Owner) presents an interface to approve or deny access requests, and that also issues and renews access tokens
+
+In some circumstances the Authorization Server and the Resource Server might be the same and combined into one; in the context of SAP Cloud Platform however they are usually separate.
 
 
 ## Summary
