@@ -44,6 +44,8 @@ Note that there are many API endpoints, and they are grouped together logically.
 - Jobs
 - Messages
 
+:point_right: Before finishing with this step, take a quick look at the "Configure Environments" facility, which enables a logged on user to save configuration settings to be able to make API calls directly from within the API Hub. Make a mental note of what's required with respect to authentication.
+
 
 ### 2. Explore other sources of API information - SAP Cloud Platform Service APIs
 
@@ -58,6 +60,8 @@ While the API Hub is the primary source of API information, there is API informa
 :point_right: Select one of the APIs, such as for the Accounts service, and get a feel for how the endpoints are presented; in a similar way to what we saw in the API Hub, the endpoints are grouped together. For the Accounts Service, the groups are Global Account Operations, Directory Operations, Subaccount Operations and Job Management.
 
 > It may be that once these APIs move out of beta, they may find a place in the API Hub. But it's important to know that not every API is immediately listed there.
+
+:point_right:  Before finishing with this step, take a quick look at the [Authentication](https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/latest/en-US/3670474a58c24ac2b082e76cbbd9dc19.html) link which will bring you to some documentation on how to manage authentication and authorization for these cloud management APIs. Make a mental note of what's required with respect to authentication here - how the APIs are protected.
 
 
 ### 3. Explore other sources of API information - Enterprise Messaging APIs
@@ -89,6 +93,9 @@ While the endpoints are presented differently, there's enough information to get
 :point_right: In the same way as you've just done, now select the [Use REST APIs to Manage Queues and Queue Subscriptions](https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/00160292a8ed445daa0185589d9b43c5.html) section and note that you're presented with a similar collection of information - an authentication section and a link to the actual [management APIs](https://help.sap.com/doc/75c9efd00fc14183abc4c613490c53f4/Cloud/en-US/rest-management-messaging.html).
 
 :point_right: Take a moment to [stare](https://langram.org/2019/04/08/es6-reduce-and-pipe/) at the information presented for all the endpoints here.
+
+:point_right: Like in the previous steps, before finishing with this step, make sure you've spent a minute or two looking at the detail of the authentication requirements here.
+
 
 ## Summary
 
