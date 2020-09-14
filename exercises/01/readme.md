@@ -30,7 +30,7 @@ There are a number of important things to note in this list of results:
 
 ![Workflow API artifacts](workflow-api-artifacts.png)
 
-:point_right: Finally in this step, dig one level deeper by selecting a specific API artifact. Choose the Workflow API for Cloud Foundry (the REST API) and have a brief look at the details shown.
+:point_right: Now, dig one level deeper by selecting a specific API artifact. Choose the Workflow API for Cloud Foundry (the REST API) and have a brief look at the details shown.
 
 Note that there are many API endpoints, and they are grouped together logically. You can see these groups in the left hand column; for the [Workflow API for Cloud Foundry](https://api.sap.com/api/SAP_CP_Workflow_CF/resource) that you've selected, there are the following groups of endpoints:
 
