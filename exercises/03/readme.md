@@ -7,11 +7,10 @@ In this exercise you'll set up Workflow Management services in your trial accoun
 
 After completing the steps in this exercise you'll feel some familiarity with using the Workflow APIs in the Cloud Foundry (CF) environment of your SAP Cloud Platform trial account.
 
-### 1. Add tools to your App Studio dev space
-
 Because you're awesome and you've already set up your dev space according to the [../prerequisites.md](prerequisites), with the "MTA Tools" and "Workflow Management" SAP extensions installed, you're almost ready to start. First though, as we'll be interacting with the Workflow API from the command line within your App Studio dev space and learning about it that way, we'll install a couple of tools there to help us.
 
-**jq - a lightweight and flexible command-line JSON processor**
+
+### 1. Add the `jq` tool to your App Studio dev space
 
 We'll be dealing with JSON in this exercise, and [`jq`](https://stedolan.github.io/jq/) is a great way to parse it and extract values, on the command line and in shell scripts. We need to download the appropriate executable to our dev space environment, and we can do this by looking for the download link and using that in our dev space's terminal.
 
@@ -60,8 +59,41 @@ Usage:  jq [options] <jq filter> [file...]
 ...
 ```
 
+### 2. Add the `jwt-cli` tool to your App Studio dev space
 
-### 2. Set up the Workflow Management related artifacts
+We'll be creating OAuth 2.0 access tokens in the course of this exercise, which appear as long opaque strings of characters. But we can actually "parse" the tokens, with the help of a Java Web Token (JWT) command line tool.
+
+The `jwt-cli` tool is available for Node.js and can be installed globally within your shell using the `--global` switch for the `npm` command.
+
+:point_right: At your shell prompt in the terminal, install `jwt-cli` globally like this (some reduced output is shown here):
+
+```
+> npm install --global jwt-cli
+/home/user/.node_modules_global/bin/jwt -> /home/user/.node_modules_global/lib/node_modules/jwt-cli/bin/jwt.js
+[...]
+
++ jwt-cli@1.2.3
+added 25 packages from 26 contributors in 2.563s
+>
+```
+
+Because the dev space container already contains Node.js and `npm`, that's all you need to do.
+
+:point_right: Check that you can execute the tool, by entering `jwt` at the prompt. You should see output similar to what's shown here:
+
+```
+> jwt
+jwt-cli - JSON Web Token parser [version 1.2.3]
+
+Usage: jwt <encoded token> --secret=<signing secret>
+
+ℹ Documentation: https://www.npmjs.com/package/jwt-cli
+⚠ Issue tracker: https://github.com/troyharvey/jwt-cli/issues
+```
+
+
+
+### 3. Set up the Workflow Management related artifacts
 
 These steps assume you have a freshly created trial account on SAP Cloud Platform, and in particular, no existing Workflow service instance. If you do have such an instance already, you can either use that (and adapt the instructions here to suit) or remove it\* and follow the full instructions here.
 
