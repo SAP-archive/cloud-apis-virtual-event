@@ -173,12 +173,89 @@ Space:          dev
 >
 ```
 
-### 4. Create a Workflow service instance and service key
+### 5. Create a Workflow service instance and service key
 
 These steps assume you have a freshly created trial account on SAP Cloud Platform, and in particular, no existing Workflow service instance. If you do have such an instance already, you can either use that (and adapt the instructions here to suit) or remove it\* and follow the full instructions here.
 
 \*Only remove an existing instance if you have no more use for it.
 
+For this step, some of the `cf` commands needed have been made available in a small script which is in the `workspace/` directory within the repo's `exercises/03/` directory. It's worth moving to that `workspace/` directory now as the rest of the exercise activities will involve being in there too.
+
+:point_right: Move to the `workspace/` directory. You can either do this at the shell prompt directly with the `cd` command:
+
+```shell
+> cd $HOME/projects/cloud-apis/exercises/03/workspace/
+```
+
+Or you can use the App Studio's Explorer context menu as shown here:
+
+![Open in terminal](open-in-terminal.png)
+
+Either way, you should end up in the `workspace/` directory.
+
+Now it's time to create the instance of the Workflow service, using the 'lite' service plan. The name of the service, the service plan, and what to call the service instance, are stored in a `shared` script file, which you should first source into your shell. Then you can run the `cf` command as shown.
+
+:point_right: First, source the common values, and check by echoing one of the values to STDOUT:
+
+```shell
+> source shared
+> echo $plan
+lite
+>
+```
+
+:point_right: Now, directly following the previous commands, in the same shell process, create the service instance (typical output from this is shown here too):
+
+```shell
+> cf create-service $service $plan $instance
+Creating service instance workflow-lite in org a52544d1trial / space dev as qmacro+handsonsapdev@gmail.com...
+OK
+
+Create in progress. Use 'cf services' or 'cf service workflow-lite' to check operation status.
+```
+
+Note that this creation process is asynchronous, and, as it suggests, you should check for the eventual creation as shown:
+
+```shell
+> cf service $instance
+Showing info of service workflow-lite in org a52544d1trial / space dev as qmacro+handsonsapdev@gmail.com...
+
+name:             workflow-lite
+service:          workflow
+tags:
+plan:             lite
+description:      Automate business processes using workflow technology.
+documentation:    https://help.sap.com/viewer/p/WORKFLOW_SERVICE
+dashboard:
+service broker:   sm-workflow-broker-d2b48385-f83e-4601-9830-0db967aaa2f5
+
+Showing status of last operation from service workflow-lite...
+
+status:    create in progress
+message:
+started:   2020-09-15T13:52:00Z
+updated:   2020-09-15T13:52:00Z
+
+There are no bound apps for this service.
+
+Upgrades are not supported by this broker.
+```
+
+Output like this ("create in progress") indicates that the instance is being created. Be patient, and wait for the status to show "create succeeded".
+
+> You could have used the literal value "workflow-lite" in the `cf service` command above, but it's worth being consistent and ensuring we all use the same values for the names of things.
+
+Now the service instance exists, it's time to create a service key, which will contain credentials that we'll need in the OAuth 2.0 flow later in this exercise. We need to request the creation of a service instance, and then copy the contents, stripped of any cruft, into a local file. The script `setup-service-key` will do this for you.
+
+:point_right: Examine the `setup-service-key` script and once you're happy with what it does, run it and check the output, which is also shown here:
+
+```shell
+./setup-service-key
+
+:point_right: Now run the `setup` script; output will appear as the `cf` commands are executed, and the output will look something like this:
+
+```shell
+>
 
 
 
