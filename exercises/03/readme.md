@@ -138,7 +138,7 @@ Here's a quick overview of what you see:
 - `workflow`: the main script that will help you make Workflow API calls
 
 
-### 4. Create a Workflow service instance and service key
+### 4. Create a Workflow service instance and service key
 
 These steps assume you have a freshly created trial account on SAP Cloud Platform, and in particular, no existing Workflow service instance. If you do have such an instance already, you can either use that (and adapt the instructions here to suit) or remove it\* and follow the full instructions here.
 
