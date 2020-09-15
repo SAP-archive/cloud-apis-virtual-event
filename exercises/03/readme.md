@@ -35,7 +35,6 @@ Here's typical output that you might see:
                                  Dload  Upload   Total   Spent    Left  Speed
 100   632  100   632    0     0  15047      0 --:--:-- --:--:-- --:--:-- 15047
 100 3861k  100 3861k    0     0  2690k      0  0:00:01  0:00:01 --:--:-- 3144k
->
 ```
 
 :point_right: Make the downloaded `jq` file executable:
@@ -70,16 +69,20 @@ We'll be creating OAuth 2.0 access tokens in the course of this exercise, which 
 
 The [`jwt-cli`](https://www.npmjs.com/package/jwt-cli) tool is available for Node.js and can be installed globally within your shell using the `--global` switch for the `npm` command.
 
-:point_right: At your shell prompt in the terminal, install `jwt-cli` globally like this (some reduced output is shown here):
+:point_right: At your shell prompt in the terminal, install `jwt-cli` globally like this:
+
+```shell
+> npm install --global jwt-cli
+```
+
+You should see output like this (some lines omitted for brevity):
 
 ```
-> npm install --global jwt-cli
 /home/user/.node_modules_global/bin/jwt -> /home/user/.node_modules_global/lib/node_modules/jwt-cli/bin/jwt.js
 [...]
 
 + jwt-cli@1.2.3
 added 25 packages from 26 contributors in 2.563s
->
 ```
 
 Because the dev space container already contains Node.js and `npm`, that's all you need to do.
@@ -107,11 +110,17 @@ First, let's open the `projects/` directory as the workspace in your App Studio 
 
 ![Open Workspace](open-workspace.png)
 
-:point_right: Now, back in the terminal (you may need to open a fresh one), at the shell prompt, move into the `projects/` directory and then use `git` to clone the repo (some typical output from the clone action is shown):
+:point_right: Now, back in the terminal (you may need to open a fresh one), at the shell prompt, move into the `projects/` directory and then use `git` to clone the repo:
 
-```
+
+```shell
 > cd $HOME/projects/
 > git clone TODO-REPLACE-REPO-URL-HERE
+```
+
+Here's what the output should look like:
+
+```
 Cloning into 'TODO-cloud-apis'...
 remote: Enumerating objects: 158, done.
 remote: Counting objects: 100% (158/158), done.
@@ -119,7 +128,6 @@ remote: Compressing objects: 100% (111/111), done.
 remote: Total 158 (delta 53), reused 118 (delta 36), pack-reused 0
 Receiving objects: 100% (158/158), 1.30 MiB | 3.26 MiB/s, done.
 Resolving deltas: 100% (53/53), done.
->
 ```
 
 > On opening up a new terminal after opening the `projects/` directory as the workspace, you may already have been put directly into the `projects/` directory, so the `cd $HOME/projects/` is not entirely necessary in this case (but it won't harm to run this command if you want to).
@@ -175,7 +183,6 @@ API endpoint:   https://api.cf.eu10.hana.ondemand.com (API version: 3.86.0)
 User:           me@example.com
 Org:            xyz12345trial
 Space:          dev
->
 ```
 
 ### 5. Create a Workflow service instance
