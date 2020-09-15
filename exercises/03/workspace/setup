@@ -5,9 +5,6 @@
 set -o errexit
 source shared
 
-# Ensure we're authenticated
-cf login
-
 # Create instance of service
 cf create-service "$service" "$plan" "$instance"
 
