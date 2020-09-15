@@ -10,7 +10,7 @@ After completing the steps in this exercise you'll feel some familiarity with us
 Because you're awesome and you've already set up your dev space according to the [../prerequisites.md](prerequisites), with the "MTA Tools" and "Workflow Management" SAP extensions installed, you're almost ready to start. First though, as we'll be interacting with the Workflow API from the command line within your App Studio dev space and learning about it that way, we'll install a couple of tools there to help us.
 
 
-### 1. Add the `jq` tool to your App Studio dev space
+### 1. Add the `jq` tool to your App Studio dev space
 
 We'll be dealing with JSON in this exercise, and [`jq`](https://stedolan.github.io/jq/) is a great way to parse it and extract values, on the command line and in shell scripts. We need to download the appropriate executable to our dev space environment, and we can do this by looking for the download link and using that in our dev space's terminal.
 
