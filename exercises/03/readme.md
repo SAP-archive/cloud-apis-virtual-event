@@ -7,7 +7,7 @@ In this exercise you'll set up Workflow Management services in your trial accoun
 
 After completing the steps in this exercise you'll feel some familiarity with using the Workflow APIs in the Cloud Foundry (CF) environment of your SAP Cloud Platform trial account.
 
-### 1. Add tools to your App Studio dev space
+### 1. Add tools to your App Studio dev space
 
 Because you're awesome and you've already set up your dev space according to the [../prerequisites.md](prerequisites), with the "MTA Tools" and "Workflow Management" SAP extensions installed, you're almost ready to start. First though, as we'll be interacting with the Workflow API from the command line within your App Studio dev space and learning about it that way, we'll install a couple of tools there to help us.
 
