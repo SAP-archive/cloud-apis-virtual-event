@@ -1,19 +1,10 @@
 #!/usr/bin/env bash
 
-# SETUP - create instance and key for Workflow service
+# Sets up a service key for the given instance, saves it
+# to a local file and then displays it in the terminal.
 
 set -o errexit
 source shared
-
-# Give the service instance time to be created
-echo -n Waiting
-for i in $(seq 15); do echo -n . && sleep 1; done
-echo
-
-exit
-# Create instance of service
-cf create-service "$service" "$plan" "$instance"
-
 
 # Create service key for the new instance
 cf create-service-key "$instance" "$key"
