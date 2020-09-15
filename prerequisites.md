@@ -21,7 +21,7 @@ Each attendee must have the following already set up and enabled:
 
 - within your SAP Cloud Platform trial account, the Cloud Foundry trial should be set up, with an organization and space ready to work in (if you follow the setup instructions on a new trial account, you'll be led through this process automatically).
 
-- also within your SAP Cloud Platform trial account, a subscription to the SAP Business Application Studio should also be set up and ready to create a Dev Space.
+- also within your SAP Cloud Platform trial account, a subscription to the SAP Business Application Studio should also be set up with a Dev Space already created, based upon the "Basic" template and including the additional "MTA Tools" and "Workflow Management" SAP extensions.
 
 ## Recommendations
 
