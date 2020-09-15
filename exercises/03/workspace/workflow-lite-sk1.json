@@ -1,0 +1,31 @@
+{
+ "content_endpoint": "https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-deploy/rest/internal/v1",
+ "endpoints": {
+  "workflow_odata_url": "https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-service/odata",
+  "workflow_rest_url": "https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-service/rest"
+ },
+ "html5-apps-repo": {
+  "app_host_id": "1365363a-6e04-4f43-876a-67b81f32306e,1a5b93af-f1af-4acf-aee0-8c6cc8d3f315,8964e911-e35d-4cfd-972e-08e681a2df0f,9ea7410f-80ea-4b19-bbf0-4fca238ef098"
+ },
+ "portal_content_provider": {
+  "instance_id": "b87e14b7-ea72-4866-80b7-fe284e75e83a"
+ },
+ "saasregistryappname": "workflow",
+ "sap.cloud.service": "com.sap.bpm.workflow",
+ "uaa": {
+  "apiurl": "https://api.authentication.eu10.hana.ondemand.com",
+  "clientid": "sb-clone-b70bee20-bf4f-4717-b9e7-0335b5c6669f!b55889|workflow!b10150",
+  "clientsecret": "a2b74d90-24bb-46ef-aae7-47101f235764$SBrFovcqSEfa85Wdwt0Tho_WhdrZBjPdDJH8TQDvMfI=",
+  "identityzone": "a52544d1trial",
+  "identityzoneid": "fd03402e-58c7-4fb8-9443-5d0fa2a533f4",
+  "sburl": "https://internal-xsuaa.authentication.eu10.hana.ondemand.com",
+  "subaccountid": "fd03402e-58c7-4fb8-9443-5d0fa2a533f4",
+  "tenantid": "fd03402e-58c7-4fb8-9443-5d0fa2a533f4",
+  "tenantmode": "dedicated",
+  "uaadomain": "authentication.eu10.hana.ondemand.com",
+  "url": "https://a52544d1trial.authentication.eu10.hana.ondemand.com",
+  "verificationkey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs7mT8pydWbSYBqiajFTz5MI84nVdso8wx19N7P+sp1RPfjTxfbWK9hk1nmE+4965Fl7eZ0gax2NE6iYtJ598PPr6G1TbezJeRHWm0l4vMtt4PMh3KjC1W3BeTBc9ZElDuYYnvRJmPKKL61nABgt8zkMj2PD31g4q2mB2Udzh+3pQOgl18ZgRxLv4s+Sfykp663C/eRW5bVTo7KUHzE3QB0E57Hk8LG77U5nm6yPrQa1S2ke/3LOIQt9bpGQAq8xWcUw3wtgbo1jjz70LccGW/fiEZJEjJ1Wy81o8WdB50iy0qa+JGzLAzx4g9VktDdCkWMxBKIqNxt20k0ucUsDPVwIDAQAB-----END PUBLIC KEY-----",
+  "xsappname": "clone-b70bee20-bf4f-4717-b9e7-0335b5c6669f!b55889|workflow!b10150",
+  "zoneid": "fd03402e-58c7-4fb8-9443-5d0fa2a533f4"
+ }
+}

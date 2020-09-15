@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# SETUP - create instance and key for Workflow service
+
+set -o errexit
+source shared
+
+# Ensure we're authenticated
+cf login
+
+# Create instance of service
+cf create-service "$service" "$plan" "$instance"
+
+# Give the service instance time to be created
+sleep 30
+
+# Create service key for the new instance
+cf create-service-key "$instance" "$key"
+
+# Copy service key contents into local file
+cf service-key "$instance" "$key" | sed "1,2d" > "$keyfile"
+
+# Display contents of service key
+jq < "$keyfile"

@@ -1,0 +1,7 @@
+{
+    "authorities": [
+        "WORKFLOW_DEFINITION_GET",
+        "WORKFLOW_INSTANCE_GET",
+        "WORKFLOW_INSTANCE_START"
+    ]
+}

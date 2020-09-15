@@ -1,0 +1,16 @@
+_schema-version: "3.2"
+ID: workflowproject
+version: 0.0.1
+modules:
+  - name: workflowmodule
+    type: com.sap.application.content
+    path: workflowmodule
+    requires:
+      - name: workflow_mta
+        parameters:
+          content-target: true
+resources:
+  - name: workflow_mta
+    parameters:
+      service-name: workflow-lite
+    type: org.cloudfoundry.existing-service

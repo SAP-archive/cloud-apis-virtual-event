@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# SHARED - common values
+
+# Service name, service plan and name for a service key.
+service=workflow
+plan=lite
+key=sk1
+
+# The name of the instance to be created, and the name of
+# the file to store the service key contents locally.
+instance="$service-$plan"
+keyfile="$instance-$key.json"
