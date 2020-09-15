@@ -138,11 +138,48 @@ Here's a quick overview of what you see:
 - `workflow`: the main script that will help you make Workflow API calls
 
 
+### 4. Connect CF target
+
+You're about to embark on a series of CF activities using the `cf` command line tool; for this, you'll need to be connected to your CF endpoint, targeting your CF organization and space. You can do this in one of two ways - either using the App Studio facility, or at the command line with the `cf` command itself. Here are both ways, just pick one.
+
+> If the message in the bottom bar of the App Studio already states that your CF organization and space is targeted, then you can skip this step.
+
+**Using the App Studio facility**
+
+:point_right: Select the message in the bottom bar of the App Studio that says something like "_The organization and space in Cloud Foundry have not been set_". This will initiate a short wizard that will guide you through connecting to, authenticating with, and choosing an organization and space within, your CF endpoint. Make sure to connect to the CF environment that was set up in relation to your SAP Cloud Platform trial account as described in the [prerequisites](../prerequisites.md).
+
+**At the command line**
+
+:point_right: At the shell prompt of a terminal session in your dev space, use `cf login` like this and substitute the sample values with your own:
+
+```
+> cf login
+API endpoint: https://api.cf.eu10.hana.ondemand.com
+
+Email: me@example.com
+
+Password:
+Authenticating...
+OK
+
+Targeted org xyz12345trial
+
+Targeted space dev
+
+API endpoint:   https://api.cf.eu10.hana.ondemand.com (API version: 3.86.0)
+User:           me@example.com
+Org:            xyz12345trial
+Space:          dev
+>
+```
+
 ### 4. Create a Workflow service instance and service key
 
 These steps assume you have a freshly created trial account on SAP Cloud Platform, and in particular, no existing Workflow service instance. If you do have such an instance already, you can either use that (and adapt the instructions here to suit) or remove it\* and follow the full instructions here.
 
-> \*Only remove an existing instance if you have no more use for it.
+\*Only remove an existing instance if you have no more use for it.
+
+
 
 
 
