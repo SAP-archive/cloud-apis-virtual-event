@@ -92,8 +92,53 @@ Usage: jwt <encoded token> --secret=<signing secret>
 ```
 
 
+### 3. Clone and open this repository in your App Studio dev space
 
-### 3. Set up the Workflow Management related artifacts
+This repository (repo for short) contains some scripts that have been written for you, to help you get to know the Workflow APIs from the bottom up. So that you can run these scripts in the context of your App Studio dev space, it's now time to clone this repo there.
+
+First, let's open the `projects/` directory as the workspace in your App Studio dev space.
+
+:point_right: Use the **Open Workspace** button in the Explorer perspective and choose the `projects/` directory to open:
+
+![Open Workspace](open-workspace.png)
+
+:point_right: Now, back in the terminal (you may need to open a fresh one), at the shell prompt, move into the `projects/` directory and then use `git` to clone the repo (some typical output from the clone action is shown):
+
+```
+> cd $HOME/projects/
+> git clone TODO-REPLACE-REPO-URL-HERE
+Cloning into 'TODO-cloud-apis'...
+remote: Enumerating objects: 158, done.
+remote: Counting objects: 100% (158/158), done.
+remote: Compressing objects: 100% (111/111), done.
+remote: Total 158 (delta 53), reused 118 (delta 36), pack-reused 0
+Receiving objects: 100% (158/158), 1.30 MiB | 3.26 MiB/s, done.
+Resolving deltas: 100% (53/53), done.
+>
+```
+
+> On opening up a new terminal after opening the `projects/` directory as the workspace, you may already have been put directly into the `projects/` directory, so the `cd $HOME/projects/` is not entirely necessary in this case (but it won't harm to run this command if you want to).
+
+At this stage, you'll have the entire repo in your `projects/` directory, and you should see it in the Explorer area. It includes a directory called `workspace/` within the `exercises/03/` directory.
+
+:point_right: Use the Explorer area to have a look around at the contents:
+
+![Workspace directory contents](workspace-directory.png)
+
+Here's a quick overview of what you see:
+
+- `workflowproject/`: a directory containing a Multi-Target Application (MTA) which contains a workflow definition within a workflow module, that you'll be deploying to an instance of the Workflow service
+
+- `authorities.json`: a JSON definition of scopes, or authorities, required when making some Workflow API calls
+
+- `setup`: a simple script that uses the CF command-line client `cf` to set up an instance of the Workflow service, and also a service key
+
+- `shared`: an include with shared variable definitions
+
+- `workflow`: the main script that will help you make Workflow API calls
+
+
+### 4. Create a Workflow service instance and service key
 
 These steps assume you have a freshly created trial account on SAP Cloud Platform, and in particular, no existing Workflow service instance. If you do have such an instance already, you can either use that (and adapt the instructions here to suit) or remove it\* and follow the full instructions here.
 
