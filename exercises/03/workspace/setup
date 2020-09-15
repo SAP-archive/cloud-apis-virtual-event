@@ -5,11 +5,15 @@
 set -o errexit
 source shared
 
+# Give the service instance time to be created
+echo -n Waiting
+for i in $(seq 15); do echo -n . && sleep 1; done
+echo
+
+exit
 # Create instance of service
 cf create-service "$service" "$plan" "$instance"
 
-# Give the service instance time to be created
-sleep 30
 
 # Create service key for the new instance
 cf create-service-key "$instance" "$key"
