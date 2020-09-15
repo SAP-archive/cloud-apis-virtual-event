@@ -138,7 +138,7 @@ Here's a quick overview of what you see:
 - `workflow`: the main script that will help you make Workflow API calls
 
 
-### 4. Connect CF target
+### 4. Connect CF target
 
 You're about to embark on a series of CF activities using the `cf` command line tool; for this, you'll need to be connected to your CF endpoint, targeting your CF organization and space. You can do this in one of two ways - either using the App Studio facility, or at the command line with the `cf` command itself. Here are both ways, just pick one.
 
