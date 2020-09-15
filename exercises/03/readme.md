@@ -14,7 +14,7 @@ Because you're awesome and you've already set up your dev space according to the
 
 We'll be dealing with JSON in this exercise, and [`jq`](https://stedolan.github.io/jq/) is a great way to parse it and extract values, on the command line and in shell scripts. We need to download the appropriate executable to our dev space environment, and we can do this by looking for the download link and using that in our dev space's terminal.
 
-:point_right: Open up a new terminal with menu path **Terminal → New Terminal** (or with keyboard shortcut `Ctrl-\``) and create a directory in which to put this locally installed executable:
+:point_right: Open up a new terminal with menu path **Terminal → New Terminal** -- or with keyboard shortcut ``Ctrl-` ``-- and create a directory in which to put this locally installed executable:
 
 ```shell
 user: user $ mkdir -p $HOME/.local/bin/
