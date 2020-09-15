@@ -22,10 +22,15 @@ We'll be dealing with JSON in this exercise, and [`jq`](https://stedolan.github.
 
 > With all these shell prompt instructions, note that the real shell prompt that you are likely to see (such as `user: user $`) is not shown; instead, we just show `>` to keep things simple.
 
-:point_right: Now download the executable, getting the link from the [download page](https://stedolan.github.io/jq/download/), specifically the one for the latest `jq` Linux 64-bit binary. Currently that is for `jq` version 1.6, and the URL is as shown, along with some typical output:
+:point_right: Now download the executable, getting the link from the [download page](https://stedolan.github.io/jq/download/), specifically the one for the latest `jq` Linux 64-bit binary. Currently that is for `jq` version 1.6, and the URL is as shown here in the command invocation:
 
 ```shell
-> curl -L curl -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 > $HOME/.local/bin/jq
+> curl -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 > $HOME/.local/bin/jq
+```
+
+Here's typical output that you might see:
+
+```
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100   632  100   632    0     0  15047      0 --:--:-- --:--:-- --:--:-- 15047
@@ -173,13 +178,13 @@ Space:          dev
 >
 ```
 
-### 5. Create a Workflow service instance and service key
+### 5. Create a Workflow service instance
 
 These steps assume you have a freshly created trial account on SAP Cloud Platform, and in particular, no existing Workflow service instance. If you do have such an instance already, you can either use that (and adapt the instructions here to suit) or remove it\* and follow the full instructions here.
 
 \*Only remove an existing instance if you have no more use for it.
 
-For this step, some of the `cf` commands needed have been made available in a small script which is in the `workspace/` directory within the repo's `exercises/03/` directory. It's worth moving to that `workspace/` directory now as the rest of the exercise activities will involve being in there too.
+For this and subsequent steps, some of the commands needed have been made available in small scripts in the `workspace/` directory within the repo's `exercises/03/` directory. It's worth moving to that `workspace/` directory now as the rest of the exercise activities will involve being in there too.
 
 :point_right: Move to the `workspace/` directory. You can either do this at the shell prompt directly with the `cd` command:
 
@@ -208,7 +213,7 @@ lite
 
 ```shell
 > cf create-service $service $plan $instance
-Creating service instance workflow-lite in org a52544d1trial / space dev as qmacro+handsonsapdev@gmail.com...
+Creating service instance workflow-lite in org xyz12345trial / space dev as me@example.com...
 OK
 
 Create in progress. Use 'cf services' or 'cf service workflow-lite' to check operation status.
@@ -245,17 +250,52 @@ Output like this ("create in progress") indicates that the instance is being cre
 
 > You could have used the literal value "workflow-lite" in the `cf service` command above, but it's worth being consistent and ensuring we all use the same values for the names of things.
 
+
+### 6. Create a service key for the service instance
+
 Now the service instance exists, it's time to create a service key, which will contain credentials that we'll need in the OAuth 2.0 flow later in this exercise. We need to request the creation of a service instance, and then copy the contents, stripped of any cruft, into a local file. The script `setup-service-key` will do this for you.
 
 :point_right: Examine the `setup-service-key` script and once you're happy with what it does, run it and check the output, which is also shown here:
 
 ```shell
+> ./setup-service-key
+```
+
+This is the sort of thing that you should see as output (some lines omitted for brevity):
+
+```
 ./setup-service-key
+Creating service key sk1 for service instance workflow-lite as qmacro+handsonsapdev@gmail.com...
+OK
+```
+```json
+{
+  "content_endpoint": "https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-deploy/rest/internal/v1",
+  "endpoints": {
+    "workflow_odata_url": "https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-service/odata",
+    "workflow_rest_url": "https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-service/rest"
+  },
+  "html5-apps-repo": {
+    "app_host_id": "1365363a-6e04-4f43-876a-67b81f32306e,1a5b93af-f1af-4acf-aee0-8c6cc8d3f315,8964e911-e35d-4cfd-972e-08e681a2df0f,9ea7410f-80ea-4b19-bbf0-4fca238ef098"
+  },
+  "portal_content_provider": {
+    "instance_id": "b87e14b7-ea72-4866-80b7-fe284e75e83a"
+  },
+  "saasregistryappname": "workflow",
+  "sap.cloud.service": "com.sap.bpm.workflow",
+  "uaa": {
+    "apiurl": "https://api.authentication.eu10.hana.ondemand.com",
+    "clientid": "sb-clone-b09d9fcf-a418-44c8-9589-deadbeef4cb7!b55889|workflow!b10150",
+    "clientsecret": "bc8b5076-0452-4604-91de-3b8e656211d4$_Z-K-z-wnzzesk5J6LYkyk08PBVkaad3DJtMLqjYuCo=",
+    "uaadomain": "authentication.eu10.hana.ondemand.com",
+    "url": "https://a52544d1trial.authentication.eu10.hana.ondemand.com",
+    "xsappname": "clone-b09d9fcf-a418-44c8-9589-ebabea654cb7!b55889|workflow!b10150",
+    "zoneid": "fd03402e-58c7-4fb8-9443-5d0fa2a533f4"
+  }
+}
+```
 
-:point_right: Now run the `setup` script; output will appear as the `cf` commands are executed, and the output will look something like this:
-
-```shell
->
+Here you can clearly see, thanks to the nice formatting from `jq`, the contents of the service key, including values for `clientid`, `clientsecret` and `url` within the `uaa` section, and for `workflow_rest_url` within the `endpoints` section.
 
 
 
