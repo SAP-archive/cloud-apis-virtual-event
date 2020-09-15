@@ -28,6 +28,7 @@ Here's an overview of the exercises.
 
 - [Exercise 01 - Get an overview of API resources](exercises/01/)
 - [Exercise 02 - Understand OAuth 2.0 at a high level](exercises/02/)
+- [Exercise 03 - Calling Workflow APIs](exercises/03/)
 
 ## Requirements
 
