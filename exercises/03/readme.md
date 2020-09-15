@@ -17,26 +17,26 @@ We'll be dealing with JSON in this exercise, and [`jq`](https://stedolan.github.
 :point_right: Open up a new terminal with menu path **Terminal → New Terminal** (or with keyboard shortcut `Ctrl-\``) and create a directory in which to put this locally installed executable:
 
 ```shell
-> mkdir -p $HOME/.local/bin/
+user: user $ mkdir -p $HOME/.local/bin/
 ```
 
-> Your shell prompt may look different, for example it might look like this: `user: user $`, but for simplicity and consistency, shell prompts will be shown simply as `>` throughout.
+> With all these shell prompt instructions, note that the `user: user $` part is the prompt itself, which you should see in your terminal. You don't need to enter that bit, of course. 
 
 :point_right: Now download the executable, getting the link from the [download page](https://stedolan.github.io/jq/download/), specifically the one for the latest `jq` Linux 64-bit binary. Currently that is for `jq` version 1.6, and the URL is as shown, along with some typical output:
 
 ```shell
-> curl -L curl -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 > $HOME/.local/bin/jq
+user: user $ curl -L curl -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 > $HOME/.local/bin/jq
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100   632  100   632    0     0  15047      0 --:--:-- --:--:-- --:--:-- 15047
 100 3861k  100 3861k    0     0  2690k      0  0:00:01  0:00:01 --:--:-- 3144k
->
+user: user $
 ```
 
 :point_right: Make the downloaded `jq` file executable:
 
 ```
-> chmod +x $HOME/.local/bin/jq
+user: user $ chmod +x $HOME/.local/bin/jq
 ```
 
 In order to be able to find this executable and run it, we need to add its location (the `$HOME/.local/bin/` directory) to our PATH; a convenient way to do this is to append a line to our `.bashrc` file, which is executed when we start a new Bash shell (which is when we open a new terminal in our dev space).
@@ -44,13 +44,13 @@ In order to be able to find this executable and run it, we need to add its locat
 :point_right: Append a line to your `.bashrc` file like this (_make sure you use TWO greater-than signs, not just one, otherwise you'll overwrite rather than append to the file!_):
 
 ```
-> echo 'export PATH=$HOME/.local/bin/:$PATH' >> $HOME/.bashrc
+user: user $ echo 'export PATH=$HOME/.local/bin/:$PATH' >> $HOME/.bashrc
 ```
 
 Now, opening up a new terminal, you'll be able to run jq:
 
 ```
-> jq
+user: user $ jq
 jq - commandline JSON processor [version 1.6]
 
 Usage:  jq [options] <jq filter> [file...]
@@ -68,13 +68,13 @@ The `jwt-cli` tool is available for Node.js and can be installed globally within
 :point_right: At your shell prompt in the terminal, install `jwt-cli` globally like this (some reduced output is shown here):
 
 ```
-> npm install --global jwt-cli
+user: user $ npm install --global jwt-cli
 /home/user/.node_modules_global/bin/jwt -> /home/user/.node_modules_global/lib/node_modules/jwt-cli/bin/jwt.js
 [...]
 
 + jwt-cli@1.2.3
 added 25 packages from 26 contributors in 2.563s
->
+user: user $
 ```
 
 Because the dev space container already contains Node.js and `npm`, that's all you need to do.
@@ -82,7 +82,7 @@ Because the dev space container already contains Node.js and `npm`, that's all y
 :point_right: Check that you can execute the tool, by entering `jwt` at the prompt. You should see output similar to what's shown here:
 
 ```
-> jwt
+user: user $ jwt
 jwt-cli - JSON Web Token parser [version 1.2.3]
 
 Usage: jwt <encoded token> --secret=<signing secret>
