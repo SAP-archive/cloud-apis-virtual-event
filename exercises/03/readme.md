@@ -63,7 +63,7 @@ Usage:  jq [options] <jq filter> [file...]
 
 We'll be creating OAuth 2.0 access tokens in the course of this exercise, which appear as long opaque strings of characters. But we can actually "parse" the tokens, with the help of a Java Web Token (JWT) command line tool.
 
-The `jwt-cli` tool is available for Node.js and can be installed globally within your shell using the `--global` switch for the `npm` command.
+The [`jwt-cli`](https://www.npmjs.com/package/jwt-cli) tool is available for Node.js and can be installed globally within your shell using the `--global` switch for the `npm` command.
 
 :point_right: At your shell prompt in the terminal, install `jwt-cli` globally like this (some reduced output is shown here):
 
