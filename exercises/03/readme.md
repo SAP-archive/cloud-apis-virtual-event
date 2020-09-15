@@ -258,7 +258,7 @@ Output like this ("create in progress") indicates that the instance is being cre
 > You could have used the literal value "workflow-lite" in the `cf service` command above, but it's worth being consistent and ensuring we all use the same values for the names of things.
 
 
-### 6. Create a service key for the service instance
+### 6. Create a service key for the service instance
 
 Now the service instance exists, it's time to create a service key, which will contain credentials that we'll need in the OAuth 2.0 flow later in this exercise. We need to request the creation of a service instance, and then copy the contents, stripped of any cruft, into a local file. The script `setup-service-key` will do this for you.
 
