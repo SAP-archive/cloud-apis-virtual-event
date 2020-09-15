@@ -304,6 +304,8 @@ OK
 
 Here you can clearly see, thanks to the nice formatting from `jq`, the contents of the service key, including values for `clientid`, `clientsecret` and `url` within the `uaa` section, and for `workflow_rest_url` within the `endpoints` section.
 
+> You can of course see the contents of this file in the App Studio editor by simply opening the file that was created (`workflow-lite-sk1.json`).
+
 
 
 
