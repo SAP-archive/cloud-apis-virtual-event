@@ -1,4 +1,4 @@
-# Exercise 03 - Calling Workflow APIs
+# Exercise 03 - Setting up for and calling Workflow APIs
 
 In this exercise you'll set up Workflow Management services in your trial account, and make a few API calls to the Workflow service instance. You'll do all this from the comfort of a dev space in the SAP Business Application Studio (App Studio), details of which were listed in the [prerequisites](../prerequisites.md).
 
