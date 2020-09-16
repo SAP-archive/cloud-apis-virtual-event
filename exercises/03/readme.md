@@ -151,7 +151,7 @@ Here's a quick overview of what you see:
 - `workflow`: the main script that will help you make Workflow API calls
 
 
-### 4. Connect CF target
+### 4. Connect to your CF target
 
 You're about to embark on a series of CF activities using the `cf` command line tool; for this, you'll need to be connected to your CF endpoint, targeting your CF organization and space. You can do this in one of two ways - either using the App Studio facility, or at the command line with the `cf` command itself. Here are both ways, just pick one.
 
@@ -230,7 +230,7 @@ Note that this creation process is asynchronous, and, as it suggests, you should
 
 ```shell
 > cf service $instance
-Showing info of service workflow-lite in org a52544d1trial / space dev as qmacro+handsonsapdev@gmail.com...
+Showing info of service workflow-lite in org xyz12345trial / space dev as me@example.com...
 
 name:             workflow-lite
 service:          workflow
@@ -272,7 +272,7 @@ This is the sort of thing that you should see as output (some lines omitted for 
 
 ```
 ./setup-service-key
-Creating service key sk1 for service instance workflow-lite as qmacro+handsonsapdev@gmail.com...
+Creating service key sk1 for service instance workflow-lite as me@example.com...
 OK
 ```
 ```json
@@ -295,7 +295,7 @@ OK
     "clientid": "sb-clone-b09d9fcf-a418-44c8-9589-deadbeef4cb7!b55889|workflow!b10150",
     "clientsecret": "bc8b5076-0452-4604-91de-3b8e656211d4$_Z-K-z-wnzzesk5J6LYkyk08PBVkaad3DJtMLqjYuCo=",
     "uaadomain": "authentication.eu10.hana.ondemand.com",
-    "url": "https://a52544d1trial.authentication.eu10.hana.ondemand.com",
+    "url": "https://xyz12345.authentication.eu10.hana.ondemand.com",
     "xsappname": "clone-b09d9fcf-a418-44c8-9589-ebabea654cb7!b55889|workflow!b10150",
     "zoneid": "fd03402e-58c7-4fb8-9443-5d0fa2a533f4"
   }
@@ -307,7 +307,81 @@ Here you can clearly see, thanks to the nice formatting from `jq`, the contents 
 > You can of course see the contents of this file in the App Studio editor by simply opening the file that was created (`workflow-lite-sk1.json`).
 
 
+### 7. Deploy a simple workflow definition
 
+Phew, that's a lot of setup, well done for making it to here. Hopefully you'll be now in a good position not only tool-wise but also mentally now to start exploring the Workflow API. In order to do that, we have a simple workflow definition that we can deploy to the Workflow service instance, and then use the API to look at that definition, and also start an instance of it. In this step we'll deploy that simple definition.
+
+The definition is in a module inside an MTA project, in the `workflowproject/` directory. You can explore the contents of this project using the standard tools in App Studio if you wish. Note that if you open the workflow definition file itself in the App Studio editor, you'll perhaps be slightly underwhelmed, as it really is the simplest workflow definition:
+
+![simple workflow definition](simple-definition.png)
+
+But it will do for what we want.
+
+We need to build the deployable artifact with the standard MTA build tool `mbt` (which is already available in the context of the App Studio shell sessions) and then deploy it with `cf`.
+
+:point_right: Move to the `workflowproject/` directory; if you're already in the `workspace/` directory then a simple `cd workflowproject/` will do. Otherwise, you can use an absolute path:
+
+```shell
+> cd $HOME/TODO-cloud-apis/exercises/03/workspace/workflowproject/
+```
+
+:point_right: Build the deployable artifact:
+
+```shell
+> mbt build
+```
+
+This should result in some output that looks like this:
+
+```
+[2020-09-16 09:01:19]  INFO Cloud MTA Build Tool version 1.0.15
+[2020-09-16 09:01:19]  INFO generating the "Makefile_20200916090119.mta" file...
+[2020-09-16 09:01:19]  INFO done
+[2020-09-16 09:01:19]  INFO executing the "make -f Makefile_20200916090119.mta p=cf mtar= strict=true mode=" command...
+[2020-09-16 09:01:19]  INFO validating the MTA project
+[2020-09-16 09:01:19]  INFO validating the MTA project
+[2020-09-16 09:01:19]  INFO building the "workflowmodule" module...
+[2020-09-16 09:01:19]  INFO the build results of the "workflowmodule" module will be packaged and saved in the "/home/user/projects/cloud-apis/exercises/03/workspace/workflowproject/.workflowproject_mta_build_tmp/workflowmodule" folder
+[2020-09-16 09:01:19]  INFO finished building the "workflowmodule" module
+[2020-09-16 09:01:19]  INFO generating the metadata...
+[2020-09-16 09:01:19]  INFO generating the "/home/user/projects/cloud-apis/exercises/03/workspace/workflowproject/.workflowproject_mta_build_tmp/META-INF/mtad.yaml" file...
+[2020-09-16 09:01:19]  INFO generating the MTA archive...
+[2020-09-16 09:01:19]  INFO the MTA archive generated at: /home/user/projects/cloud-apis/exercises/03/workspace/workflowproject/mta_archives/workflowproject_0.0.1.mtar
+[2020-09-16 09:01:19]  INFO cleaning temporary files...
+```
+
+:point_right: Finally for this step, deploy the freshly built deployable artifact:
+
+```shell
+> cf deploy mta_archives/workflowproject_0.0.1.mtar
+```
+
+This should result in some output that will look similar to this:
+
+```
+Deploying multi-target app archive mta_archives/workflowproject_0.0.1.mtar in org xyz12345trial / space dev as me@example.com...
+
+Uploading 1 files...
+  /home/user/projects/cloud-apis/exercises/03/workspace/workflowproject/mta_archives/workflowproject_0.0.1.mtar
+OK
+Operation ID: 35c66db2-f7fb-11ea-874c-eeee0a80cc52
+Deploying in org "xyz12345trial" and space "dev"
+Detected MTA schema version: "3"
+No deployed MTA detected - this is initial deployment
+Detected new MTA version: "0.0.1"
+Creating service key "workflowmodule-workflow_mta-credentials" for service "workflow-lite"...
+Uploading content module "workflowmodule" in target service "workflow_mta"...
+Deploying content module "workflowmodule" in target service "workflow_mta"...
+Skipping deletion of services, because the command line option "--delete-services" is not specified.
+Process finished.
+Use "cf dmol -i 35c66db2-f7fb-11ea-874c-eeee0a80cc52" to download the logs of the process.
+```
+
+:point_right: Before continuing with the next steps, move back to the `workspace/` directory:
+
+```shell
+> cd ..
+```
 
 ## Summary
 
