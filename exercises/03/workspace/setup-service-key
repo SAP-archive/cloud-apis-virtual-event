@@ -13,4 +13,4 @@ cf create-service-key "$instance" "$key"
 cf service-key "$instance" "$key" | sed "1,2d" > "$keyfile"
 
 # Display contents of service key
-jq < "$keyfile"
+jq . < "$keyfile"
