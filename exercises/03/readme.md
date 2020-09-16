@@ -315,7 +315,7 @@ The definition is in a module inside an MTA project, in the `workflowproject/` d
 
 ![simple workflow definition](simple-definition.png)
 
-But it will do for what we want.
+But it will do for what we need.
 
 We need to build the deployable artifact with the standard MTA build tool `mbt` (which is already available in the context of the App Studio shell sessions) and then deploy it with `cf`.
 
@@ -382,6 +382,58 @@ Use "cf dmol -i 35c66db2-f7fb-11ea-874c-eeee0a80cc52" to download the logs of th
 ```shell
 > cd ..
 ```
+
+### 8. Use the API to list the workflow definition(s)
+
+So now we have a workflow definition deployed. Let's try and list that via the API. Looking at the API Hub to see the resource information for the [Workflow API for Cloud Foundry](https://api.sap.com/api/SAP_CP_Workflow_CF/resource), in the Workflow Definitions group (that we first encountered in [exercise 01](../01#1-get-an-introduction-to-the-sap-api-business-hub)) we see this HTTP method and endpoint:
+
+![GET /v1/workflow-definitions](get-workflow-definitions-endpoint.png)
+
+Great, that seems to be what we want. While we're in the API Hub, why not make our first API call from there? We can define a so-called "environment" with the appropriate endpoint and OAuth 2.0 settings.
+
+:point_right: Make sure you're logged into the API Hub, and use the **Configure Environments** link to open up a dialog where you can defined your target Workflow service instance environment via the information in the service key you created earlier. You should see a dialog like [the one we looked at in exercise 02](02#4-see-where-these-grant-types-are-used-for-apis-on-sap-cloud-platform).
+
+In this dialog there are a number of properties you must specify. Apart from the name you want to give to this environment (which you can make up), all the values you need are in the service key JSON data.
+
+:point_right: Get ready with the values, by looking at the service key contents. This is the file you created via the `setup-service-key` script earlier, and is called `workflow-lite-sk1.json` (or, via its dynamic variable name from the `shared` script, `$keyfile`. You can either look at the file in the regular App Studio editor, or use `jq` either for the whole file or for individual properties:
+
+```shell
+> source shared
+> jq . < $keyfile                                 # show the entire file contents
+> jq -r .endpoints.workflow_rest_url < $keyfile   # show the API endpoint
+> jq -r .uaa.clientid < $keyfile                  # show the client ID
+> jq -r .uaa.clientsecret < $keyfile              # show the client secret
+> jq -r .uaa.url < $keyfile                       # show the auth server base URL
+```
+
+> using `source shared` just ensures that the variables in the `shared` file are set correctly, so you can use the dynamic name references such as `$keyfile`.
+
+Here's an example of one of those invocations in action:
+
+```shell
+> jq -r .endpoints.workflow_rest_url < $keyfile   # show the API endpoint
+https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-service/rest
+```
+
+:point_right: Complete the properties in the dialog as follows:
+
+|Property|Value|
+|-|-|
+|Starting URL|Must match the value of the `.endpoints.workflow_rest_url` property|
+|Display name for Environment|Make a name up, like "My Env"|
+|OAuth 2.0 Client Id|Must match the value of the `.uaa.clientid` property|
+|OAuth 2.0 Client Secret|Must match the value of the `.uaa.clientsecret` property|
+|OAuth 2.0 consumersubdomain|Must match the most significant part of the value of `.uaa.url`|
+|OAuth 2.0 landscapehost|Must match the rest of the value of `.uaa.url` excluding "authentication"|
+
+> The last two properties "consumersubdomain" and "landscapehost" must basically be so specified that the value for "Token URL" ends up being the value of `.uaa.url` with `/oauth/token` appended.
+
+:point_right: Mark the checkbox "Apply this environment to all APIs in this package that are not yet configured" and the radio button "Save this environment for future sessions" and choose Save.
+
+You've now got an environment that is specific to you and your own Workflow service instance.
+
+
+
 
 ## Summary
 
