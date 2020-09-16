@@ -22,15 +22,19 @@ We'll be dealing with JSON in this exercise, and [`jq`](https://stedolan.github.
 
 > With all these shell prompt instructions, note that the real shell prompt that you are likely to see (such as `user: user $`) is not shown; instead, we just show `>` to keep things simple.
 
-:point_right: Now download the executable, getting the link from the [download page](https://stedolan.github.io/jq/download/), specifically the one for the latest `jq` Linux 64-bit binary. Currently that is for `jq` version 1.6, and the URL is as shown, along with some typical output:
+:point_right: Now download the executable, getting the link from the [download page](https://stedolan.github.io/jq/download/), specifically the one for the latest `jq` Linux 64-bit binary. Currently that is for `jq` version 1.6, and the URL is as shown here in the command invocation:
 
 ```shell
-> curl -L curl -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 > $HOME/.local/bin/jq
+> curl -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 > $HOME/.local/bin/jq
+```
+
+Here's typical output that you might see:
+
+```
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100   632  100   632    0     0  15047      0 --:--:-- --:--:-- --:--:-- 15047
 100 3861k  100 3861k    0     0  2690k      0  0:00:01  0:00:01 --:--:-- 3144k
->
 ```
 
 :point_right: Make the downloaded `jq` file executable:
@@ -65,16 +69,20 @@ We'll be creating OAuth 2.0 access tokens in the course of this exercise, which 
 
 The [`jwt-cli`](https://www.npmjs.com/package/jwt-cli) tool is available for Node.js and can be installed globally within your shell using the `--global` switch for the `npm` command.
 
-:point_right: At your shell prompt in the terminal, install `jwt-cli` globally like this (some reduced output is shown here):
+:point_right: At your shell prompt in the terminal, install `jwt-cli` globally like this:
+
+```shell
+> npm install --global jwt-cli
+```
+
+You should see output like this (some lines omitted for brevity):
 
 ```
-> npm install --global jwt-cli
 /home/user/.node_modules_global/bin/jwt -> /home/user/.node_modules_global/lib/node_modules/jwt-cli/bin/jwt.js
 [...]
 
 + jwt-cli@1.2.3
 added 25 packages from 26 contributors in 2.563s
->
 ```
 
 Because the dev space container already contains Node.js and `npm`, that's all you need to do.
@@ -102,11 +110,17 @@ First, let's open the `projects/` directory as the workspace in your App Studio 
 
 ![Open Workspace](open-workspace.png)
 
-:point_right: Now, back in the terminal (you may need to open a fresh one), at the shell prompt, move into the `projects/` directory and then use `git` to clone the repo (some typical output from the clone action is shown):
+:point_right: Now, back in the terminal (you may need to open a fresh one), at the shell prompt, move into the `projects/` directory and then use `git` to clone the repo:
 
-```
+
+```shell
 > cd $HOME/projects/
 > git clone TODO-REPLACE-REPO-URL-HERE
+```
+
+Here's what the output should look like:
+
+```
 Cloning into 'TODO-cloud-apis'...
 remote: Enumerating objects: 158, done.
 remote: Counting objects: 100% (158/158), done.
@@ -114,7 +128,6 @@ remote: Compressing objects: 100% (111/111), done.
 remote: Total 158 (delta 53), reused 118 (delta 36), pack-reused 0
 Receiving objects: 100% (158/158), 1.30 MiB | 3.26 MiB/s, done.
 Resolving deltas: 100% (53/53), done.
->
 ```
 
 > On opening up a new terminal after opening the `projects/` directory as the workspace, you may already have been put directly into the `projects/` directory, so the `cd $HOME/projects/` is not entirely necessary in this case (but it won't harm to run this command if you want to).
@@ -170,16 +183,15 @@ API endpoint:   https://api.cf.eu10.hana.ondemand.com (API version: 3.86.0)
 User:           me@example.com
 Org:            xyz12345trial
 Space:          dev
->
 ```
 
-### 5. Create a Workflow service instance and service key
+### 5. Create a Workflow service instance
 
 These steps assume you have a freshly created trial account on SAP Cloud Platform, and in particular, no existing Workflow service instance. If you do have such an instance already, you can either use that (and adapt the instructions here to suit) or remove it\* and follow the full instructions here.
 
 \*Only remove an existing instance if you have no more use for it.
 
-For this step, some of the `cf` commands needed have been made available in a small script which is in the `workspace/` directory within the repo's `exercises/03/` directory. It's worth moving to that `workspace/` directory now as the rest of the exercise activities will involve being in there too.
+For this and subsequent steps, some of the commands needed have been made available in small scripts in the `workspace/` directory within the repo's `exercises/03/` directory. It's worth moving to that `workspace/` directory now as the rest of the exercise activities will involve being in there too.
 
 :point_right: Move to the `workspace/` directory. You can either do this at the shell prompt directly with the `cd` command:
 
@@ -208,7 +220,7 @@ lite
 
 ```shell
 > cf create-service $service $plan $instance
-Creating service instance workflow-lite in org a52544d1trial / space dev as qmacro+handsonsapdev@gmail.com...
+Creating service instance workflow-lite in org xyz12345trial / space dev as me@example.com...
 OK
 
 Create in progress. Use 'cf services' or 'cf service workflow-lite' to check operation status.
@@ -245,17 +257,54 @@ Output like this ("create in progress") indicates that the instance is being cre
 
 > You could have used the literal value "workflow-lite" in the `cf service` command above, but it's worth being consistent and ensuring we all use the same values for the names of things.
 
+
+### 6. Create a service key for the service instance
+
 Now the service instance exists, it's time to create a service key, which will contain credentials that we'll need in the OAuth 2.0 flow later in this exercise. We need to request the creation of a service instance, and then copy the contents, stripped of any cruft, into a local file. The script `setup-service-key` will do this for you.
 
 :point_right: Examine the `setup-service-key` script and once you're happy with what it does, run it and check the output, which is also shown here:
 
 ```shell
+> ./setup-service-key
+```
+
+This is the sort of thing that you should see as output (some lines omitted for brevity):
+
+```
 ./setup-service-key
+Creating service key sk1 for service instance workflow-lite as qmacro+handsonsapdev@gmail.com...
+OK
+```
+```json
+{
+  "content_endpoint": "https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-deploy/rest/internal/v1",
+  "endpoints": {
+    "workflow_odata_url": "https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-service/odata",
+    "workflow_rest_url": "https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-service/rest"
+  },
+  "html5-apps-repo": {
+    "app_host_id": "1365363a-6e04-4f43-876a-67b81f32306e,1a5b93af-f1af-4acf-aee0-8c6cc8d3f315,8964e911-e35d-4cfd-972e-08e681a2df0f,9ea7410f-80ea-4b19-bbf0-4fca238ef098"
+  },
+  "portal_content_provider": {
+    "instance_id": "b87e14b7-ea72-4866-80b7-fe284e75e83a"
+  },
+  "saasregistryappname": "workflow",
+  "sap.cloud.service": "com.sap.bpm.workflow",
+  "uaa": {
+    "apiurl": "https://api.authentication.eu10.hana.ondemand.com",
+    "clientid": "sb-clone-b09d9fcf-a418-44c8-9589-deadbeef4cb7!b55889|workflow!b10150",
+    "clientsecret": "bc8b5076-0452-4604-91de-3b8e656211d4$_Z-K-z-wnzzesk5J6LYkyk08PBVkaad3DJtMLqjYuCo=",
+    "uaadomain": "authentication.eu10.hana.ondemand.com",
+    "url": "https://a52544d1trial.authentication.eu10.hana.ondemand.com",
+    "xsappname": "clone-b09d9fcf-a418-44c8-9589-ebabea654cb7!b55889|workflow!b10150",
+    "zoneid": "fd03402e-58c7-4fb8-9443-5d0fa2a533f4"
+  }
+}
+```
 
-:point_right: Now run the `setup` script; output will appear as the `cf` commands are executed, and the output will look something like this:
+Here you can clearly see, thanks to the nice formatting from `jq`, the contents of the service key, including values for `clientid`, `clientsecret` and `url` within the `uaa` section, and for `workflow_rest_url` within the `endpoints` section.
 
-```shell
->
+> You can of course see the contents of this file in the App Studio editor by simply opening the file that was created (`workflow-lite-sk1.json`).
 
 
 
