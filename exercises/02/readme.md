@@ -104,6 +104,8 @@ Remember in the previous exercise, at the end of each of the steps, you looked b
 
 ![Create New Environment form](create-new-environment.png)
 
+> The "consumersubdomain" and "landscapehost" properties aren't OAuth 2.0 specific, they are two properties that help towards making up the "Token URL" property value, which represents the OAuth 2.0 token endpoint on the Authorization Server.
+
 The only possible "Authentication Type" is OAuth 2.0 and with the requirement of "Client ID" and "Client Secret" values, we can (correctly) work out that this is the Client Credentials grant type. Directly below those two fields we also see the "Token URL" field which is the endpoint for the Authorization Server (see the roles earlier in this exercise).
 
 :point_right: Revisit the [Authorization](https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/latest/en-US/3670474a58c24ac2b082e76cbbd9dc19.html) link from the Core Service APIs page, which leads to the "Manage Authentication and Authorization Process for Cloud Management APIs" page in the SAP Help Portal. Here you'll see, currently, that the "_core service APIs of SAP Cloud Platform are protected with the OAuth 2.0 Password Grant type_". The process described further down on that page shows the use of this grant type, with the supply of the Resource Owner's username and password credentials.
@@ -113,10 +115,10 @@ The only possible "Authentication Type" is OAuth 2.0 and with the requirement of
 :point_right: Revisit the authentication requirements for the Enterprise Messaging "management" APIs, by going back to the [Use REST APIs to Send and Receive Messages](https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/00160292a8ed445daa0185589d9b43c5.html) resource in the SAP Help Portal. In the few moments that you spent staring at this, you may have come across this in the Procedure section:
 
 ```
-grant_type=client_credential&response_type=token
+grant_type=client_credentials&response_type=token
 ```
 
-This indeed confirms that the Client Credentials grant type is used to protect the resources for the "managment" APIs (and the "messaging" APIs too - see the equivalent section in [Use REST APIs to Send and Receive Messages](https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/577ea7ce5cef4e2ea974c03d5549b3ff.html).
+This indeed confirms that the Client Credentials grant type is used to protect the resources for the "management" APIs (and the "messaging" APIs too - see the equivalent section in [Use REST APIs to Send and Receive Messages](https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/577ea7ce5cef4e2ea974c03d5549b3ff.html).
 
 ## Summary
 
