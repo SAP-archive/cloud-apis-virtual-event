@@ -1,22 +1,24 @@
 # Exercise 05 - Workflow API calls, scopes, access token contents & more
 
-In this exercise ...
+Thanks to the previous exercises, you have everything you need to make some Workflow API calls now. You have tools in your App Studio dev space that will enhance your experience, you have a workflow definition deployed to a Workflow service instance, and you have OAuth 2.0 authentication details in a service key that you will make use of now. In this exercise you'll make your first Workflow API call, and learn about scopes (aka "authorities") and the contents of access tokens. You'll make your first API call from the command line.
 
 ## Steps
 
-...
+After following the steps in this exercise, you'll have some familiarity with calling Workflow APIs, and will have gained some understanding of what's required to do so.
 
+### 1. Prepare for your first Workflow API call
 
-### 1. ...
+We have a workflow definition deployed. We're going to try and list that via the API.
 
-
-### 2. Set up an environment on the API Hub
-
-So now we have a workflow definition deployed. We're going to try and list that via the API, from the API Hub. Looking in the API Hub to see the resource information for the [Workflow API for Cloud Foundry](https://api.sap.com/api/SAP_CP_Workflow_CF/resource), in the Workflow Definitions group (that we first encountered in [exercise 01](../01#1-get-an-introduction-to-the-sap-api-business-hub)) we see this HTTP method and endpoint:
+:point_right: Jump over to the API Hub and look in there to see the resource information for the [Workflow API for Cloud Foundry](https://api.sap.com/api/SAP_CP_Workflow_CF/resource). In the Workflow Definitions group (that we first encountered in [exercise 01](../01#1-get-an-introduction-to-the-sap-api-business-hub)) we see this HTTP method and endpoint:
 
 ![GET /v1/workflow-definitions](get-workflow-definitions-endpoint.png)
 
-Great, that seems to be what we want. We can make an API call to our own Workflow service instance from here, by defining a so-called "environment" with the appropriate endpoint and OAuth 2.0 settings.
+Great, that seems to be what we want. We can make this API call by sending an HTTP GET request to the `/v1/workflow-definitions` endpoint. This of course is just the path info, which is going to be relative to the fully qualified hostname and base path of the Resource Server. What is this? Well, we can look for it in the API Hub, by switching to the [details](https://api.sap.com/api/SAP_CP_Workflow_CF/overview) section, and identifying the Production URL appropriate to our environment:
+
+![Production URLs for Workflow API on CF](production-urls.png)
+
+
 
 :point_right: Make sure you're logged into the API Hub, and use the **Configure Environments** link to open up a dialog where you can define your target Workflow service instance environment via the information in the service key you created earlier. You should see a dialog like [the one we looked at in exercise 02](02#4-see-where-these-grant-types-are-used-for-apis-on-sap-cloud-platform).
 
