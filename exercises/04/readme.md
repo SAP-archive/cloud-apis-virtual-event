@@ -142,10 +142,10 @@ But it will do for what we need.
 
 We need to build the deployable artifact with the standard MTA build tool `mbt` (which is already available in the context of the App Studio shell sessions) and then deploy it with `cf`.
 
-:point_right: Move to the `workflowproject/` directory; if you're already in the `workspace/` directory then a simple `cd workflowproject/` will do. Otherwise, you can use an absolute path:
+:point_right: Move to the `workflowproject/` directory; if you're already in the `workflowapi/` directory then a simple `cd workflowproject/` will do. Otherwise, you can use an absolute path:
 
 ```shell
-> cd $HOME/TODO-cloud-apis/exercises/03/workspace/workflowproject/
+> cd $HOME/cloud-apis/workspaces/workflowapi/workflowproject/
 ```
 
 :point_right: Build the deployable artifact:
@@ -164,12 +164,12 @@ This should result in some output that looks like this:
 [2020-09-16 09:01:19]  INFO validating the MTA project
 [2020-09-16 09:01:19]  INFO validating the MTA project
 [2020-09-16 09:01:19]  INFO building the "workflowmodule" module...
-[2020-09-16 09:01:19]  INFO the build results of the "workflowmodule" module will be packaged and saved in the "/home/user/projects/cloud-apis/exercises/03/workspace/workflowproject/.workflowproject_mta_build_tmp/workflowmodule" folder
+[2020-09-16 09:01:19]  INFO the build results of the "workflowmodule" module will be packaged and saved in the "/home/user/projects/cloud-apis/workspaces/workflowapi/workflowproject/.workflowproject_mta_build_tmp/workflowmodule" folder
 [2020-09-16 09:01:19]  INFO finished building the "workflowmodule" module
 [2020-09-16 09:01:19]  INFO generating the metadata...
-[2020-09-16 09:01:19]  INFO generating the "/home/user/projects/cloud-apis/exercises/03/workspace/workflowproject/.workflowproject_mta_build_tmp/META-INF/mtad.yaml" file...
+[2020-09-16 09:01:19]  INFO generating the "/home/user/projects/cloud-apis/workspaces/workflowapi/workflowproject/.workflowproject_mta_build_tmp/META-INF/mtad.yaml" file...
 [2020-09-16 09:01:19]  INFO generating the MTA archive...
-[2020-09-16 09:01:19]  INFO the MTA archive generated at: /home/user/projects/cloud-apis/exercises/03/workspace/workflowproject/mta_archives/workflowproject_0.0.1.mtar
+[2020-09-16 09:01:19]  INFO the MTA archive generated at: /home/user/projects/cloud-apis/workspaces/workflowapi/workflowproject/mta_archives/workflowproject_0.0.1.mtar
 [2020-09-16 09:01:19]  INFO cleaning temporary files...
 ```
 
@@ -185,7 +185,7 @@ This should result in some output that will look similar to this:
 Deploying multi-target app archive mta_archives/workflowproject_0.0.1.mtar in org xyz12345trial / space dev as me@example.com...
 
 Uploading 1 files...
-  /home/user/projects/cloud-apis/exercises/03/workspace/workflowproject/mta_archives/workflowproject_0.0.1.mtar
+  /home/user/projects/cloud-apis/workspaces/workflowapi/workflowproject/mta_archives/workflowproject_0.0.1.mtar
 OK
 Operation ID: 35c66db2-f7fb-11ea-874c-eeee0a80cc52
 Deploying in org "xyz12345trial" and space "dev"
@@ -200,10 +200,16 @@ Process finished.
 Use "cf dmol -i 35c66db2-f7fb-11ea-874c-eeee0a80cc52" to download the logs of the process.
 ```
 
-:point_right: Before continuing any further, move back up to the `workflowapi/` directory:
+:point_right: Before continuing any further, move back up to the `workflowapi/` directory, and check that you're in the right place:
 
 ```shell
-> cd ..
+> cd .. && pwd
+```
+
+The output from `pwd` should show you that you're in the `workflowapi/` directory:
+
+```
+/home/user/projects/cloud-apis/workspaces/workflowapi
 ```
 
 ## Summary
