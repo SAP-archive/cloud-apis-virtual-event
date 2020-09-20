@@ -26,9 +26,21 @@ If you finish an exercise early, please resist the temptation to continue with t
 
 Here's an overview of the exercises.
 
+**Some basics**
+
+In these first two exercises, you'll get a basic understanding of what APIs on SAP Cloud Platform look like, and also get an introduction to important OAuth 2.0 concepts which are fundamental to using the APIs.
+
 - [Exercise 01 - Get an overview of API resources](exercises/01/)
 - [Exercise 02 - Understand OAuth 2.0 at a high level](exercises/02/)
-- [Exercise 03 - Setting up for and calling Workflow APIs](exercises/03/)
+
+**Learning with the Workflow API**
+
+In these next two exercises you'll get your feet wet with the Workflow APIs. First, you'll set up a dev space in the SAP Business Application Studio (App Studio) with some extra tools, then you'll create a Workflow service instance and deploy a simple workflow definition. Through trial and error, you'll learn about scopes, the contents of access tokens, and become familiar with a few different Workflow API resources.
+
+- [Exercise 03 - Setting up your dev space in App Studio](exercises/03/)
+- [Exercise 04 - Creating a Workflow service instance & deploying a definition](exercises/04/)
+- [Exercise 05 - Workflow API calls, scopes, access token contents & more](exercises/05/)
+
 
 ## Requirements
 
