@@ -7,6 +7,7 @@ Thanks to the previous exercises, you have everything you need to make some Work
 [1. Prepare for your first Workflow API call](#1-prepare-for-your-first-workflow-api-call)<br>
 [2. Make your first Workflow API call](#2-make-your-first-workflow-api-call)<br>
 [3. Inspect the contents of the access token](#3-inspect-the-contents-of-the-access-token)<br>
+[4. Update the Workflow service instance with a list of required authorities](#4-update-the-workflow-service-instance-with-a-list-of-required-authorities)<br>
 
 After following the steps in this exercise, you'll have some familiarity with calling Workflow APIs, and will have gained some understanding of what's required to do so.
 
@@ -301,9 +302,9 @@ This will reveal the glorious details embedded in that access token. There's lot
 }
 ```
 
-:point_right: Look closely at the values in the `scope` section - they include scopes such as "TASK_GET", "PROCESS_TEMPLATE_DEPLOY", and "WORKFLOW_DEFINITION_DEPLOY".
+:point_right: Look closely at the values in the `authorities` section - they include entries such as "TASK_GET", "PROCESS_TEMPLATE_DEPLOY", and "WORKFLOW_DEFINITION_DEPLOY".
 
-These are the scopes that the access token includes, describing essentially what the bearer of the access token is permitted to do.
+These are the authorities (which are, for our purposes, the same as the scopes) that the access token includes, describing essentially what the bearer of the access token is permitted to do.
 
 :point_right: Now jump back right to the start of this exercise, and gaze upon the details of the `GET /v1/workflow-definitions` API endpoint. Note in the description, we see this:
 
@@ -311,10 +312,83 @@ These are the scopes that the access token includes, describing essentially what
 Scope: WORKFLOW_DEFINITION_GET
 ```
 
-Is that scope in the list of scopes in our current access token?
+Is that authority in the list of authorities in our current access token?
 
 No.
 
 So we need to address that if we want to make a call to that API endpoint.
 
+
+### 4. Update the Workflow service instance with a list of required authorities
+
+When you create a service instance, you can specify parameters such as authorities, as described in the help to the `cf create-service` command:
+
+```
+NAME:
+   create-service - Create a service instance
+
+USAGE:
+   cf create-service SERVICE PLAN SERVICE_INSTANCE [-b BROKER] [-c PARAMETERS_AS_JSON] [-t TAGS]
+
+   Optionally provide service-specific configuration parameters in a valid JSON object in-line:
+
+   cf create-service SERVICE PLAN SERVICE_INSTANCE -c '{"name":"value","name":"value"}'
+
+   Optionally provide a file containing service-specific configuration parameters in a valid JSON object.
+   The path to the parameters file can be an absolute or relative path to a file:
+
+   cf create-service SERVICE PLAN SERVICE_INSTANCE -c PATH_TO_FILE
+
+   Example of valid JSON object:
+   {
+      "cluster_nodes": {
+         "count": 5,
+         "memory_mb": 1024
+      }
+   }
+```
+
+When we created the service instance, we didn't avail ourselves of this facility (as we didn't yet know what authorities we'd need). But that's ok, we can subsequently update an existing instance with the `cf update-service` command, the help for which looks quite similar to what we see above.
+
+Let's do that now, supplying the "WORKFLOW_DEFINITION_GET" authority, along with a couple of others that we may need later.
+
+:point_right: Look at the contents of the `authorities.json` file in the `workflowapi/` directory. You should see something like this:
+
+```json
+{
+    "authorities": [
+        "WORKFLOW_DEFINITION_GET",
+        "WORKFLOW_INSTANCE_GET",
+        "WORKFLOW_INSTANCE_START"
+    ]
+}
+```
+
+:point_right: Now look at the `add_authorities` function in the `workflow` script; the function looks something like this:
+
+```bash
+add_authorities () {
+    local jsonfile=$1
+    if [[ -z "$jsonfile" ]]; then
+      echo Usage: add_authorities jsonfile
+      exit 1
+    fi
+    cf update-service $instance -c $jsonfile
+}
+```
+
+The function expects to be passed the name of a JSON file, and then uses that in a call to `cf update-service` for the instance defined in the `instance` variable that we've seen before.
+
+:point_right: Run this command, supplying the name of the JSON file:
+
+```bash
+> ./workflow add_authorities authorities.json
+```
+
+You should see a small amount of output confirming the update, which should look something like this:
+
+```
+Updating service instance workflow-lite as me@example.com...
+OK
+```
 
