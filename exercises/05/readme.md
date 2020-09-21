@@ -9,7 +9,8 @@ Thanks to the previous exercises, you have everything you need to make some Work
 [3. Inspect the contents of the access token](#3-inspect-the-contents-of-the-access-token)<br>
 [4. Update the Workflow service instance with a list of required authorities](#4-update-the-workflow-service-instance-with-a-list-of-required-authorities)<br>
 [5. Check the authorities in subsequent access tokens](#5-check-the-authorities-in-subsequent-access-tokens)<br>
-[6. Make another API call to `/v1/workflow-definitions`](#6-make-another-api-call-to-v1workflow-definitions)
+[6. Make another API call to `/v1/workflow-definitions`](#6-make-another-api-call-to-v1workflow-definitions)<br>
+[7. Explore further Workflow API endpoints with the `workflow` script](#7-explore-further-workflow-api-endpoints-with-the-workflow-script)
 
 After following the steps in this exercise, you'll have some familiarity with calling Workflow APIs, and will have gained some understanding of what's required to do so.
 
