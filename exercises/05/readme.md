@@ -18,72 +18,149 @@ Great, that seems to be what we want. We can make this API call by sending an HT
 
 ![Production URLs for Workflow API on CF](production-urls.png)
 
+As we know now from [exercise 02](../02/), the Workflow APIs are protected with the OAuth 2.0 client credentials grant type. So in preparing for our first call, we need to gather what we need to request an access token. Because of how the client credentials grant type flow works, we'll be making the call in two stages:
 
+Stage 1 is requesting an access token
+Stage 2 is then using the access token in the actual call to the API endpoint
 
-:point_right: Make sure you're logged into the API Hub, and use the **Configure Environments** link to open up a dialog where you can define your target Workflow service instance environment via the information in the service key you created earlier. You should see a dialog like [the one we looked at in exercise 02](02#4-see-where-these-grant-types-are-used-for-apis-on-sap-cloud-platform).
+All the information we need is in our service key, which we have in the `workflow-lite-sk1.json` file. As you may remember, in order to obtain an access token, we need to send a request to the Authorization Server, specifically to the "token request" endpoint which is at the well-known path of `/oauth/token`.
 
-In this dialog there are a number of properties you must specify. Apart from the name you want to give to this environment (which you can make up), all the values you need are in the service key JSON data.
+:point_right: Make sure you have all the following information to hand:
 
-:point_right: Get ready with the values, by looking at the service key contents. This is the file you created via the `setup-service-key` script earlier, and is called `workflow-lite-sk1.json` (or, via its dynamic variable name from the `shared` script, `$keyfile`). You can either look at the file in the regular App Studio editor, or use `jq` either for the whole file or for individual properties:
+**For stage 1 - requesting the access token**
 
-```shell
-> source shared
-> jq . < $keyfile                                 # show the entire file contents
-> jq -r .endpoints.workflow_rest_url < $keyfile   # show the API endpoint
-> jq -r .uaa.clientid < $keyfile                  # show the client ID
-> jq -r .uaa.clientsecret < $keyfile              # show the client secret
-> jq -r .uaa.url < $keyfile                       # show the auth server base URL
-```
-
-> using `source shared` just ensures that the variables in the `shared` file are set correctly, so you can use the dynamic name references such as `$keyfile`.
-
-Here's an example of one of those invocations in action:
-
-```shell
-> jq -r .endpoints.workflow_rest_url < $keyfile   # show the API endpoint
-https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-service/rest
-```
-
-:point_right: Complete the properties in the dialog as follows:
-
-|Property|Value|
+|What|Where this value is|
 |-|-|
-|Starting URL|Must match the value of the `.endpoints.workflow_rest_url` property|
-|Display name for Environment|Make a name up, like "My Env"|
-|OAuth 2.0 Client Id|Must match the value of the `.uaa.clientid` property|
-|OAuth 2.0 Client Secret|Must match the value of the `.uaa.clientsecret` property|
-|OAuth 2.0 consumersubdomain|Must match the most significant part of the value of `.uaa.url`|
-|OAuth 2.0 landscapehost|Must match the rest of the value of `.uaa.url` excluding "authentication"|
+|The Authorization Server base URL|`.uaa.url` (in the service key)|
+|The client ID|`.uaa.clientid` (in the service key)|
+|The client secret|`.uaa.clientsecret` (in the service key)|
 
-> The last two properties "consumersubdomain" and "landscapehost" must basically be so specified that the value for "Token URL" ends up being the value of `.uaa.url` with `/oauth/token` appended. Here's an example. If the value of the `.uaa.url` is `https://xyz12345trial.authentication.eu10.hana.ondemand.com` then the value for "consumersubdomain" is `xyz12345trial` (this value is also available in the `.uaa.identityzone` property) and the value for "landscapehost" is `eu10.hana.ondemand.com`.
+**For stage 2 - making the actual call to the API endpoint**
 
-:point_right: Mark the checkbox "Apply this environment to all APIs in this package that are not yet configured" and the radio button "Save this environment for future sessions" and choose Save.
+|What|Where this value is|
+|-|-|
+|The Resource Server base URL|`.endpoints.workflow_rest_url` (in the service key)|
+|The access token retrieved|In the response to the call in stage 1|
 
-You've now got an environment that is specific to you and your own Workflow service instance.
+The App Studio supports the [VS Code REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension, which means that we can make HTTP calls easily by editing a file with an `.http` extension. That's how we're going to make our first API call.
 
+:point_right: There's a file in the `workflowapi/` directory called `first-api-call.http`. Open that up in the App Studio editor, and you should see a couple of HTTP calls, one for each of the stages described above. There are placeholders denoted by the content in square brackets (`[ ... ]`) that you will have to fill in.
 
-### 3. Try to make the API call
-
-Now the moment of truth - making a GET request to the `/v1/workflow-definitions` API endpoint.
-
-:point_right: While still logged into the API Hub, and your environment selected, find the endpoint and use the **Try out** link, which should present you with a large "Execute" button (you may have to scroll down a bit). Select that button, and have a look what happens.
-
-You will most likely see something like this:
-
-![Execute - insufficient privileges](execute-insufficient-privileges.png)
-
-The HTTP response code returned (403), along with the message in the payload, might come initially as somewhat of a surprise. We can turn this surprise into an opportunity to dig into scopes (also known as "authorities"). The bottom line here is that while we've successfully authenticated, there aren't the appropriate permissions set on the service instance that we're using.
-
-In the previous step we saw a short description of the `GET /v1/workflow-definitions` API resource, which included this part:
+Thie is what the file contents look like:
 
 ```
-Scope: WORKFLOW_DEFINITION_GET
+# Request OAuth 2.0 access token via client credentials grant type
+Send Request
+POST [.uaa.url]/oauth/token
+Authorization: Basic [.uaa.clientid] [.uaa.clientsecret]
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
+
+###
+
+# Use access token to make API call to list workflow definitions
+Send Request
+GET [.endpoints.workflow_rest_url]/v1/workflow-definitions
+Authorization: Bearer [the access token retrieved from the previous request]
 ```
 
+> Individual HTTP calls are separated from each other by a line containing `###`.
+
+:point_right: Replace each of the placeholders (including the actual square brackets) for the first HTTP call with the values you've gathered earlier in this step. Notice that there's a space between the `[.uaa.clientid]` and `[.uaa.clientsecret]` - make sure you preserve this space (the REST Client supports this format of username and password, and will [automatically perform the required Base 64 encoding](https://github.com/Huachao/vscode-restclient#basic-auth).
+
+Here's an example of what the first HTTP call details will look like when you've performed the replacements (note that the client ID and secret have been shortened here for display reasons, and note also that your values will be different!):
+
+```
+# Request OAuth 2.0 access token via client credentials grant type
+Send Request
+POST https://xyz12345trial.authentication.eu10.hana.ondemand.com/oauth/token
+Authorization: Basic sb-clone-b09d9...b10150 bc8b5...ad3DJtMLqjYuCo=
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
+```
+
+:point_right: Now use the **Send Request** link that is part of the first HTTP call details to make the call to the Authorization Server to request an access token.
+
+A response should appear in a new tab, that will look something like this (the value of the access token has been shortened for display reasons):
+
+```
+HTTP/1.1 200 OK
+Cache-Control: no-store
+Content-Type: application/json;charset=UTF-8
+Date: Mon, 21 Sep 2020 07:20:41 GMT
+Pragma: no-cache
+Server: nginx
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-Vcap-Request-Id: 972b496c-fbe2-4a48-55f4-8660a009f23b
+X-Xss-Protection: 1; mode=block
+Connection: close
+Transfer-Encoding: chunked
+Strict-Transport-Security: max-age=31536000; includeSubDomains; preload;
+
+{
+  "access_token": "eyJhMDlkOWZjZi1hNDE4LTQ0YzgtOTU4OS1lYmFiZWE2NTRjYjchYjU1ODg5fHdvcmtmbG93IWIxMDE1MCIsImdyYW50X3R5cGUiOiJjbGllbnRfY3JlZGVudGlhbHMiLCJyZXZfc2lnIjoiNzI5NmM4OTIiLCJpYXQiOjE2MDA2NzI4NDEsImV4cCI6MTYwMDcxNjA0MSwiaXNzIjoiaHR0cHM6Ly9hNTI1NDRkMXRyaWFsLmF1dGhlbnRpY2F0aW9uLmV1MTAuaGFuYS5vbmRlbWFuZC5jb20vb2F1dGgvdG9rZW4iLCJ6aWQiOiJmZDAzNDAyZS01OGM3LTRmYjgtOTQ0My01ZDBmYTJhNTMzZjQiLCJhdWQiOlsidWFhIiwid29ya2Zsb3chYjEwMTUwIiwic2ItY2xvbmUtYjA5ZDlmY2YtYTQxOC00NGM4LTk1ODktZWJhYmVhNjU0Y2I3IWI1NTg4OXx3b3JrZmxvdyFiMTAxNTAiXX0.N2hoBrcoG4eUZLBjGYzkjPlaxXd4BlcgOeinEzCtob3-XJTNK485_dGJ0MA6Qg0c8FayNfa3c9seK6QDlan_O3w3_Jd4l7jjO7tEm0GVPrxEKZuDu86fbQEPrSZWNaDjKrRDQxNEeyUQphh1zopdyyl9PjBTe-1MkQcEfFbB4udBCAEEnTX9kVPr53HtAaRk-HCD9VwHKvRzZ1Dlw3mEv7FLurqmZSV1F7jehhjeBVcDZZvuftJ1wThewlqu_K3NMUs09OzFkBmIXpbRRNR6YOlT37BkKeGI_v_-sZGtfjtSmzUas4AKh1zEjAC3u79M93T9fVY7WZJCY8Kzpp8G9w",
+  "token_type": "bearer",
+  "expires_in": 43199,
+  "scope": "workflow!b10150.TASK_GET workflow!b10150.PROCESS_TEMPLATE_DEPLOY workflow!b10150.PROCESS_VARIANT_DEPLOY uaa.resource workflow!b10150.FORM_DEFINITION_DEPLOY workflow!b10150.TASK_DEFINITION_GET workflow!b10150.WORKFLOW_DEFINITION_DEPLOY",
+  "jti": "ea3a8496e3c24c858384441c9619180e"
+}
+```
+
+Great! You've successfully obtained an access token from the Authorization Server in a client credentials flow based call. Now it's time to actually make the API call. Ready?
 
 
+### 2. Make your first Workflow API call
 
-## Summary
 
-At this point you're ...
+Now the moment of truth - stage 2, where we're going to make a GET request to the `/v1/workflow-definitions` API endpoint.
+
+:point_right: Focus now on the second HTTP request in the `first-api-call.http` file, and replace the placeholder values as described earlier. Make sure you copy the whole value of the `access_token` property in the response to the call in stage 1.
+
+After the placeholder replacements, the second HTTP request in the file should look something like this (again, the access token has been shortened here for display purposes):
+
+```
+# Use access token to make API call to list workflow definitions
+Send Request
+GET https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-service/rest/v1/workflow-definitions
+Authorization: Bearer NTAiXX0.N2hoBrcoG4eUZ...kKeGI_v_-sZGtfjtSmzUas4AKh1zEjAC3u79M93T9fVY7WZJCY8Kzpp8G9w
+```
+
+> Make sure you preserve the space between `Bearer` and the actual access token value in the `Authorization` header.
+
+Ready?
+
+:point_right: Use the **Send Request** link that is part of this second HTTP request's details to invoke the request.
+
+You should get back a response, like this:
+
+```
+HTTP/1.1 403 Forbidden
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Content-Length: 65
+Content-Type: application/json;charset=UTF-8
+Date: Mon, 21 Sep 2020 07:34:58 GMT
+Expires: 0
+Pragma: no-cache
+Server: SAP
+X-Content-Type-Options: nosniff, nosniff
+X-Frame-Options: DENY
+X-Vcap-Request-Id: bb44cf53-e30f-407f-6740-8f94fd412e80
+X-Xss-Protection: 1; mode=block
+Connection: close
+Strict-Transport-Security: max-age=31536000; includeSubDomains; preload;
+
+{
+  "error": {
+    "message": "User does not have sufficient privileges."
+  }
+}
+```
+
+Wait, what?
+
+The HTTP response code returned (403), along with the message in the payload, might come initially as somewhat of a surprise. Why are we denied access? Were the client ID and client secret credentials incorrect? Well, no, because we were successfully granted an access code based upon them. So what's happened is that the identity that is represented by the access token is recognised, but that identity doesn't have the appropriate access for this particular API call.
+
 
