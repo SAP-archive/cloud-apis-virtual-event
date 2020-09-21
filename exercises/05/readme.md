@@ -4,6 +4,10 @@ Thanks to the previous exercises, you have everything you need to make some Work
 
 ## Steps
 
+[1. Prepare for your first Workflow API call](#1-prepare-for-your-first-workflow-api-call)<br>
+[2. Make your first Workflow API call](#2-make-your-first-workflow-api-call)<br>
+[3. Inspect the contents of the access token](#3-inspect-the-contents-of-the-access-token)<br>
+
 After following the steps in this exercise, you'll have some familiarity with calling Workflow APIs, and will have gained some understanding of what's required to do so.
 
 ### 1. Prepare for your first Workflow API call
