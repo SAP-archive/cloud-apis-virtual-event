@@ -49,7 +49,7 @@ OK
 Create in progress. Use 'cf services' or 'cf service workflow-lite' to check operation status.
 ```
 
-Note that this creation process is asynchronous, and, as it suggests, you should check for the eventual creation as shown:
+Note that this creation process may be performed asynchronously, and, as it might suggest, you should check for the eventual creation as shown:
 
 ```shell
 > cf service $instance
@@ -76,7 +76,7 @@ There are no bound apps for this service.
 Upgrades are not supported by this broker.
 ```
 
-Output like this ("create in progress") indicates that the instance is being created. Be patient, and wait for the status to show "create succeeded".
+Output like this ("create in progress") indicates that the instance is being created. Be patient, and keep checking for the status to show "create succeeded".
 
 > You could have used the literal value "workflow-lite" in the `cf service` command above, but it's worth being consistent and ensuring we all use the same values for the names of things.
 
@@ -98,6 +98,7 @@ This is the sort of thing that you should see as output (some lines omitted for 
 Creating service key sk1 for service instance workflow-lite as me@example.com...
 OK
 ```
+
 ```json
 {
   "content_endpoint": "https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-deploy/rest/internal/v1",
@@ -127,12 +128,12 @@ OK
 
 Here you can clearly see, thanks to the nice formatting from `jq`, the contents of the service key, including values for `clientid`, `clientsecret` and `url` within the `uaa` section, and for `workflow_rest_url` within the `endpoints` section.
 
-> You can of course see the contents of this file in the App Studio editor by simply opening the file that was created (`workflow-lite-sk1.json`).
+> You can of course see the contents of this file nicely formatted in the App Studio editor by simply opening the file that was created (`workflow-lite-sk1.json`).
 
 
 ### 3. Deploy a simple workflow definition
 
-Phew, that's a lot of setup, well done for making it to here. There's only one more step here and then you'll be ready to start exploring the Workflow API. There's a simple workflow definition that we can deploy to the Workflow service instance, so that we can use that subsequently with calls to the API endpoints.
+OK. There's only one more step here and then you'll be ready to start exploring the Workflow API. There's a simple workflow definition that we can deploy to the Workflow service instance, so that we can use that subsequently with calls to the API endpoints.
 
 The definition is in a module inside an MTA project, in the `workflowproject/` directory. You can explore the contents of this project using the standard tools in App Studio if you wish. Note that if you open the workflow definition file itself in the App Studio editor, you'll perhaps be slightly underwhelmed, as it really is the simplest workflow definition:
 
