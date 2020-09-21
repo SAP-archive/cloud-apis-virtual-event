@@ -476,3 +476,91 @@ You should see output that looks like this:
 Success! There's evidence of our workflow definition that we deployed in a previous exercise, listed (in an array) in the output.
 
 
+### 7. Explore further Workflow API endpoints with the `workflow` script
+
+Now we're motoring! We can explore a couple more endpoints with the `workflow` script thanks to some other functions in there.
+
+:point_right: While still in the `workflowapi/` directory, run the `workflow` script again to see what other functions are supported:
+
+```bash
+> ./workflow
+```
+
+In the output, that looks like this:
+
+```
+add_authorities
+get_access_token
+list_workflow_definitions
+list_workflow_instances
+start_workflow_instance
+```
+
+... you'll see, after `list_workflow_definitions`, another couple of commands `list_workflow_instances` and `start_workflow_instance`. These, unsurprisingly, relate to other Workflow API endpoints described in the [Workflow API for Cloud Foundry](https://api.sap.com/api/SAP_CP_Workflow_CF/resource) definitions, specifically in the "Workflow Instances" group:
+
+![Workflow Instances group](workflow-instance-group.png)
+
+The `list_workflow_instances` command reflects the API endpoint `GET /v1/workflow-instances` and the `start_workflow_instance` command reflects the API endpoint `POST /v1/workflow-instances`.
+
+> Observe how the API endpoints are organized along HTTP application protocol lines - we have a single HTTP resource `/v1/workflow-instances` but using the HTTP method `GET` retrieves the current representation of that resource, and using the HTTP method `POST` adds to it.
+
+:point_right: Run the `list_workflow_instances` command:
+
+```bash
+> ./workflow list_workflow_instances
+```
+
+At this point, we've only deployed the `workflow` definition, and not started any instances of it. So it should come as little surprise that the output is an empty array:
+
+```json
+[]
+```
+
+Let's address that by starting an instance, using the other command available to us.
+
+:point_right: Run the `start_workflow_instance` command, noting that this command requires the specification of the workflow definition name, which in our case, somewhat unimaginitively, is "workflow":
+
+```bash
+> ./workflow start_workflow_instance workflow
+```
+
+If all goes well, you should see output that looks like this:
+
+```json
+{
+  "id": "1a8ab2ea-fbf8-11ea-9e92-eeee0a9e5a06",
+  "definitionId": "workflow",
+  "definitionVersion": "1",
+  "subject": "workflow",
+  "status": "RUNNING",
+  "businessKey": "",
+  "startedAt": "2020-09-21T10:49:20.398Z",
+  "startedBy": "sb-clone-b09d9fcf-a418-44c8-9589-ebabea654cb7!b55889|workflow!b10150",
+  "completedAt": null
+}
+```
+
+Very nice - we're given the details of a running workflow instance: started from the "workflow" definition, version "1", and in fact the status at the time that very snapshot was taken (just when the instance was started) was "RUNNING".
+
+If you now make another call to the `list_workflow_instances` command, you should see this instance, although by the time you do this, the status will have moved from "RUNNING" to "COMPLETED", as the definition itself (see [exercise 04](../../04) is very simple - it just starts, and then ends. This is what the output should look like (note that this is a list, represented by an array in the output (`[ ... ]`):
+
+```json
+[
+  {
+    "id": "1a8ab2ea-fbf8-11ea-9e92-eeee0a9e5a06",
+    "definitionId": "workflow",
+    "definitionVersion": "1",
+    "subject": "workflow",
+    "status": "COMPLETED",
+    "businessKey": "",
+    "startedAt": "2020-09-21T10:49:20.398Z",
+    "startedBy": "sb-clone-b09d9fcf-a418-44c8-9589-ebabea654cb7!b55889|workflow!b10150",
+    "completedAt": "2020-09-21T10:49:21.366Z"
+  }
+]
+```
+
+
+## Summary
+
+In this exercise, we've gone from being unable to do much with the Workflow API due to missing authorities, to listing workflow definitions and starting & listing instances of them. All from the comfort of the command line in App Studio. Not only that, we know what's going on underneath. Great work!
