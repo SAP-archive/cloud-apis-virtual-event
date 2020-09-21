@@ -40,6 +40,7 @@ In these next two exercises you'll get your feet wet with the Workflow APIs. Fir
 - [Exercise 03 - Setting up your dev space in App Studio](exercises/03/)
 - [Exercise 04 - Creating a Workflow service instance & deploying a definition](exercises/04/)
 - [Exercise 05 - Workflow API calls, scopes, access token contents & more](exercises/05/)
+- [Exercise 06 - Calling the Workflow API from within the API Hub](exercises/06/)
 
 
 ## Requirements
