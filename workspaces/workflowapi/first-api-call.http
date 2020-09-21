@@ -1,0 +1,12 @@
+# Request OAuth 2.0 access token via client credentials grant type
+POST [.uaa.url]/oauth/token 
+Authorization: Basic [.uaa.clientid] [.uaa.clientsecret]
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
+
+###
+
+# Use access token to make API call to list workflow definitions
+GET [.endpoints.workflow_rest_url]/v1/workflow-definitions
+Authorization: Bearer [the access token retrieved from the previous request]
