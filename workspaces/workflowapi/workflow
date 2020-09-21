@@ -10,7 +10,7 @@ output=silent # verbose or silent
 # Retrieve an access token using the Client Credentials grant type
 get_access_token () {
   curl \
-    --$output \
+    --"$output" \
     --user "$clientid:$clientsecret" \
     --data "grant_type=client_credentials" \
     "$authserver/oauth/token" \
@@ -24,13 +24,13 @@ add_authorities () {
       echo Usage: add_authorities jsonfile
       exit 1
     fi
-    cf update-service $instance -c $jsonfile
+    cf update-service $instance -c "$jsonfile"
 }
 
 # List workflow definitions
 list_workflow_definitions () {
   curl \
-    --$output \
+    --"$output" \
     --header "Authorization: Bearer $access_token" \
     "$resourceserverapiroot/v1/workflow-definitions" \
   | jq .
@@ -39,7 +39,7 @@ list_workflow_definitions () {
 # List workflow instances
 list_workflow_instances () {
   curl \
-    --$output \
+    --"$output" \
     --header "Authorization: Bearer $access_token" \
     "$resourceserverapiroot/v1/workflow-instances?status=RUNNING,ERRONEOUS,SUSPENDED,CANCELED,COMPLETED" \
   | jq .
@@ -53,7 +53,7 @@ start_workflow_instance () {
     exit 1
   fi
   curl \
-    --$output \
+    --"$output" \
     --header "Authorization: Bearer $access_token" \
     --header "Content-Type: application/json" \
     --data "{\"definitionId\": \"$definition\", \"context\": {}}" \

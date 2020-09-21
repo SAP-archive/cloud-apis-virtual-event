@@ -1,6 +1,6 @@
-# Exercise 05 - Workflow API calls, scopes, access token contents & more
+# Exercise 05 - Workflow API calls, authorities, access token contents & more
 
-Thanks to the previous exercises, you have everything you need to make some Workflow API calls now. You have tools in your App Studio dev space that will enhance your experience, you have a workflow definition deployed to a Workflow service instance, and you have OAuth 2.0 authentication details in a service key that you will make use of now. In this exercise you'll make your first Workflow API call, and learn about scopes (aka "authorities") and the contents of access tokens. You'll make your first API call from the command line.
+Thanks to the previous exercises, you have everything you need to make some Workflow API calls now. You have tools in your App Studio dev space that will enhance your experience, you have a workflow definition deployed to a Workflow service instance, and you have OAuth 2.0 authentication details in a service key that you will make use of now. In this exercise you'll make your first Workflow API call, and learn about authorities (aka "scopes") and the contents of access tokens. You'll make your first API call from the command line.
 
 ## Steps
 
@@ -8,6 +8,7 @@ Thanks to the previous exercises, you have everything you need to make some Work
 [2. Make your first Workflow API call](#2-make-your-first-workflow-api-call)<br>
 [3. Inspect the contents of the access token](#3-inspect-the-contents-of-the-access-token)<br>
 [4. Update the Workflow service instance with a list of required authorities](#4-update-the-workflow-service-instance-with-a-list-of-required-authorities)<br>
+[5. Check the authorities in subsequent access tokens](#5-check-the-authorities-in-subsequent-access-tokens)<br>
 
 After following the steps in this exercise, you'll have some familiarity with calling Workflow APIs, and will have gained some understanding of what's required to do so.
 
@@ -214,7 +215,7 @@ This is what the invocation looks like:
 
 ```bash
   curl \
-    --$output \
+    --"$output" \
     --user "$clientid:$clientsecret" \
     --data "grant_type=client_credentials" \
     "$authserver/oauth/token" \
@@ -373,7 +374,7 @@ add_authorities () {
       echo Usage: add_authorities jsonfile
       exit 1
     fi
-    cf update-service $instance -c $jsonfile
+    cf update-service $instance -c "$jsonfile"
 }
 ```
 
@@ -391,4 +392,87 @@ You should see a small amount of output confirming the update, which should look
 Updating service instance workflow-lite as me@example.com...
 OK
 ```
+
+### 5. Check the authorities in subsequent access tokens
+
+Now that the instance is updated, let's check that any access token we request from now on includes the authorities we specified.
+
+:point_right: Request a new access token and feed it into `jwt` again:
+
+```bash
+> ./workflow get_access_token | jwt
+```
+
+In the output that appears, within the "payload" section, check the authorities listed; you should now see something like this:
+
+```json
+{
+  "authorities": [
+    "workflow!b10150.TASK_GET",
+    "workflow!b10150.WORKFLOW_DEFINITION_GET",
+    "workflow!b10150.PROCESS_TEMPLATE_DEPLOY",
+    "workflow!b10150.PROCESS_VARIANT_DEPLOY",
+    "uaa.resource",
+    "workflow!b10150.WORKFLOW_INSTANCE_START",
+    "workflow!b10150.FORM_DEFINITION_DEPLOY",
+    "workflow!b10150.WORKFLOW_INSTANCE_GET",
+    "workflow!b10150.TASK_DEFINITION_GET",
+    "workflow!b10150.WORKFLOW_DEFINITION_DEPLOY"
+  ]
+}
+```
+
+We can see that the three authorities we specified in the `cf update-service` command, "WORKFLOW_DEFINITION_GET", "WORKFLOW_INSTANCE_GET" and "WORKFLOW_INSTANCE_START", are now listed.
+
+Great!
+
+
+### 6. Make another API call to `/v1/workflow-definitions`
+
+Now that requested access tokens contain the appropriate authorities, let's have another go at making our first API call. Instead of using the HTTP Client facility and the `first-api-call.http` file contents, let's continue to make use of our `workflow` script. We already know that there's a function in there that will request an access token; it won't surprise you to know that there's also a function in there that will make an API call to the `/v1/workflow-definitions` endpoint.
+
+:point_right: Have a look at that function - it's the `list_workflow_definitions` function in the `workflow` file. By now, the pattern should be familiar, but let's check we understand what it's doing anyway. The function is defined like this:
+
+```bash
+list_workflow_definitions () {
+  curl \
+    --"$output" \
+    --header "Authorization: Bearer $access_token" \
+    "$resourceserverapiroot/v1/workflow-definitions" \
+  | jq .
+}
+```
+
+Like before, let's just summarize what we see here:
+
+- the call will be executed quietly with no extraneous logging as before, due to the `--"$output"` option
+- instead of using the `--user` option as in the call to request an access token, we now need to supply the access token itself to authenticate this call; it's sent in a "Bearer" Authorization header, as shown
+- the actual URL is made up from the value of the `resourceserverapiroot` variable, with the specific API endpoint path `/v1/workflow-definitions` appended
+- the default HTTP method used is GET, which is what we want
+
+And again, like the first call, we're expecting the response to be JSON, so we pipe that into `jq` to display prettily for us.
+
+:point_right: Make the API call now (make sure you're still in the `workflowapi/` directory):
+
+```bash
+> ./workflow list_workflow_definitions
+```
+
+You should see output that looks like this:
+
+```json
+[
+  {
+    "id": "workflow",
+    "version": "1",
+    "name": "workflow",
+    "createdBy": "sb-clone-b09d9fcf-a418-44c8-9589-ebabea654cb7!b55889|workflow!b10150",
+    "createdAt": "2020-09-21T05:43:02.723Z",
+    "jobs": []
+  }
+]
+```
+
+Success! There's evidence of our workflow definition that we deployed in a previous exercise, listed (in an array) in the output.
+
 
