@@ -14,7 +14,7 @@ We'll be dealing with JSON in this exercise, and [`jq`](https://stedolan.github.
 :point_right: Open up a new terminal with menu path **Terminal → New Terminal** or with keyboard shortcut ``Ctrl-` `` and create a directory in which to put this locally installed executable:
 
 ```shell
-> mkdir -p $HOME/.local/bin/
+> mkdir -p $HOME/bin/
 ```
 
 > With all these shell prompt instructions, note that the real shell prompt that you are likely to see (such as `user: user $`) is not shown; instead, we just show `>` to keep things simple.
@@ -22,7 +22,7 @@ We'll be dealing with JSON in this exercise, and [`jq`](https://stedolan.github.
 :point_right: Now download the executable, getting the link from the [download page](https://stedolan.github.io/jq/download/), specifically the one for the latest `jq` Linux 64-bit binary. Currently that is for `jq` version 1.6, and the URL is as shown here in the command invocation:
 
 ```shell
-> curl -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 > $HOME/.local/bin/jq
+> curl -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 > $HOME/bin/jq
 ```
 
 Here's typical output that you might see:
@@ -37,15 +37,15 @@ Here's typical output that you might see:
 :point_right: Make the downloaded `jq` file executable:
 
 ```
-> chmod +x $HOME/.local/bin/jq
+> chmod +x $HOME/bin/jq
 ```
 
-In order to be able to find this executable and run it, we need to add its location (the `$HOME/.local/bin/` directory) to our PATH; a convenient way to do this is to append a line to our `.bashrc` file, which is executed when we start a new Bash shell (which is when we open a new terminal in our dev space).
+In order to be able to find this executable and run it, we need to add its location (the `$HOME/bin/` directory) to our PATH; a convenient way to do this is to append a line to our `.bashrc` file, which is executed when we start a new Bash shell (which is when we open a new terminal in our dev space).
 
 :point_right: Append a line to your `.bashrc` file like this (_make sure you use TWO greater-than signs, not just one, otherwise you'll overwrite rather than append to the file!_):
 
 ```
-> echo 'export PATH=$HOME/.local/bin/:$PATH' >> $HOME/.bashrc
+> echo 'export PATH=$HOME/bin/:$PATH' >> $HOME/.bashrc
 ```
 
 Now, opening up a new terminal, you'll be able to run jq:
