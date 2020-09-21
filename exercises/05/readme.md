@@ -8,9 +8,9 @@ After following the steps in this exercise, you'll have some familiarity with ca
 
 ### 1. Prepare for your first Workflow API call
 
-We have a workflow definition deployed. We're going to try and list that via the API.
+We have a workflow definition deployed. To start off, let's request a list of workflow definitions via the API, where we should see it.
 
-:point_right: Jump over to the API Hub and look in there to see the resource information for the [Workflow API for Cloud Foundry](https://api.sap.com/api/SAP_CP_Workflow_CF/resource). In the Workflow Definitions group (that we first encountered in [exercise 01](../01#1-get-an-introduction-to-the-sap-api-business-hub)) we see this HTTP method and endpoint:
+:point_right: Jump over to the API Hub and look in there to see the resource information for the [Workflow API for Cloud Foundry](https://api.sap.com/api/SAP_CP_Workflow_CF/resource). In the Workflow Definitions group (select it on the left hand side of the page, in the list of groups that we first encountered in [exercise 01](../01#1-get-an-introduction-to-the-sap-api-business-hub)) we see this HTTP method and endpoint:
 
 ![GET /v1/workflow-definitions](get-workflow-definitions-endpoint.png)
 
