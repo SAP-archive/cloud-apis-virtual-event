@@ -73,7 +73,6 @@ https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-service/rest/v1/
 ```
 
 > If you're curious about the encoding of the query string in this URL, you could use a local utility, or a service such as [urldecode.org](https://urldecode.org). Here, we see that [urldecode.org gives us the decoded version](https://urldecode.org/?text=%2524orderby%3DstartedAt%2520desc%26%2524skip%3D0%26%2524top%3D100%26%2524inlinecount%3Dnone&mode=decode) which looks like this: `$orderby=startedAt desc&$skip=0&$top=100&$inlinecount=none` (remember never to use an online service like this to encode or decode sensitive data).
-```
 
 Next, you are shown the HTTP status code and any response body. Here, the status code is 200 (OK) and there's an empty list represented by an empty JSON array, denoting "nothing in the list":
 
