@@ -393,7 +393,7 @@ Updating service instance workflow-lite as me@example.com...
 OK
 ```
 
-### 5. Check the authorities in subsequent access tokens
+### 5. Check the authorities in subsequent access tokens
 
 Now that the instance is updated, let's check that any access token we request from now on includes the authorities we specified.
 
