@@ -4,6 +4,11 @@ In this exercise you'll set up everything you need for exploring the Workflow AP
 
 ## Steps
 
+[1. Add the `jq` tool to your App Studio dev space](#1-add-the-jq-tool-to-your-app-studio-dev-space)
+[2. Add the `jwt-cli` tool to your App Studio dev space](#2-add-the-jwt-cli-tool-to-your-app-studio-dev-space)
+[3. Clone and open this repository in your App Studio dev space](#3-clone-and-open-this-repository-in-your-app-studio-dev-space)
+[4. Connect to your CF target](#4-connect-to-your-cf-target)
+
 Because you're awesome and you've already set up your dev space according to the [prerequisites](../../prerequisites.md), with the "MTA Tools" and "Workflow Management" SAP extensions installed, you're almost ready to dive into the APIs. First though, as we'll be interacting with the Workflow API from the command line within your App Studio dev space and learning about it that way, we'll install a couple of tools there to help us. We'll also
 
 
