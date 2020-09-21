@@ -5,8 +5,8 @@ To experience the Workflow API we're going to need something to work with, so in
 
 ## Steps
 
-[1. Create a Workflow service instance](#1-create-a-workflow-service-instance)
-[2. Create a service key for the service instance](#2-create-a-service-key-for-the-service-instance)
+[1. Create a Workflow service instance](#1-create-a-workflow-service-instance)<br>
+[2. Create a service key for the service instance](#2-create-a-service-key-for-the-service-instance)<br>
 [3. Deploy a simple workflow definition](#3-deploy-a-simple-workflow-definition)
 
 At the end of these steps you'll have a running Workflow service instance, along with a service key, and you'll also have a simple workflow defintion deployed to it.
