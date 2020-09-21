@@ -172,13 +172,13 @@ Password:
 Authenticating...
 OK
 
-Targeted org xyz12345trial
+Targeted org a52544d1trial
 
 Targeted space dev
 
 API endpoint:   https://api.cf.eu10.hana.ondemand.com (API version: 3.86.0)
 User:           me@example.com
-Org:            xyz12345trial
+Org:            a52544d1trial
 Space:          dev
 ```
 

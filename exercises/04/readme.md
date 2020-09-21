@@ -43,7 +43,7 @@ lite
 
 ```shell
 > cf create-service $service $plan $instance
-Creating service instance workflow-lite in org xyz12345trial / space dev as me@example.com...
+Creating service instance workflow-lite in org a52544d1trial / space dev as me@example.com...
 OK
 
 Create in progress. Use 'cf services' or 'cf service workflow-lite' to check operation status.
@@ -53,7 +53,7 @@ Note that this creation process may be performed asynchronously, and, as it migh
 
 ```shell
 > cf service $instance
-Showing info of service workflow-lite in org xyz12345trial / space dev as me@example.com...
+Showing info of service workflow-lite in org a52544d1trial / space dev as me@example.com...
 
 name:             workflow-lite
 service:          workflow
@@ -119,7 +119,7 @@ OK
     "clientid": "sb-clone-b09d9fcf-a418-44c8-9589-deadbeef4cb7!b55889|workflow!b10150",
     "clientsecret": "bc8b5076-0452-4604-91de-3b8e656211d4$_Z-K-z-wnzzesk5J6LYkyk08PBVkaad3DJtMLqjYuCo=",
     "uaadomain": "authentication.eu10.hana.ondemand.com",
-    "url": "https://xyz12345trial.authentication.eu10.hana.ondemand.com",
+    "url": "https://a52544d1trial.authentication.eu10.hana.ondemand.com",
     "xsappname": "clone-b09d9fcf-a418-44c8-9589-ebabea654cb7!b55889|workflow!b10150",
     "zoneid": "fd03402e-58c7-4fb8-9443-5d0fa2a533f4"
   }
@@ -183,13 +183,13 @@ This should result in some output that looks like this:
 This should result in some output that will look similar to this:
 
 ```
-Deploying multi-target app archive mta_archives/workflowproject_0.0.1.mtar in org xyz12345trial / space dev as me@example.com...
+Deploying multi-target app archive mta_archives/workflowproject_0.0.1.mtar in org a52544d1trial / space dev as me@example.com...
 
 Uploading 1 files...
   /home/user/projects/cloud-apis/workspaces/workflowapi/workflowproject/mta_archives/workflowproject_0.0.1.mtar
 OK
 Operation ID: 35c66db2-f7fb-11ea-874c-eeee0a80cc52
-Deploying in org "xyz12345trial" and space "dev"
+Deploying in org "a52544d1trial" and space "dev"
 Detected MTA schema version: "3"
 No deployed MTA detected - this is initial deployment
 Detected new MTA version: "0.0.1"
