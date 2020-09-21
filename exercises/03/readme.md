@@ -14,7 +14,7 @@ We'll be dealing with JSON in this exercise, and [`jq`](https://stedolan.github.
 :point_right: Open up a new terminal with menu path **Terminal → New Terminal** or with keyboard shortcut ``Ctrl-` `` and create a directory in which to put this locally installed executable:
 
 ```shell
-> mkdir -p $HOME/bin/
+> mkdir $HOME/bin/
 ```
 
 > With all these shell prompt instructions, note that the real shell prompt that you are likely to see (such as `user: user $`) is not shown; instead, we just show `>` to keep things simple.
