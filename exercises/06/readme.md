@@ -1,30 +1,26 @@
-# Exercise 05 - Workflow API calls, scopes, access token contents & more
+# Exercise 06 - Calling the Workflow API from within the API Hub
 
-Thanks to the previous exercises, you have everything you need to make some Workflow API calls now. You have tools in your App Studio dev space that will enhance your experience, you have a workflow definition deployed to a Workflow service instance, and you have OAuth 2.0 authentication details in a service key that you will make use of now. In this exercise you'll make your first Workflow API call, and learn about scopes (aka "authorities") and the contents of access tokens. You'll make your first API call from the command line.
+Now we know how to find, authorize and make calls to Workflow API endpoints, let's try some calls in a different context. After all, API calls are just authenticated HTTP requests, so you can make them wherever you want.
+
+The SAP Business API Hub (API Hub) not only provides information on API packages and APIs, but also provides you with the ability to maintain "environments" that reflect specific service instance and service key contexts. In this exercise you'll make some more Workflow API calls directly in the API Hub.
 
 ## Steps
 
-After following the steps in this exercise, you'll have some familiarity with calling Workflow APIs, and will have gained some understanding of what's required to do so.
-
-### 1. Prepare for your first Workflow API call
-
-We have a workflow definition deployed. To start off, let's request a list of workflow definitions via the API, where we should see it.
-
-:point_right: Jump over to the API Hub and look in there to see the resource information for the [Workflow API for Cloud Foundry](https://api.sap.com/api/SAP_CP_Workflow_CF/resource). In the Workflow Definitions group (select it on the left hand side of the page, in the list of groups that we first encountered in [exercise 01](../01#1-get-an-introduction-to-the-sap-api-business-hub)) we see this HTTP method and endpoint:
-
-![GET /v1/workflow-definitions](get-workflow-definitions-endpoint.png)
-
-Great, that seems to be what we want. We can make this API call by sending an HTTP GET request to the `/v1/workflow-definitions` endpoint. This of course is just the path info, which is going to be relative to the fully qualified hostname and base path of the Resource Server. What is this? Well, we can look for it in the API Hub, by switching to the [details](https://api.sap.com/api/SAP_CP_Workflow_CF/overview) section, and identifying the Production URL appropriate to our environment:
-
-![Production URLs for Workflow API on CF](production-urls.png)
+[1. Create an environment in the API Hub](#1-create-an-environment-in-the-api-hub)<br>
 
 
+After following the steps in this exercise, you'll understand how to set up an environment in the API Hub and make API calls in that context.
 
-:point_right: Make sure you're logged into the API Hub, and use the **Configure Environments** link to open up a dialog where you can define your target Workflow service instance environment via the information in the service key you created earlier. You should see a dialog like [the one we looked at in exercise 02](02#4-see-where-these-grant-types-are-used-for-apis-on-sap-cloud-platform).
 
-In this dialog there are a number of properties you must specify. Apart from the name you want to give to this environment (which you can make up), all the values you need are in the service key JSON data.
+### 1. Create an environment in the API Hub
 
-:point_right: Get ready with the values, by looking at the service key contents. This is the file you created via the `setup-service-key` script earlier, and is called `workflow-lite-sk1.json` (or, via its dynamic variable name from the `shared` script, `$keyfile`). You can either look at the file in the regular App Studio editor, or use `jq` either for the whole file or for individual properties:
+At [the end of exercise 02](../../02#4-see-where-these-grant-types-are-used-for-apis-on-sap-cloud-platform) we saw a glimpse of the "Configure Environments" facility in the API Hub. We'll use that in this step to define an environment that reflects the details of the service key contents we have in our service key file.
+
+:point_right: Go to the [Workflow API for Cloud Foundry](https://api.sap.com/api/SAP_CP_Workflow_CF/resource) page in the API Hub, and make sure you're logged on.
+
+:point_right: Select the **Configure Environments** link, and get ready to specify the details. Now you're familiar with OAuth 2.0 concepts, the content of service keys, and how the two things relate, it should be fairly straightforward to provide the appropriate values for the properties in the form. Apart from the name you want to give to this environment (which you can make up), all the values you need are in the service key JSON data.
+
+:point_right: Get ready with the values, by looking at the service key contents. This is the file you created via the `setup-service-key` script in a previous exercise, and is called `workflow-lite-sk1.json` (or, via its dynamic variable name from the `shared` script, `$keyfile`). You can either look at the file in the regular App Studio editor, or use `jq` either for the whole file or for individual properties:
 
 ```shell
 > source shared
@@ -55,35 +51,216 @@ https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-service/rest
 |OAuth 2.0 consumersubdomain|Must match the most significant part of the value of `.uaa.url`|
 |OAuth 2.0 landscapehost|Must match the rest of the value of `.uaa.url` excluding "authentication"|
 
-> The last two properties "consumersubdomain" and "landscapehost" must basically be so specified that the value for "Token URL" ends up being the value of `.uaa.url` with `/oauth/token` appended. Here's an example. If the value of the `.uaa.url` is `https://xyz12345trial.authentication.eu10.hana.ondemand.com` then the value for "consumersubdomain" is `xyz12345trial` (this value is also available in the `.uaa.identityzone` property) and the value for "landscapehost" is `eu10.hana.ondemand.com`.
+> The last two properties "consumersubdomain" and "landscapehost" must basically be so specified that the value for "Token URL" ends up being the value of `.uaa.url` with `/oauth/token` appended. Here's an example. If the value of the `.uaa.url` is `https://a52544d1trial.authentication.eu10.hana.ondemand.com` then the value for "consumersubdomain" is `a52544d1trial` (this value is also available in the `.uaa.identityzone` property) and the value for "landscapehost" is `eu10.hana.ondemand.com`.
 
 :point_right: Mark the checkbox "Apply this environment to all APIs in this package that are not yet configured" and the radio button "Save this environment for future sessions" and choose Save.
 
 You've now got an environment that is specific to you and your own Workflow service instance.
 
 
-### 3. Try to make the API call
+### 2. Make your first API call from within the API Hub
 
-Now the moment of truth - making a GET request to the `/v1/workflow-definitions` API endpoint.
+Now to make your first call from within the API Hub. Let's start with listing any workflow instances, i.e. making a `GET` request to the `/v1/workflow-instances` API endpoint.
 
-:point_right: While still logged into the API Hub, and your environment selected, find the endpoint and use the **Try out** link, which should present you with a large "Execute" button (you may have to scroll down a bit). Select that button, and have a look what happens.
+:point_right: While still logged into the API Hub, and your environment selected, find the endpoint (in the "Workflow Instances" group) and use the **Try out** link, which should present you with a large "Execute" button (you may have to scroll down a bit). Select that button to have the call made.
 
-You will most likely see something like this:
-
-![Execute - insufficient privileges](execute-insufficient-privileges.png)
-
-The HTTP response code returned (403), along with the message in the payload, might come initially as somewhat of a surprise. We can turn this surprise into an opportunity to dig into scopes (also known as "authorities"). The bottom line here is that while we've successfully authenticated, there aren't the appropriate permissions set on the service instance that we're using.
-
-In the previous step we saw a short description of the `GET /v1/workflow-definitions` API resource, which included this part:
+If you've defined the values in your environment appropriately, you should get the response that you're hoping for. First, as a bonus, you're shown the entire request URL, which will look something like this:
 
 ```
-Scope: WORKFLOW_DEFINITION_GET
+https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-service/rest/v1/workflow-instances?%24orderby=startedAt%20desc&%24skip=0&%24top=100&%24inlinecount=none
+```
+
+> If you're curious about the encoding of the query string in this URL, you could use a local utility, or a service such as [urldecode.org](https://urldecode.org). Here, we see that [urldecode.org gives us the decoded version](https://urldecode.org/?text=%2524orderby%3DstartedAt%2520desc%26%2524skip%3D0%26%2524top%3D100%26%2524inlinecount%3Dnone&mode=decode) which looks like this: `$orderby=startedAt desc&$skip=0&$top=100&$inlinecount=none` (remember never to use an online service like this to encode or decode sensitive data).
+```
+
+Next, you are shown the HTTP status code and any response body. Here, the status code is 200 (OK) and there's an empty list represented by an empty JSON array, denoting "nothing in the list":
+
+```json
+[]
+```
+
+There's nothing listed because, as stated in the description of this endpoint, _If no parameters are specified, all RUNNING, or ERRONEOUS instances are returned._.
+
+Finally, you're also shown the HTTP response headers:
+
+```
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000; includeSubDomains; preload;
+Cache-Control: no-cache,  no-store,  max-age=0,  must-revalidate
+Server: SAP
+X-Content-Type-Options: nosniff, nosniff
+X-Xss-Protection: 1; mode=block
+Vary: accept-encoding
+Expires: 0
+Pragma: no-cache
+Date: Mon,  21 Sep 2020 12:20:23 GMT
+X-Vcap-Request-Id: 10b42795-9d62-4507-6d06-c475a33c20eb
+Content-Type: application/json
 ```
 
 
+### 3. Make a second call
+
+Let's try another.
+
+:point_right: In the same "Workflow Instances" group, find and select the API endpoint represented by a `POST` request to `/v1/workflow-instances`. That's right, in this call we'll start a new workflow instance.
+
+Here we'll need to specify a payload which should contain, at the very least, a property denoting the ID of the workflow definition, and a property containing any context that should be supplied for the new instance. If you're wondering, this is exactly what was specified in the `start_workflow_instance` function in the `workflow` script that we used in the previous exercise in your App Studio's dev space. For reference, this is what the `curl` call looked like:
+
+```bash
+curl \
+  --$output \
+  --header "Authorization: Bearer $access_token" \
+  --header "Content-Type: application/json" \
+  --data "{\"definitionId\": \"$definition\", \"context\": {}}" \
+  "$resourceserverapiroot/v1/workflow-instances" \
+| jq .
+```
+
+What we see in this call, that we perhaps haven't seen in other calls, is the supply of some JSON data in the payload for this call, with the `--data` option. If you [stare at](https://langram.org/2019/04/08/es6-reduce-and-pipe/) the value passed with that `--data` option, you'll see it's just JSON, that, when expanded, looks like this:
+
+```json
+{
+  "definitionId": "...",
+  "context": {}
+}
+```
+
+We can see that in the equivalent call in the API Hub, we're presented with the need to specify a JSON value for the body (i.e. the payload), as shown:
+
+![POST /v1/workflow-instance body requirement](body-requirement.png)
+
+The sample body is a more complex JSON structure, but for our purposes, all we need is what we specified in the previous exercise.
+
+:point_right: Replace the sample body with this (below) and then select the large blue "Execute" button.
+
+```json
+{
+  "definitionId": "workflow",
+  "context": {}
+}
+```
+
+The response is presented like before - with the Request URL that was used:
+
+```
+https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-service/rest/v1/workflow-instances
+```
+
+followed by the HTTP status code which is 201, and the response body, which looks something like this:
+
+```json
+{
+  "id": "13e194d7-fc08-11ea-9e92-eeee0a9e5a06",
+  "definitionId": "workflow",
+  "definitionVersion": "1",
+  "subject": "workflow",
+  "status": "RUNNING",
+  "businessKey": "",
+  "startedAt": "2020-09-21T12:43:41.171Z",
+  "startedBy": "sb-clone-b09d9fcf-a418-44c8-9589-ebabea654cb7!b55889|workflow!b10150",
+  "completedAt": null
+}
+```
+
+We also are given the HTTP response headers again.
+
+We should feel fairly comfortable with this response, because we've seen it before, in the previous exercise - then and now we just caught the freshly started instance in a "RUNNING" state, before it went pretty much immediately to "COMPLETED".
+
+
+### 3. Make a final call to the Workflow API to delete the definition
+
+When you work with the Workflow service, and in particular the Monitor Workflows app, you'll notice that there is no facility for deleting workflow definitions. We can sort of understand this - it's quite a destructive thing to do. But we need to be able to do it somehow, and the API comes to our aid here. So let's round out this exercise, and our foray into the Workflow API, by finding and using the endpoint that allows us to delete a definition.
+
+:point_right: While still in the API Hub on the [Workflow API for Cloud Foundry](https://api.sap.com/api/SAP_CP_Workflow_CF/resource) page, find the endpoint that describes a `DELETE` request to the `/v1/workflow-definitions/{definitionId}` endpoint, expand it, and use the **Try out** facility again.
+
+![Delete workflow definition API endpoint](delete-workflow-definition.png)
+
+As shown, the ID of the workflow definition that you want to delete is required. You also have a choice as to whether to "cascade" the deletion, i.e. to delete active (i.e. running) instances of it. In this screenshot example, we've chosen the correct workflow definition ID ("workflow") and opted to cascade the delete.
+
+:point_right: Use the large blue "Execute" button, and check the result, which might not be what you're expecting ... but then again might be what you actually wanted.
+
+The HTTP status code 403 is returned, signifying that we are not authorized. The payload that's returned confirms it:
+
+```json
+{
+  "error": {
+    "message": "User does not have sufficient privileges."
+  }
+}
+```
+
+We've seen this before and know what to do!
+
+:point_right: Check the details of this API endpoint - what authority (scope) is required for this?
+
+That's right, one that we haven't seen before, and one that is definitely not allocated to our Workflow service instance:
+
+
+```
+Scope: WORKFLOW_DEFINITION_UNDEPLOY
+```
+
+To fix this, flip back to your App Studio dev space, open the `authorities.json` file (in the `workflowapi/` directory) and add this new value to the list (don't forget to add a comma to the preceding line if you're adding this new authority to the end), so that the contents now look like this:
+
+```json
+{
+    "authorities": [
+        "WORKFLOW_DEFINITION_GET",
+        "WORKFLOW_INSTANCE_GET",
+        "WORKFLOW_INSTANCE_START",
+        "WORKFLOW_DEFINITION_UNDEPLOY"
+    ]
+}
+```
+
+> Why are we _adding_ this new scope to the list? Because the `cf update-service` action is absolute, i.e. not relative / additive. If we were to update the service with merely a list of just this one new authority, the other three would disappear.
+
+:point_right: Now, having ensured your changes to the `authorities.json` file are saved, open a terminal in the App Studio dev space, move to the appropriate directory, and run the command you used for this in the previous exercise:
+
+```bash
+> cd $HOME/projects/cloud-apis/workspaces/workflowapi/
+> ./workflow add_authorities authorities.json
+```
+
+You'll get a brief response like before:
+
+```
+Updating service instance workflow-lite as qmacro+handsonsapdev@gmail.com...
+OK
+```
+
+:point_right: Finally, back in the API Hub, try the "Execute" button again. The API call should now be successful, and you should be presented with the appropriate output, i.e. a positive HTTP response. The response code is 202, appropriate for a DELETE action; there is no payload (as there's nothing to send back), but of course there are headers that you can inspect, as with any HTTP response:
+
+```
+X-Frame-Options: DENY
+ Strict-Transport-Security: max-age=31536000; includeSubDomains; preload;
+ Cache-Control: no-cache,  no-store,  max-age=0,  must-revalidate
+ Server: SAP
+ X-Content-Type-Options: nosniff, nosniff
+ X-Xss-Protection: 1; mode=block
+ Expires: 0
+ Pragma: no-cache
+ Content-Length: 0
+ Date: Mon,  21 Sep 2020 13:04:55 GMT
+ X-Vcap-Request-Id: 53a6822e-354f-4abf-4ee9-f7b87892a5e5
+ Location: /workflow-service/rest/v1/jobs/bb66fb4f-b445-47b5-b82b-ba6906d1ba2b
+```
+
+That's it - you've cleaned up after yourself and removed the workflow definition you deployed in an earlier exercise. Well done!
 
 
 ## Summary
 
-At this point you're ...
+At this point you should be quite familiar with the Workflow API, and comfortable with how calls are authorized and made. You've covered a lot of ground by getting to this point, well done!
 
+
+## Questions
+
+1. In the urldecoded query string, we see parameters such as `$orderby`, `$top` and `$skip`. What are you reminded of?
+
+1. When making the `GET` request to the `/v1/workflow-instances` endpoint here, we got an empty list in response. Why does that look different to the response we got in the previous exercise to the same call (hint: what parameter values have been specified in both cases)?
+
+1. In the response to `POST /v1/workflow-instances`, what does the particular HTTP 201 status code signify, and why?
+
+1. What is the signifnance of the HTTP 202 status code, and which header in the response is important in this regard?
