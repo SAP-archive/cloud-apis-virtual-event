@@ -1,6 +1,6 @@
 # Exercise 03 - Setting up your dev space in App Studio
 
-In this exercise you'll set up everything you need for exploring the Workflow APIs and learning about how to use them. Specifically you'll prepare your dev space in the App Studio (details of which were listed in the [prerequisites](../../prerequisites.md)), install a couple of extra tools there, and then clone this repo and connect to your CF organization and space.
+In this exercise you'll set up everything you need for exploring the Workflow APIs and learning about how to use them. Specifically you'll prepare your dev space in the App Studio (details of which were listed in the [prerequisites](../../prerequisites.md)), install a couple of extra tools there, and then clone this repository and connect to your CF organization and space.
 
 ## Steps
 
@@ -48,7 +48,7 @@ In order to be able to find this executable and run it, we need to add its locat
 > echo 'export PATH=$HOME/bin/:$PATH' >> $HOME/.bashrc
 ```
 
-Now, opening up a new terminal, you'll be able to run jq:
+Now, opening up a new terminal (i.e. close the existing one either with `exit` or `Ctrl-d`), you'll be able to run jq:
 
 ```
 > jq
@@ -112,13 +112,13 @@ First, let's open the `projects/` directory as the workspace in your App Studio 
 
 ```shell
 > cd $HOME/projects/
-> git clone TODO-REPLACE-REPO-URL-HERE
+> git clone https://github.com/SAP-samples/cloud-apis-virtual-event.git
 ```
 
 Here's what the output should look like:
 
 ```
-Cloning into 'TODO-cloud-apis'...
+Cloning into 'cloud-apis-virtual-event'...
 remote: Enumerating objects: 158, done.
 remote: Counting objects: 100% (158/158), done.
 remote: Compressing objects: 100% (111/111), done.
