@@ -7,7 +7,9 @@ The SAP Business API Hub (API Hub) not only provides information on API packages
 ## Steps
 
 [1. Create an environment in the API Hub](#1-create-an-environment-in-the-api-hub)<br>
-
+[2. Make your first API call from within the API Hub](#2-make-your-first-api-call-from-within-the-api-hub)<br>
+[3. Make a second API call](#3-make-a-second-api-call)<br>
+[4. Make a final call to the Workflow API to delete the workflow definition](#4-make-a-final-call-to-the-workflow-api-to-delete-the-workflow-definition)
 
 After following the steps in this exercise, you'll understand how to set up an environment in the API Hub and make API calls in that context.
 
@@ -99,7 +101,7 @@ Content-Type: application/json
 ```
 
 
-### 3. Make a second call
+### 3. Make a second API call
 
 Let's try another.
 
@@ -168,7 +170,7 @@ We also are given the HTTP response headers again.
 We should feel fairly comfortable with this response, because we've seen it before, in the previous exercise - then and now we just caught the freshly started instance in a "RUNNING" state, before it went pretty much immediately to "COMPLETED".
 
 
-### 3. Make a final call to the Workflow API to delete the definition
+### 4. Make a final call to the Workflow API to delete the workflow definition
 
 When you work with the Workflow service, and in particular the Monitor Workflows app, you'll notice that there is no facility for deleting workflow definitions. We can sort of understand this - it's quite a destructive thing to do. But we need to be able to do it somehow, and the API comes to our aid here. So let's round out this exercise, and our foray into the Workflow API, by finding and using the endpoint that allows us to delete a definition.
 
