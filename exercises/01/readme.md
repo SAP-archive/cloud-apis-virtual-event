@@ -50,7 +50,7 @@ Note that there are many API endpoints, and they are grouped together logically.
 - Jobs
 - Messages
 
-:point_right: Before finishing with this step, take a quick look at the "Configure Environments" facility, which enables a logged on user to save configuration settings to be able to make API calls directly from within the API Hub. Make a mental note of the sort of detailss that are required with respect to authentication.
+:point_right: Before finishing with this step, take a quick look at the "Configure Environments" facility, which enables a logged on user to save configuration settings to be able to make API calls directly from within the API Hub. Make a mental note of the sort of details that are required with respect to authentication.
 
 
 ### 2. Explore other sources of API information - SAP Cloud Platform Service APIs
