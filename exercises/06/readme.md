@@ -13,16 +13,20 @@ The SAP Business API Hub (API Hub) not only provides information on API packages
 
 After following the steps in this exercise, you'll understand how to set up an environment in the API Hub and make API calls in that context.
 
+:point-right: While you'll be working in the API Hub, you'll still need access to your App Studio dev space, so make sure you still have that open and a terminal available and in the `workflowapi/` directory.
+
 
 ### 1. Create an environment in the API Hub
 
-At [the end of exercise 02](../../02#4-see-where-these-grant-types-are-used-for-apis-on-sap-cloud-platform) we saw a glimpse of the "Configure Environments" facility in the API Hub. We'll use that in this step to define an environment that reflects the details of the service key contents we have in our service key file.
+At [the end of exercise 02](../02#4-see-where-these-grant-types-are-used-for-apis-on-sap-cloud-platform) we saw a glimpse of the "Configure Environments" facility in the API Hub. We'll use that in this step to define an environment that reflects the details of the service key contents we have in our service key file.
 
 :point_right: Go to the [Workflow API for Cloud Foundry](https://api.sap.com/api/SAP_CP_Workflow_CF/resource) page in the API Hub, and make sure you're logged on.
 
 :point_right: Select the **Configure Environments** link, and get ready to specify the details. Now you're familiar with OAuth 2.0 concepts, the content of service keys, and how the two things relate, it should be fairly straightforward to provide the appropriate values for the properties in the form. Apart from the name you want to give to this environment (which you can make up), all the values you need are in the service key JSON data.
 
-:point_right: Get ready with the values, by looking at the service key contents. This is the file you created via the `setup-service-key` script in a previous exercise, and is called `workflow-lite-sk1.json` (or, via its dynamic variable name from the `shared` script, `$keyfile`). You can either look at the file in the regular App Studio editor, or use `jq` either for the whole file or for individual properties:
+:point_right: Get ready with the values, by looking at the service key contents. This is the file you created via the [`setup-service-key`](../../workspaces/workflowapi/setup-service-key) script in a previous exercise, and is called `workflow-lite-sk1.json` (or, via its dynamic variable name from the [`shared`](../../workspaces/workflowapi/shared) script, `$keyfile`). 
+
+You can either look at the file contents in the regular App Studio editor, or use `jq` either for the whole file or for individual properties. If you want to use the terminal (and remember, [#TheFutureIsTerminal](https://twitter.com/search?q=%23TheFutureIsTerminal&src=typed_query)!) then you can do it like this: 
 
 ```shell
 > source shared
@@ -42,7 +46,7 @@ Here's an example of one of those invocations in action:
 https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-service/rest
 ```
 
-:point_right: Complete the properties in the dialog as follows:
+:point_right: Complete the properties in the API Hub's "Configure Environments" dialog as follows:
 
 |Property|Value|
 |-|-|
@@ -55,7 +59,7 @@ https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-service/rest
 
 > The last two properties "consumersubdomain" and "landscapehost" must basically be so specified that the value for "Token URL" ends up being the value of `.uaa.url` with `/oauth/token` appended. Here's an example. If the value of the `.uaa.url` is `https://a52544d1trial.authentication.eu10.hana.ondemand.com` then the value for "consumersubdomain" is `a52544d1trial` (this value is also available in the `.uaa.identityzone` property) and the value for "landscapehost" is `eu10.hana.ondemand.com`.
 
-:point_right: Mark the checkbox "Apply this environment to all APIs in this package that are not yet configured" and the radio button "Save this environment for future sessions" and choose Save.
+:point_right: Mark the checkbox "Apply this environment to all APIs in this package that are not yet configured" and the radio button "Save this environment for future sessions" and choose **Save**.
 
 You've now got an environment that is specific to you and your own Workflow service instance.
 
@@ -66,10 +70,15 @@ Now to make your first call from within the API Hub. Let's start with listing an
 
 :point_right: While still logged into the API Hub, and your environment selected, find the endpoint (in the "Workflow Instances" group) and use the **Try out** link, which should present you with a large "Execute" button (you may have to scroll down a bit). Select that button to have the call made.
 
-If you've defined the values in your environment appropriately, you should get the response that you're hoping for. First, as a bonus, you're shown the entire request URL, which will look something like this:
+If you've defined the values in your environment appropriately, you should get the response that you're hoping for. First, as a bonus, you're shown the entire request URL, which will look something like this (split over a number of lines for readability):
 
 ```
-https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-service/rest/v1/workflow-instances?%24orderby=startedAt%20desc&%24skip=0&%24top=100&%24inlinecount=none
+https://api.workflow-sap.cfapps.eu10.hana.ondemand.com
+  /workflow-service/rest/v1/workflow-instances
+  ?%24orderby=startedAt%20desc
+  &%24skip=0
+  &%24top=100
+  &%24inlinecount=none
 ```
 
 > If you're curious about the encoding of the query string in this URL, you could use a local utility, or a service such as [urldecode.org](https://urldecode.org). Here, we see that [urldecode.org gives us the decoded version](https://urldecode.org/?text=%2524orderby%3DstartedAt%2520desc%26%2524skip%3D0%26%2524top%3D100%26%2524inlinecount%3Dnone&mode=decode) which looks like this: `$orderby=startedAt desc&$skip=0&$top=100&$inlinecount=none` (remember never to use an online service like this to encode or decode sensitive data).
@@ -80,7 +89,7 @@ Next, you are shown the HTTP status code and any response body. Here, the status
 []
 ```
 
-There's nothing listed because, as stated in the description of this endpoint, _If no parameters are specified, all RUNNING, or ERRONEOUS instances are returned._.
+There's nothing listed because, as stated in the description of this endpoint, "_If no parameters are specified, all RUNNING, or ERRONEOUS instances are returned._".
 
 Finally, you're also shown the HTTP response headers:
 
@@ -118,7 +127,7 @@ curl \
 | jq .
 ```
 
-What we see in this call, that we perhaps haven't seen in other calls, is the supply of some JSON data in the payload for this call, with the `--data` option. If you [stare at](https://langram.org/2019/04/08/es6-reduce-and-pipe/) the value passed with that `--data` option, you'll see it's just JSON, that, when expanded, looks like this:
+What we see in this call, that we perhaps haven't seen in other calls, is the supply of some JSON data in the payload for this call (with the `--data` option). If you [stare at](https://langram.org/2019/04/08/es6-reduce-and-pipe/) the value passed with that `--data` option, you'll see it's just escaped JSON, that, when expanded, looks like this:
 
 ```json
 {
@@ -142,10 +151,11 @@ The sample body is a more complex JSON structure, but for our purposes, all we n
 }
 ```
 
-The response is presented like before - with the Request URL that was used:
+The response is presented like before - with the Request URL that was used (again, split over multiple lines for readability):
 
 ```
-https://api.workflow-sap.cfapps.eu10.hana.ondemand.com/workflow-service/rest/v1/workflow-instances
+https://api.workflow-sap.cfapps.eu10.hana.ondemand.com
+  /workflow-service/rest/v1/workflow-instances
 ```
 
 followed by the HTTP status code which is 201, and the response body, which looks something like this:
@@ -166,18 +176,18 @@ followed by the HTTP status code which is 201, and the response body, which look
 
 We also are given the HTTP response headers again.
 
-We should feel fairly comfortable with this response, because we've seen it before, in the previous exercise - then and now we just caught the freshly started instance in a "RUNNING" state, before it went pretty much immediately to "COMPLETED".
+We should feel fairly comfortable with this response, because we've seen it before in the previous exercise; then, and now, we just caught the freshly started instance in a "RUNNING" state, before it went pretty much immediately to "COMPLETED".
 
 
 ### 4. Make a final call to the Workflow API to delete the workflow definition
 
-When you work with the Workflow service, and in particular the Monitor Workflows app, you'll notice that there is no facility for deleting workflow definitions. We can sort of understand this - it's quite a destructive thing to do. But we need to be able to do it somehow, and the API comes to our aid here. So let's round out this exercise, and our foray into the Workflow API, by finding and using the endpoint that allows us to delete a definition.
+When you work with the Workflow service, and in particular the Monitor Workflows app, you'll notice that there is no facility for deleting workflow definitions in the UI. We can sort of understand this - it's quite a destructive thing to do. But we need to be able to do it somehow, and the API comes to our aid here. So let's round out this exercise, and our foray into the Workflow API, by finding and using the endpoint that allows us to delete a workflow definition.
 
 :point_right: While still in the API Hub on the [Workflow API for Cloud Foundry](https://api.sap.com/api/SAP_CP_Workflow_CF/resource) page, find the endpoint that describes a `DELETE` request to the `/v1/workflow-definitions/{definitionId}` endpoint, expand it, and use the **Try out** facility again.
 
 ![Delete workflow definition API endpoint](delete-workflow-definition.png)
 
-As shown, the ID of the workflow definition that you want to delete is required. You also have a choice as to whether to "cascade" the deletion, i.e. to delete active (i.e. running) instances of it. In this screenshot example, we've chosen the correct workflow definition ID ("workflow") and opted to cascade the delete.
+As shown, the ID of the workflow definition that you want to delete is required. You also have a choice as to whether to "cascade" the deletion, i.e. to delete active (i.e. running) instances of it. In this screenshot example, we've chosen the correct value for our workflow definition ID ("workflow") and opted to cascade the delete.
 
 :point_right: Use the large blue "Execute" button, and check the result, which might not be what you're expecting ... but then again might be what you actually wanted.
 
@@ -220,14 +230,14 @@ To fix this, flip back to your App Studio dev space, open the `authorities.json`
 :point_right: Now, having ensured your changes to the `authorities.json` file are saved, open a terminal in the App Studio dev space, move to the appropriate directory, and run the command you used for this in the previous exercise:
 
 ```bash
-> cd $HOME/projects/cloud-apis/workspaces/workflowapi/
+> cd $HOME/projects/cloud-apis-virtual-event/workspaces/workflowapi/
 > ./workflow add_authorities authorities.json
 ```
 
 You'll get a brief response like before:
 
 ```
-Updating service instance workflow-lite as qmacro+handsonsapdev@gmail.com...
+Updating service instance workflow-lite as me@example.com...
 OK
 ```
 
@@ -248,7 +258,7 @@ X-Frame-Options: DENY
  Location: /workflow-service/rest/v1/jobs/bb66fb4f-b445-47b5-b82b-ba6906d1ba2b
 ```
 
-That's it - you've cleaned up after yourself and removed the workflow definition you deployed in an earlier exercise. Well done!
+That's it - you've made an API call to clean up after yourself by removing the workflow definition you deployed in an earlier exercise. Well done!
 
 
 ## Summary
@@ -264,4 +274,6 @@ At this point you should be quite familiar with the Workflow API, and comfortabl
 
 1. In the response to `POST /v1/workflow-instances`, what does the particular HTTP 201 status code signify, and why?
 
-1. What is the signifnance of the HTTP 202 status code, and which header in the response is important in this regard?
+1. What is the significance of the HTTP 202 status code, and which header in the response is important in this regard?
+
+1. What do you think is happening behind the scenes in the API Hub when making calls in the context of a defined environment? Might our experience in step 4 make us consider the logic that is being used? 
