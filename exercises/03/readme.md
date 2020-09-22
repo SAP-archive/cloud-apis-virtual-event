@@ -123,7 +123,7 @@ First, let's open the `projects/` directory as the workspace in your App Studio 
 
 ```shell
 > cd $HOME/projects/
-> git clone https://github.com/SAP-samples/cloud-apis-virtual-event.git
+> git clone git@github.com:SAP-samples/cloud-apis-virtual-event.git
 ```
 
 Here's what the output should look like:
