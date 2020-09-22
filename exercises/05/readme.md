@@ -1,6 +1,6 @@
 # Exercise 05 - Workflow API calls, authorities, access token contents & more
 
-Thanks to the previous exercises, you have everything you need to make some Workflow API calls now. You have tools in your App Studio dev space that will enhance your experience, you have a workflow definition deployed to a Workflow service instance, and you have OAuth 2.0 authentication details in a service key that you will make use of now. In this exercise you'll make your first Workflow API call, and learn about authorities (aka "scopes") and the contents of access tokens. You'll make your first API call from the command line.
+Thanks to the previous exercises, you have everything you need to make some Workflow API calls now. You have tools in your App Studio dev space that will enhance your experience, you have a workflow definition deployed to a Workflow service instance, and you have OAuth 2.0 authentication details in a service key that you will make use of now. In this exercise you'll make your first Workflow API call, and learn about authorities (aka "scopes") and the content of access tokens. You'll make your first API call from the command line.
 
 ## Steps
 
@@ -16,7 +16,7 @@ After following the steps in this exercise, you'll have some familiarity with ca
 
 ### 1. Prepare for your first Workflow API call
 
-We have a workflow definition deployed. To start off, let's request a list of workflow definitions via the API, where we should see it.
+We have a workflow definition deployed. To start off, let's use the API to request a list of workflow definitions where we should see it.
 
 :point_right: Jump over to the API Hub and look in there to see the resource information for the [Workflow API for Cloud Foundry](https://api.sap.com/api/SAP_CP_Workflow_CF/resource). In the Workflow Definitions group (select it on the left hand side of the page, in the list of groups that we first encountered in [exercise 01](../01#1-get-an-introduction-to-the-sap-api-business-hub)) we see this HTTP method and endpoint:
 
@@ -26,10 +26,10 @@ Great, that seems to be what we want. We can make this API call by sending an HT
 
 ![Production URLs for Workflow API on CF](production-urls.png)
 
-As we know now from [exercise 02](../02/), the Workflow APIs are protected with the OAuth 2.0 client credentials grant type. So in preparing for our first call, we need to gather what we need to request an access token. Because of how the client credentials grant type flow works, we'll be making the call in two stages:
+As we know now from [exercise 02](../02/), the Workflow APIs are protected with the OAuth 2.0 Client Credentials grant type. So in preparing for our first call, we need to gather what we need to request an access token to use in that flow. Because of how the Client Credentials grant type flow works, we'll be making the call in two stages:
 
-Stage 1 is requesting an access token
-Stage 2 is then using the access token in the actual call to the API endpoint
+- Stage 1 is requesting an access token
+- Stage 2 is then using the access token in the actual call to the API endpoint
 
 All the information we need is in our service key, which we have in the `workflow-lite-sk1.json` file. As you may remember, in order to obtain an access token, we need to send a request to the Authorization Server, specifically to the "token request" endpoint which is at the well-known path of `/oauth/token`.
 
@@ -48,11 +48,11 @@ All the information we need is in our service key, which we have in the `workflo
 |What|Where this value is|
 |-|-|
 |The Resource Server base URL|`.endpoints.workflow_rest_url` (in the service key)|
-|The access token retrieved|In the response to the call in stage 1|
+|The access token|Received in the response to the call in stage 1|
 
-The App Studio supports the [VS Code REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension, which means that we can make HTTP calls easily by editing a file with an `.http` extension. That's how we're going to make our first API call.
+The App Studio supports the [VS Code REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension, which means that we can make HTTP calls easily by editing contents in files with the `.http` extension. That's how we're going to make our first API call.
 
-:point_right: There's a file in the `workflowapi/` directory called [`first-api-call.http`](../../workspaces/workflowapi/first-api-call.http). Open that up in the App Studio editor, and you should see a couple of HTTP calls, one for each of the stages described above. There are placeholders denoted by the content in square brackets (`[ ... ]`) that you will have to fill in.
+:point_right: There's a file in the `workflowapi/` directory called [`first-api-call.http`](../../workspaces/workflowapi/first-api-call.http). Open that up in the App Studio editor, and you should see a couple of HTTP calls, one for each of the stages described above. The calls are separated from each other with `###` and in each call there are placeholders denoted by the content in square brackets (`[ ... ]`) that you will have to fill in.
 
 Thie is what the file contents look like:
 
@@ -73,9 +73,9 @@ GET [.endpoints.workflow_rest_url]/v1/workflow-definitions
 Authorization: Bearer [the access token retrieved from the previous request]
 ```
 
-> Individual HTTP calls are separated from each other by a line containing `###`.
+> The "Send Request" strings are not actually part of the file's contents, they are placed there by the extension for us to click on when we want to make the calls.
 
-:point_right: Replace each of the placeholders (including the actual square brackets) for the first HTTP call with the values you've gathered earlier in this step. Notice that there's a space between the `[.uaa.clientid]` and `[.uaa.clientsecret]` - make sure you preserve this space (the REST Client supports this format of username and password, and will [automatically perform the required Base 64 encoding](https://github.com/Huachao/vscode-restclient#basic-auth).
+:point_right: Replace each of the placeholders (including the actual square brackets) for the first HTTP call with the values you've gathered earlier in this step. Notice that there's a space between the `[.uaa.clientid]` and `[.uaa.clientsecret]` - make sure you preserve this space (the REST Client supports this format of username and password, and will [automatically perform the required Base 64 encoding](https://github.com/Huachao/vscode-restclient#basic-auth)).
 
 Here's an example of what the first HTTP call details will look like when you've performed the replacements (note that the client ID and secret have been shortened here for display reasons, and note also that your values will be different!):
 
@@ -91,7 +91,7 @@ grant_type=client_credentials
 
 :point_right: Now use the **Send Request** link that is part of the first HTTP call details to make the call to the Authorization Server to request an access token.
 
-A response should appear in a new tab, that will look something like this (the value of the access token has been shortened for display reasons):
+A response should appear in a new tab, that will look something like this (the value of the access token has been shortened for display purposes):
 
 ```
 HTTP/1.1 200 OK
@@ -117,13 +117,15 @@ Strict-Transport-Security: max-age=31536000; includeSubDomains; preload;
 }
 ```
 
-Great! You've successfully obtained an access token from the Authorization Server in a client credentials flow based call. Now it's time to actually make the API call. Ready?
+Great! You've successfully obtained an access token from the Authorization Server in a client credentials flow based call. 
+
+Now it's time to actually make the API call.
 
 
 ### 2. Make your first Workflow API call
 
 
-Now the moment of truth - stage 2, where we're going to make a GET request to the `/v1/workflow-definitions` API endpoint.
+Now the moment of truth - stage 2 (of the two-stage process described above) where we're going to make a GET request to the `/v1/workflow-definitions` API endpoint.
 
 :point_right: Focus now on the second HTTP request in the `first-api-call.http` file, and replace the placeholder values as described earlier. Make sure you copy the whole value of the `access_token` property in the response to the call in stage 1.
 
@@ -169,29 +171,31 @@ Strict-Transport-Security: max-age=31536000; includeSubDomains; preload;
 
 Err, wait a minute...
 
-The HTTP response code returned (403), along with the message in the payload, might come initially as somewhat of a surprise. Why are we denied access? Were the client ID and client secret credentials incorrect? Well, no, because we were successfully granted an access code based upon them. So what's happened is that the identity that is represented by the access token is recognized, but that identity doesn't have the appropriate access for this particular API call.
+The HTTP response code returned (403) and the message in the payload might come initially as somewhat of a surprise. 
+
+Why are we denied access? Were the client ID & client secret credentials incorrect? Well, no, because we were successfully granted an access code based upon them. So what's happened is that the identity that is represented by the access token is recognized, but that identity doesn't have the appropriate access for this particular API call.
 
 
 ### 3. Inspect the contents of the access token
 
 Let's briefly take stock of where we are. We've got an access token that we successfully retrieved from the Authorization Server. But that access token, as it stands, is not enough to allow us to make the API call to the `/v1/workflow-definitions` endpoint. Can we dig in a little bit to see what's going on? Well, we have a terminal at our disposal, and some useful tools. So the answer is "of course we can"!
 
-Before we do, though - consider that making the two-stage call was quite cumbersome. Using the REST Client is very useful in many circumstances, but when OAuth 2.0 flows are involved, there are other options. One is to use the environments facility within the API Hub, another is to automate some of the process ourselves. That's what we'll do, so that we can, for this exercise at least, remain in the App Studio, while staying close to the flow so that we don't lose sight or understanding of what's going on.
+Before we do, though - consider that making the two-stage call was quite cumbersome. Using the REST Client is very useful in many circumstances, but when OAuth 2.0 flows are involved, there are other, perhaps more convenient options. One is to use the environments facility within the API Hub (which we'll do in the next exercise), another is to automate some of the process ourselves. That's what we'll do here, so that we can remain in the App Studio while staying close to the flow so that we don't lose sight or understanding of what's going on.
 
-:point_right: Look in the `workflowapi/` directory and open the [`workflow`](../../workspaces/workflowapi/workflow) file that's in there. It's a shell script, that we can run in the terminal. Take a brief look at it; don't worry if you don't understand everything, just get a general impression of it.
+:point_right: Look in the `workflowapi/` directory and open the [`workflow`](../../workspaces/workflowapi/workflow) file that's in there. It's a shell script that we can run in the terminal. Take a brief look at it; don't worry if you don't understand it all, just read enough to get a general impression of it.
 
 Here's a summary of what's in there, going from top to bottom:
 
 - "sourcing shared": the [`shared`](../../workspaces/workflowapi/shared) file is sourced, bringing in the values (such as the instance name, service key name, and so on) that we've used earlier
-- "function definitions": a number of functions are defined, such as `get_access_token` and `list_workflow_definitions` - these two exactly reflect the two HTTP requests we executed in the two-stage process earlier
+- "function definitions": a number of functions are defined, such as `get_access_token` and `list_workflow_definitions` - these two examples happen to reflect exactly the two HTTP requests we executed in the two-stage process earlier
 - "command variable": all the functions are listed in a `command` variable
-- "service key value retrieval": the OAuth 2.0 values and the Resource Server API root URL are retrieved from the service key file
-- "list possible commands": if no command is given when the script is invoked, the possible commands are listed
-- "get access token and invoke command": otherwise an access token is retrieved (using the `get_access_token` function) and then the requested function is executed
+- "service key value retrieval": the OAuth 2.0 values (`clientid`, `clientsecret` and `authserver`) and the Resource Server API root URL (`resourceserverapiroot`) are retrieved from the service key file
+- "list possible commands": if no command is given when the script is invoked, the possible commands are listed and then the script exits
+- "get access token and invoke command": otherwise an access token is retrieved (using the `get_access_token` function) and then the requested command is executed by calling the appropriate function
 
-> The script is deliberately simple and ripe for improvements, but has been kept like this to strike a balance between simplicity and practicality. Also, the astute amongst you will point out that we don't need to retrieve a fresh access token for every API call - they have a lifetime that lasts for quite a while - but again, for simplicity's sake, that's what we do here.
+> The script is deliberately basic and definitely ripe for improvements, but has been kept like this to strike a balance between simplicity and practicality. Also, the astute amongst you will point out that we don't need to retrieve a fresh access token for every API call - the tokens have a lifetime that lasts for quite a while - but again, for simplicity's sake, that's what we do here.
 
-:point_right: Try the script out by running it in the terminal:
+:point_right: Try the script out by running it in the terminal (remember you need to still be in the `workflowapi/` directory here):
 
 ```shell
 > ./workflow
@@ -207,32 +211,36 @@ list_workflow_instances
 start_workflow_instance
 ```
 
-> The `commands` variable is used in a more complex version of this script to provide command completion; if you're interested in learning more, check out the `management` and `management.completion` script pair in the [cloud-messaging-handsonsapdev](https://github.com/SAP-samples/cloud-messaging-handsonsapdev) repo.
+> The `commands` variable is used in a more complex version of this script to provide [command completion](https://tldp.org/LDP/abs/html/tabexpansion.html); if you're interested in learning more, check out the `management` and `management.completion` script pair in the [cloud-messaging-handsonsapdev](https://github.com/SAP-samples/cloud-messaging-handsonsapdev) repo.
 
 Let's generate a new access token, with a view to inspecting it. Rather than use the first HTTP call in the REST Client `first-api-call.http` file, let's use this `workflow` script to generate ourselves an access token on the command line. First though, let's make sure we understand what will happen when we make the invocation.
 
 :point_right: Look inside the `workflow` script again, and take a look at the "service key value retrieval" section; you'll see that it retrieves values for `clientid`, `clientsecret` and `authserver` variables. Now look at the `get_access_token` function definition, where you'll see these three variables referenced in a call to [`curl`](https://curl.haxx.se/), the powerful command line HTTP client (that's available in the App Studio's terminal shell environment).
 
-This is what the invocation looks like:
+This is what the invocation looks like, in the context of the `get_access_token` function itself:
 
 ```bash
+# Retrieve an access token using the Client Credentials grant type
+get_access_token () {
   curl \
     --"$output" \
     --user "$clientid:$clientsecret" \
     --data "grant_type=client_credentials" \
     "$authserver/oauth/token" \
   | jq -r .access_token
+}
 ```
 
 You can check out the options in the `curl` documentation, but here's a summary of what we see:
 
 - given that the value of `$output` is set to `silent` (see near the top of the script), the call will be executed quietly with no extraneous logging
 - with the `--user` option we can supply a username and password which will be Base 64 encoded into a Basic Authentication header
-- the `--data` option gives us the opportunity to supply data that will be passed in the payload (body) of the request
-- the actual URL is made up from the value of the `authserver` variable, with `/oauth/token` appended
-- the default content type that is sent in a `curl` request is `application/x-www-form-urlencoded` which is exactly appropriate for what we want to send
+- the `--data` option gives us the opportunity to supply content that will be passed in the payload (body) of the request; note that the content is exactly what we passed when we first requested an access token with the REST Client, i.e. `grant_type=client_credentials`
+- the actual URL is made up from the value of the `authserver` variable, with path info `/oauth/token` appended
+- the content type that is sent by default (and therefore not specified explicitly here) in a `curl` request is `application/x-www-form-urlencoded` which is exactly appropriate for what we want to send
+- the HTTP method that is used by default when payload data is specified with the `--data` option is POST, which is what we want (and therefore not shown explicitly here)
 
-The output of the response, specifically the payload (body), an example of which we saw at the end of step 1 in this exercise, is JSON, where one of the properties is `access_token`. So we can use `jq` to parse out exactly that value, and give it to us in raw form with the `-r` switch (basically this means "don't present the value in double quotes").
+The output of the response, specifically the payload (body), an example of which we saw at the end of step 1 in this exercise, is JSON, where one of the properties is `access_token`. So we can use `jq` to parse out exactly that value, and give it to us in raw form with the `-r` switch (basically this switch means "don't present the value in double quotes").
 
 Now we understand what we're running, let's generate a new access token.
 
@@ -245,14 +253,22 @@ Now we understand what we're running, let's generate a new access token.
 The response should look something like this - an access token in raw form (it's been shortened here for display purposes):
 
 ```
-eyJhVQTE9ZIl0sImNsaWVudF9pZCI6InNiLWNsb25lLWIwOWQ5ZmNmLWE0MTgtNDRjOC05NTg5LWViYWJlYTY1NGNiNyFiNTU4ODl8d29ya2Zsb3chYjEwMTUwIiwiY2lkIjoic2ItY2xvbmUtYjA5ZDlmY2YtYTQxOC00NGM4LTk1ODktZWJhYmVhNjU0Y2I3IWI1NTg4OXx3b3JrZmxvdyFiMTAxNTAiLCJhenAiOiJzYi1jbG9uZS1iMDlkOWZjZi1hNDE4LTQ0YzgtOTU4OS1lYmFiZWE2NTRjYjchYjU1ODg5fHdvcmtmbG93IWIxMDE1MCIsImdyYW50X3R5cGUiOiJjbGllbnRfY3JlZGVudGlhbHMiLCJyZXZfc2lnIjoiNzI5NmM4OTIiLCJpYXQiOjE2MDA2NzY4MjQsImV4cCI6MTYwMDcyMDAyNCwiaXNzIjoiaHR0cHM6Ly9hNTI1NDRkMXRyaWFsLmF1dGhlbnRpY2F0aW9uLmV1MTAuaGFuYS5vbmRlbWFuZC5jb20vb2F1dGgvdG9rZW4iLCJ6aWQiOiJmZDAzNDAyZS01OGM3LTRmYjgtOTQ0My01ZDBmYTJhNTMzZjQiLCJhdWQiOlsidWFhIiwid29ya2Zsb3chYjEwMTUwIiwic2ItY2xvbmUtYjA5ZDlmY2YtYTQxOC00NGM4LTk1ODktZWJhYmVhNjU0Y2I3IWI1NTg4OXx3b3JrZmxvdyFiMTAxNTAiXX0.kvK72llXiXigBSjAvyAPBG1BqwxAf_2RasOfyZ7Utz5yH7vcqk6argtXQVSqSdyp8VvV2iPM6RhlBxkeduh27o74QGEUZhZ3oWVRMukEllMAZCxngllmdnK-oRty-NeF04l-Y6jCcLZXWQkujusS6WaoKYLFfJ0v7BvzFylmf0WBuqyz1JILgE2b9uxndl19cCvv6-oGiHMgqev7zALmhXcSZlqz9SezAanbGdr5h_eOkiRaDTMmNM9jx8vzO_K_cYWaAre7gVGBVHm1In2l44WXDhoEy2WMlmZOFk0th3aoykdS5gOIOgP68gqeHVx_UOtzO2pCbfGITXnLD1Htdw
+eyJhVQTE9ZIl0sImNsaWVudF9pZCI6InNiLWNsb25lLWIwOWQ5ZmNmLWE0MTgtNDRjOC05NTg5LWViYWJlYTY1NGNiNyFiNTU4ODl8d29ya2Zsb3chYjE
+wMTUwIiwiY2lkIjoic2ItY2xvbmUtYjA5ZDlmY2YtYTQxOC00NGM4LTk1ODktZWJhYmVhNjU0Y2I3IWI1NTg4OXx3b3JrZmxvdyFiMTAxNTAiLCJhenAi
+OiJzYi1jbG9uZS1iMDlkOWZjZi1hNDE4LTQ0YzgtOTU4OS1lYmFiZWE2NTRjYjchYjU1ODg5fHdvcmtmbG93IWIxMDE1MCIsImdyYW50X3R5cGUiOiJjb
+GllbnRfY3JlZGVudGlhbHMiLCJyZXZfc2lnIjoiNzI5NmM4OTIiLCJpYXQiOjE2MDA2NzY4MjQsImV4cCI6MTYwMDcyMDAyNCwiaXNzIjoiaHR0cHM6Ly
+9hNTI1NDRkMXRyaWFsLmF1dGhlbnRpY2F0aW9uLmV1MTAuaGFuYS5vbmRlbWFuZC5jb20vb2F1dGgvdG9rZW4iLCJ6aWQiOiJmZDAzNDAyZS01OGM3LTR
+JhYmVhNjU0Y2I3IWI1NTg4OXx3b3JrZmxvdyFiMTAxNTAiXX0.kvK72llXiXigBSjAvyAPBG1BqwxAf_2RasOfyZ7Utz5yH7vcqk6argtXQVSqSdyp8Vv
+V2iPM6RhlBxkeduh27o74QGEUZhZ3oWVRMukEllMAZCxngllmdnK-oRty-NeF04l-Y6jCcLZXWQkujusS6WaoKYLFfJ0v7BvzFylmf0WBuqyz1JILgE2b
 ```
 
 This access token doesn't look much different to what we've seen already, and it certainly is pretty impenetrable as far as detail is concerned.
 
-That's where `jwt`, the JSON Web Token tool we installed in [exercise 01](../../01) comes in.
+That's where `jwt`, the JSON Web Token tool we installed in [exercise 01](../../01), comes in.
 
-:point_right: Run the command again, and this time, extend it so that the output (the raw access token) is piped into `jwt`, like this:
+> `jwt-cli` is the name of the NPM package, and `jwt` is the command line tool that comes in that package.
+
+:point_right: Run the command again, and this time, extend it so that the output (the raw access token) is [piped](https://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO-4.html) into `jwt`, like this:
 
 ```bash
 > ./workflow get_access_token | jwt
@@ -351,11 +367,11 @@ USAGE:
    }
 ```
 
-When we created the service instance, we didn't avail ourselves of this facility (as we didn't yet know what authorities we'd need). But that's ok, we can subsequently update an existing instance with the `cf update-service` command, the help for which looks quite similar to what we see above.
+When we created the service instance, we didn't avail ourselves of this facility (as we didn't yet know what authorities we'd need). But that's OK, we can subsequently update an existing instance with the `cf update-service` command, the help for which looks quite similar to what we see above.
 
 Let's do that now, supplying the "WORKFLOW_DEFINITION_GET" authority, along with a couple of others that we may need later.
 
-:point_right: Look at the contents of the `authorities.json` file in the `workflowapi/` directory. You should see something like this:
+:point_right: Look at the contents of the [`authorities.json`](../../workspaces/workflowapi/authorities.json) file in the `workflowapi/` directory. You should see something like this:
 
 ```json
 {
@@ -370,6 +386,7 @@ Let's do that now, supplying the "WORKFLOW_DEFINITION_GET" authority, along with
 :point_right: Now look at the `add_authorities` function in the `workflow` script; the function looks something like this:
 
 ```bash
+# Add authorities to service instance
 add_authorities () {
     local jsonfile=$1
     if [[ -z "$jsonfile" ]]; then
@@ -431,11 +448,12 @@ Great!
 
 ### 6. Make another API call to `/v1/workflow-definitions`
 
-Now that requested access tokens contain the appropriate authorities, let's have another go at making our first API call. Instead of using the HTTP Client facility and the `first-api-call.http` file contents, let's continue to make use of our `workflow` script. We already know that there's a function in there that will request an access token; it won't surprise you to know that there's also a function in there that will make an API call to the `/v1/workflow-definitions` endpoint.
+Now that requested access tokens contain the appropriate authority, let's have another go at making our first API call. Instead of using the HTTP Client facility and the `first-api-call.http` file contents, let's continue to make use of our [`workflow`]((../../workspaces/workflowapi/workflow) script. We already know that there's a function in there that will request an access token; it won't surprise you to know that there's also a function in there that will make an API call to the `/v1/workflow-definitions` endpoint.
 
 :point_right: Have a look at that function - it's the `list_workflow_definitions` function in the `workflow` file. By now, the pattern should be familiar, but let's check we understand what it's doing anyway. The function is defined like this:
 
 ```bash
+# List workflow definitions
 list_workflow_definitions () {
   curl \
     --"$output" \
@@ -448,11 +466,11 @@ list_workflow_definitions () {
 Like before, let's just summarize what we see here:
 
 - the call will be executed quietly with no extraneous logging as before, due to the `--"$output"` option
-- instead of using the `--user` option as in the call to request an access token, we now need to supply the access token itself to authenticate this call; it's sent in a "Bearer" Authorization header, as shown
+- instead of using the `--user` option as in the call to request an access token, where we needed to specify a username and password (`clientid` and `clientsecret`), we now need to supply the access token itself to authenticate this call; it's sent in a "Bearer" Authorization header, as shown
 - the actual URL is made up from the value of the `resourceserverapiroot` variable, with the specific API endpoint path `/v1/workflow-definitions` appended
-- the default HTTP method used is GET, which is what we want
+- the default HTTP method used with `curl` is GET (when there's no payload to be sent with `--data`), which is what we want
 
-And again, like the first call, we're expecting the response to be JSON, so we pipe that into `jq` to display prettily for us.
+And again, like the first call, we're expecting the response to be JSON, so we pipe that into `jq` (this is the `| jq .` part) to display prettily for us.
 
 :point_right: Make the API call now (make sure you're still in the `workflowapi/` directory):
 
@@ -475,7 +493,7 @@ You should see output that looks like this:
 ]
 ```
 
-Success! There's evidence of our workflow definition that we deployed in a previous exercise, listed (in an array) in the output.
+Success! There's evidence of our workflow definition that we deployed in a previous exercise, listed (in an array, denoted by the outermost `[ ... ]`) in the output.
 
 
 ### 7. Explore further Workflow API endpoints with the `workflow` script
@@ -488,7 +506,7 @@ Now we're motoring! We can explore a couple more endpoints with the `workflow` s
 > ./workflow
 ```
 
-In the output, that looks like this:
+The output, that you've seen already, looks like this:
 
 ```
 add_authorities
@@ -498,13 +516,13 @@ list_workflow_instances
 start_workflow_instance
 ```
 
-... you'll see, after `list_workflow_definitions`, another couple of commands `list_workflow_instances` and `start_workflow_instance`. These, unsurprisingly, relate to other Workflow API endpoints described in the [Workflow API for Cloud Foundry](https://api.sap.com/api/SAP_CP_Workflow_CF/resource) definitions, specifically in the "Workflow Instances" group:
+In this list, after `list_workflow_definitions`, you'll see another couple of commands `list_workflow_instances` and `start_workflow_instance`. These, unsurprisingly, relate to other Workflow API endpoints described in the [Workflow API for Cloud Foundry](https://api.sap.com/api/SAP_CP_Workflow_CF/resource) definitions, specifically in the "Workflow Instances" group:
 
 ![Workflow Instances group](workflow-instance-group.png)
 
 The `list_workflow_instances` command reflects the API endpoint `GET /v1/workflow-instances` and the `start_workflow_instance` command reflects the API endpoint `POST /v1/workflow-instances`.
 
-> Observe how the API endpoints are organized along HTTP application protocol lines - we have a single HTTP resource `/v1/workflow-instances` but using the HTTP method `GET` retrieves the current representation of that resource, and using the HTTP method `POST` adds to it.
+> Observe how the API endpoints are organized along HTTP application protocol lines - we have a single HTTP resource `/v1/workflow-instances` but using the HTTP method `GET` retrieves the current representation of that resource (a collection of instances), and using the HTTP method `POST` adds to it (effectively adding a new instance to the collection).
 
 :point_right: Run the `list_workflow_instances` command:
 
@@ -512,7 +530,7 @@ The `list_workflow_instances` command reflects the API endpoint `GET /v1/workflo
 > ./workflow list_workflow_instances
 ```
 
-At this point, we've only deployed the `workflow` definition, and not started any instances of it. So it should come as little surprise that the output is an empty array:
+At this point, we've only deployed the `workflow` definition, and not started any instances of it. So it should come as little surprise that the output is an empty array, denoting no instances:
 
 ```json
 []
@@ -542,9 +560,17 @@ If all goes well, you should see output that looks like this:
 }
 ```
 
-Very nice - we're given the details of a running workflow instance: started from the "workflow" definition, version "1", and in fact the status at the time that very snapshot was taken (just when the instance was started) was "RUNNING".
+Very nice - we're given the details of a running workflow instance: started from the "workflow" definition, version "1", and in fact the status at the time that very snapshot was taken (just when the instance was started) was "RUNNING". Note that in contrast to the output from the `GET /v1/workflow-instances`, this is the output from the `POST /v1/workflow-instances`, in that the output is saying "here is the instance that was just created as a result of your request". 
 
-If you now make another call to the `list_workflow_instances` command, you should see this instance, although by the time you do this, the status will have moved from "RUNNING" to "COMPLETED", as the definition itself (see [exercise 04](../../04) is very simple - it just starts, and then ends. This is what the output should look like (note that this is a list, represented by an array in the output (`[ ... ]`):
+If you now make another call to the `list_workflow_instances` command, you should see this instance, although by the time you do this, the status will have moved from "RUNNING" to "COMPLETED", as the definition itself (see [exercise 04](../../04)) is very simple - it just starts, and then ends. 
+
+:point_right: Make that call now:
+
+```bash
+> ./workflow list_workflow_instances
+```
+
+This is what the output should look like (note that this is a list, represented by an array in the output (`[ ... ]`):
 
 ```json
 [
@@ -566,3 +592,9 @@ If you now make another call to the `list_workflow_instances` command, you shoul
 ## Summary
 
 In this exercise, we've gone from being unable to do much with the Workflow API due to missing authorities, to listing workflow definitions and starting & listing instances of them. All from the comfort of the command line in App Studio. Not only that, we know what's going on underneath. Great work!
+
+## Questions
+
+1. What is HTTP status code 403 and how does it differ from HTTP status code 401?
+
+1. Did you notice what the lifetime of the access token was (or when it expires), that we received in our first call in stage 1? 
