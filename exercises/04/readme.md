@@ -16,17 +16,17 @@ At the end of these steps you'll have a running Workflow service instance, along
 
 These steps assume you have a freshly created trial account on SAP Cloud Platform, and in particular, no existing Workflow service instance. If you do have such an instance already, you can either use that (and adapt the instructions here to suit) or remove it\* and follow the full instructions here.
 
-\*Only remove an existing instance if you have no more use for it.
+\*Only remove an existing instance if you have no more use for it!
 
-For this and subsequent steps, some of the commands needed have been made available in small scripts in the `workflowapi/` directory (within the `workspaces/` directory) in the repo you've cloned. It's worth moving to that `workflowapi/` directory now as the rest of the exercise activities will involve being in there too.
+For this and subsequent steps, some of the commands needed have been made available in small scripts in the `workflowapi/` directory (within the `workspaces/` directory) in this repo that you've cloned. It's worth moving to that `workflowapi/` directory now as the rest of the exercise activities will involve being in there too.
 
 :point_right: Move to the `workspaceapi/` directory. You can either do this at the shell prompt directly with the `cd` command:
 
 ```shell
-> cd $HOME/projects/cloud-apis/workspaces/workflowapi/
+> cd $HOME/projects/cloud-apis-virtual-event/workspaces/workflowapi/
 ```
 
-Or you can use the App Studio's Explorer context menu as shown here:
+Or you can use the App Studio's Explorer very convenient context menu as shown here:
 
 ![Open in terminal](open-in-terminal.png)
 
@@ -45,7 +45,7 @@ lite
 
 :point_right: Now, directly following the previous commands, in the same shell process, create the service instance (typical output from this is shown here too):
 
-```shell
+```
 > cf create-service $service $plan $instance
 Creating service instance workflow-lite in org a52544d1trial / space dev as me@example.com...
 OK
@@ -53,7 +53,7 @@ OK
 Create in progress. Use 'cf services' or 'cf service workflow-lite' to check operation status.
 ```
 
-Note that this creation process may be performed asynchronously, and, as it might suggest, you should check for the eventual creation as shown:
+Note that this creation process may be performed asynchronously, and, as it might suggest, as it does here, you should check for the eventual creation as shown:
 
 ```shell
 > cf service $instance
@@ -80,14 +80,14 @@ There are no bound apps for this service.
 Upgrades are not supported by this broker.
 ```
 
-Output like this ("create in progress") indicates that the instance is being created. Be patient, and keep checking for the status to show "create succeeded".
+Output like this ("status: create in progress") indicates that the instance is being created. Be patient, and keep checking for the status to show "create succeeded".
 
 > You could have used the literal value "workflow-lite" in the `cf service` command above, but it's worth being consistent and ensuring we all use the same values for the names of things.
 
 
 ### 2. Create a service key for the service instance
 
-Now the service instance exists, it's time to create a service key, which will contain credentials that we'll need in the OAuth 2.0 flow later. We need to request the creation of a service instance, and then copy the contents, stripped of any cruft, into a local file. The script `setup-service-key` will do this for you.
+Now the service instance exists, it's time to create a service key, which will contain credentials that we'll need in the OAuth 2.0 flow later. We need to request the creation of a service key, and then copy the contents, stripped of any cruft, into a local file. The script `setup-service-key` will do this for you.
 
 :point_right: Examine the `setup-service-key` script and once you're happy with what it does, run it like this:
 
@@ -95,10 +95,9 @@ Now the service instance exists, it's time to create a service key, which will c
 > ./setup-service-key
 ```
 
-This is the sort of thing that you should see as output (some lines omitted for brevity):
+This is the sort of thing that you should see as output (some lines in the JSON output omitted for brevity):
 
 ```
-./setup-service-key
 Creating service key sk1 for service instance workflow-lite as me@example.com...
 OK
 ```
@@ -139,7 +138,7 @@ Here you can clearly see, thanks to the nice formatting from `jq`, the contents 
 
 OK. There's only one more step here and then you'll be ready to start exploring the Workflow API. There's a simple workflow definition that we can deploy to the Workflow service instance, so that we can use that subsequently with calls to the API endpoints.
 
-The definition is in a module inside an MTA project, in the `workflowproject/` directory. You can explore the contents of this project using the standard tools in App Studio if you wish. Note that if you open the workflow definition file itself in the App Studio editor, you'll perhaps be slightly underwhelmed, as it really is the simplest workflow definition:
+The definition is in a module inside an MTA project, in the `workflowproject/` directory. You can explore the contents of this project using the standard tools in App Studio if you wish. Note that if you open the workflow definition file itself in the App Studio editor, you'll perhaps be slightly underwhelmed, as it really is the simplest workflow definition that one could imagine:
 
 ![simple workflow definition](simple-definition.png)
 
@@ -150,7 +149,7 @@ We need to build the deployable artifact with the standard MTA build tool `mbt` 
 :point_right: Move to the `workflowproject/` directory; if you're already in the `workflowapi/` directory then a simple `cd workflowproject/` will do. Otherwise, you can use an absolute path:
 
 ```shell
-> cd $HOME/cloud-apis/workspaces/workflowapi/workflowproject/
+> cd $HOME/projects/cloud-apis-virtual-event/workspaces/workflowapi/workflowproject/
 ```
 
 :point_right: Build the deployable artifact:
@@ -169,12 +168,12 @@ This should result in some output that looks like this:
 [2020-09-16 09:01:19]  INFO validating the MTA project
 [2020-09-16 09:01:19]  INFO validating the MTA project
 [2020-09-16 09:01:19]  INFO building the "workflowmodule" module...
-[2020-09-16 09:01:19]  INFO the build results of the "workflowmodule" module will be packaged and saved in the "/home/user/projects/cloud-apis/workspaces/workflowapi/workflowproject/.workflowproject_mta_build_tmp/workflowmodule" folder
+[2020-09-16 09:01:19]  INFO the build results of the "workflowmodule" module will be packaged and saved in the "/home/user/projects/cloud-apis-virtual-event/workspaces/workflowapi/workflowproject/.workflowproject_mta_build_tmp/workflowmodule" folder
 [2020-09-16 09:01:19]  INFO finished building the "workflowmodule" module
 [2020-09-16 09:01:19]  INFO generating the metadata...
-[2020-09-16 09:01:19]  INFO generating the "/home/user/projects/cloud-apis/workspaces/workflowapi/workflowproject/.workflowproject_mta_build_tmp/META-INF/mtad.yaml" file...
+[2020-09-16 09:01:19]  INFO generating the "/home/user/projects/cloud-apis-virtual-event/workspaces/workflowapi/workflowproject/.workflowproject_mta_build_tmp/META-INF/mtad.yaml" file...
 [2020-09-16 09:01:19]  INFO generating the MTA archive...
-[2020-09-16 09:01:19]  INFO the MTA archive generated at: /home/user/projects/cloud-apis/workspaces/workflowapi/workflowproject/mta_archives/workflowproject_0.0.1.mtar
+[2020-09-16 09:01:19]  INFO the MTA archive generated at: /home/user/projects/cloud-apis-virtual-event/workspaces/workflowapi/workflowproject/mta_archives/workflowproject_0.0.1.mtar
 [2020-09-16 09:01:19]  INFO cleaning temporary files...
 ```
 
@@ -190,7 +189,7 @@ This should result in some output that will look similar to this:
 Deploying multi-target app archive mta_archives/workflowproject_0.0.1.mtar in org a52544d1trial / space dev as me@example.com...
 
 Uploading 1 files...
-  /home/user/projects/cloud-apis/workspaces/workflowapi/workflowproject/mta_archives/workflowproject_0.0.1.mtar
+  /home/user/projects/cloud-apis-virtual-event/workspaces/workflowapi/workflowproject/mta_archives/workflowproject_0.0.1.mtar
 OK
 Operation ID: 35c66db2-f7fb-11ea-874c-eeee0a80cc52
 Deploying in org "a52544d1trial" and space "dev"
@@ -214,7 +213,7 @@ Use "cf dmol -i 35c66db2-f7fb-11ea-874c-eeee0a80cc52" to download the logs of th
 The output from `pwd` should show you that you're in the `workflowapi/` directory:
 
 ```
-/home/user/projects/cloud-apis/workspaces/workflowapi
+/home/user/projects/cloud-apis-virtual-event/workspaces/workflowapi
 ```
 
 ## Summary
