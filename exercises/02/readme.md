@@ -5,6 +5,11 @@ In this exercise you'll learn about OAuth, the open standard for access control,
 
 ## Steps
 
+[1. Get an overview of OAuth 2.0](#1-get-an-overview-of-oauth-20)<br>
+[2. Understand the roles in OAuth 2.0](#2-understand-the-roles-in-oauth-20)<br>
+[3. Understand OAuth 2.0 grant types](#3-understand-oauth-20-grant-types)<br>
+[4. See where these grant types are used for APIs on SAP Cloud Platform](#4-see-where-these-grant-types-are-used-for-apis-on-sap-cloud-platform)
+
 After completing the steps in this exercise you'll have an understanding of how OAuth 2.0 is used to protect and control access to resources, preparing you to be able to make calls to SAP Cloud Platform APIs that are so protected.
 
 ### 1. Get an overview of OAuth 2.0
