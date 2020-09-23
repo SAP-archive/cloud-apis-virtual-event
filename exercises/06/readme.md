@@ -1,4 +1,4 @@
-# Exercise 06 - Calling the Workflow API from within the API Hub
+# Exercise 06 - Calling the Workflow API from within the SAP Business API Hub
 
 Now we know how to find, authorize and make calls to Workflow API endpoints, let's try some calls in a different context. After all, API calls are just authenticated HTTP requests, so you can make them wherever you want.
 
@@ -24,9 +24,9 @@ At [the end of exercise 02](../02#4-see-where-these-grant-types-are-used-for-api
 
 :point_right: Select the **Configure Environments** link, and get ready to specify the details. Now you're familiar with OAuth 2.0 concepts, the content of service keys, and how the two things relate, it should be fairly straightforward to provide the appropriate values for the properties in the form. Apart from the name you want to give to this environment (which you can make up), all the values you need are in the service key JSON data.
 
-:point_right: Get ready with the values, by looking at the service key contents. This is the file you created via the [`setup-service-key`](../../workspaces/workflowapi/setup-service-key) script in a previous exercise, and is called `workflow-lite-sk1.json` (or, via its dynamic variable name from the [`shared`](../../workspaces/workflowapi/shared) script, `$keyfile`). 
+:point_right: Get ready with the values, by looking at the service key contents. This is the file you created via the [`setup-service-key`](../../workspaces/workflowapi/setup-service-key) script in a previous exercise, and is called `workflow-lite-sk1.json` (or, via its dynamic variable name from the [`shared`](../../workspaces/workflowapi/shared) script, `$keyfile`).
 
-You can either look at the file contents in the regular App Studio editor, or use `jq` either for the whole file or for individual properties. If you want to use the terminal (and remember, [#TheFutureIsTerminal](https://twitter.com/search?q=%23TheFutureIsTerminal&src=typed_query)!) then you can do it like this: 
+You can either look at the file contents in the regular App Studio editor, or use `jq` either for the whole file or for individual properties. If you want to use the terminal (and remember, [#TheFutureIsTerminal](https://twitter.com/search?q=%23TheFutureIsTerminal&src=typed_query)!) then you can do it like this:
 
 ```shell
 > source shared
@@ -276,4 +276,4 @@ At this point you should be quite familiar with the Workflow API, and comfortabl
 
 1. What is the significance of the HTTP 202 status code, and which header in the response is important in this regard?
 
-1. What do you think is happening behind the scenes in the API Hub when making calls in the context of a defined environment? Might our experience in step 4 make us consider the logic that is being used? 
+1. What do you think is happening behind the scenes in the API Hub when making calls in the context of a defined environment? Might our experience in step 4 make us consider the logic that is being used?

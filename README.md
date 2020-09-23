@@ -37,10 +37,10 @@ In these first two exercises, you'll get a basic understanding of what APIs on S
 
 In these next two exercises you'll get your feet wet with the Workflow APIs. First, you'll set up a dev space in the SAP Business Application Studio (App Studio) with some extra tools, then you'll create a Workflow service instance and deploy a simple workflow definition. Through trial and error, you'll learn about scopes, the contents of access tokens, and become familiar with a few different Workflow API resources.
 
-- [Exercise 03 - Setting up your dev space in App Studio](exercises/03/)
+- [Exercise 03 - Setting up your dev space in the SAP Business Application Studio](exercises/03/)
 - [Exercise 04 - Creating a Workflow service instance & deploying a definition](exercises/04/)
 - [Exercise 05 - Workflow API calls, authorities, access token contents & more](exercises/05/)
-- [Exercise 06 - Calling the Workflow API from within the API Hub](exercises/06/)
+- [Exercise 06 - Calling the Workflow API from within the SAP Business API Hub](exercises/06/)
 
 
 ## Requirements

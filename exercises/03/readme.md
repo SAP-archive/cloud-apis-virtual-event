@@ -1,4 +1,4 @@
-# Exercise 03 - Setting up your dev space in App Studio
+# Exercise 03 - Setting up your dev space in the SAP Business Application Studio
 
 In this exercise you'll set up everything you need for exploring the Workflow APIs and learning about how to use them. Specifically you'll prepare your dev space in the App Studio (details of which were listed in the [prerequisites](../../prerequisites.md)), install a couple of extra tools there, and then clone this repository and connect to your CF organization and space.
 
@@ -9,7 +9,7 @@ In this exercise you'll set up everything you need for exploring the Workflow AP
 [3. Clone and open this repository in your App Studio dev space](#3-clone-and-open-this-repository-in-your-app-studio-dev-space)<br>
 [4. Connect to your CF target](#4-connect-to-your-cf-target)
 
-Because you're awesome and you've already set up your dev space according to the [prerequisites](../../prerequisites.md), with the "MTA Tools" and "Workflow Management" SAP extensions installed, you're almost ready to dive into the APIs. 
+Because you're awesome and you've already set up your dev space according to the [prerequisites](../../prerequisites.md), with the "MTA Tools" and "Workflow Management" SAP extensions installed, you're almost ready to dive into the APIs.
 
 First though, as we'll be interacting with the Workflow API from the command line within your App Studio dev space and learning about it that way, we'll use this exercise to install a couple of tools there to help us. We'll also clone this repository into our dev space to get access to some useful scripts, and connect to our CF target and space so we can instantiate a service instance and create a service key for Workflow service activities.
 
