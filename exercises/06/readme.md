@@ -1,8 +1,8 @@
-# Exercise 06 - Calling the Workflow API from within the SAP Business API Hub
+# Exercise 06 - Calling the Workflow API from within the SAP API Business Hub
 
 Now we know how to find, authorize and make calls to Workflow API endpoints, let's try some calls in a different context. After all, API calls are just authenticated HTTP requests, so you can make them wherever you want.
 
-The SAP Business API Hub (API Hub) not only provides information on API packages and APIs, but also provides you with the ability to maintain "environments" that reflect specific service instance and service key contexts. In this exercise you'll make some more Workflow API calls directly in the API Hub.
+The SAP API Business Hub (API Hub) not only provides information on API packages and APIs, but also provides you with the ability to maintain "environments" that reflect specific service instance and service key contexts. In this exercise you'll make some more Workflow API calls directly in the API Hub.
 
 ## Steps
 
