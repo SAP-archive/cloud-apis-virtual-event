@@ -35,12 +35,26 @@ In these first two exercises, you'll get a basic understanding of what APIs on S
 
 **Learning with the Workflow API**
 
-In these next two exercises you'll get your feet wet with the Workflow APIs. First, you'll set up a dev space in the SAP Business Application Studio (App Studio) with some extra tools, then you'll create a Workflow service instance and deploy a simple workflow definition. Through trial and error, you'll learn about scopes, the contents of access tokens, and become familiar with a few different Workflow API resources.
+In these next few exercises you'll get your feet wet with the Workflow APIs. First, you'll set up a dev space in the SAP Business Application Studio (App Studio) with some extra tools, then you'll create a Workflow service instance and deploy a simple workflow definition. Through trial and error, you'll learn about scopes, the contents of access tokens, and become familiar with a few different Workflow API resources.
 
 - [Exercise 03 - Setting up your dev space in the SAP Business Application Studio](exercises/03/)
 - [Exercise 04 - Creating a Workflow service instance & deploying a definition](exercises/04/)
 - [Exercise 05 - Workflow API calls, authorities, access token contents & more](exercises/05/)
 - [Exercise 06 - Calling the Workflow API from within the SAP API Business Hub](exercises/06/)
+
+> Subsequent exercise groups in this Virtual Event are in "planned" status only and do not yet exist.
+
+**Calling Enterprise Messaging APIs with Postman**
+
+In this group of exercises you'll learn about the management and messaging groups of APIs for Enterprise Messaging, and interact with them using Postman (planned).
+
+**Exploring the Password grant type with the Core Service APIs**
+
+In this group of exercises you'll take a brief look at, and get your hands dirty with a different grant type, one that is used currently to protect the Core Service APIs of SAP Cloud Platform (planned).
+
+**Consuming OAuth 2.0 protected APIs from within Node.js**
+
+To round out this virtual event, you'll learn how you can use Node.js packages to help you manage calls to Cloud APIs from JavaScript (planned).
 
 
 ## Requirements
