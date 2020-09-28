@@ -1,5 +1,7 @@
 # Using APIs on SAP Cloud Platform
 
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/cloud-apis-virtual-event)](https://api.reuse.software/info/github.com/SAP-samples/cloud-apis-virtual-event)
+
 ## Description
 
 This repository contains the material for a virtual event all about using APIs on SAP Cloud Platform.
