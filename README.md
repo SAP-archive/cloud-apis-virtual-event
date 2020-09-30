@@ -46,6 +46,12 @@ In these next few exercises you'll get your feet wet with the Workflow APIs. Fir
 
 > Subsequent exercise groups in this Virtual Event are in "planned" status only and do not yet exist.
 
+**Authenticating against SAP Ariba APIs (OAuth 2.0) using Python**
+
+In this exercise, you'll learn how you can use Python to authenticate against the SAP Ariba APIs and the usage of refresh tokens and in which scenarios they are commonly used.
+
+- [Exercise 07 - Authenticating against SAP Ariba APIs using Python](exercises/07/)
+
 **Calling Enterprise Messaging APIs with Postman**
 
 In this group of exercises you'll learn about the management and messaging groups of APIs for Enterprise Messaging, and interact with them using Postman (planned).
