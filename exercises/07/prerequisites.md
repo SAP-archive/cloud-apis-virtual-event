@@ -12,6 +12,7 @@ Before the virtual event, participants must ensure they have the following insta
 
 - Python (3+ version) : [https://www.python.org/downloads](https://www.python.org/downloads)
 - Create a Python virtual environment
+- An approved SAP Ariba developer application
 
 Below, steps to install Python in Windows:
 
