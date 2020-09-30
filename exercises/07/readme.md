@@ -105,7 +105,7 @@ response = requests.request("POST", API_OAUTH_URL, headers=headers, data=payload
 
 :point_right: As it will be the first time you authenticate against the SAP Ariba APIs, you will need to acquire an access token. To facilitate this, run the following from command line:
 ```bash
-$ python ariba_authentication.py --action=access_token --verbose
+$ python ariba_authentication.py --mode=access_token --verbose
 ```
 
 The output of the command above will be similar to the following response:
@@ -139,7 +139,7 @@ response = requests.request("POST", API_OAUTH_URL, headers=headers, data=payload
 
 :point_right: Now, that you know what is the difference between getting an access token and refreshing an access token when communicating with the SAP Ariba API OAuth server, go ahead and refresh the access token by running the following from command line:
 ```bash
-python ariba_authentication.py --action=refresh_token --verbose
+python ariba_authentication.py --mode=refresh_token --verbose
 ```
 
 The output of the command above will be similar to the following response:
