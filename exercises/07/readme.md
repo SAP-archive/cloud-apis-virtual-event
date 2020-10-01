@@ -16,7 +16,7 @@ To run the Python scripts included in this exercise, ensure that you checkout th
 
 ### 1. Get familiar with an OAuth 2.0 successful response
 
-As mentioned in previous exercises, OAuth 2.0 is an industry standard, based on work within the context of the Internet Engineering Task Force (IETF) and codified in [RFC 6749 - The OAuth 2.0 Authorization Framework](https://tools.ietf.org/html/rfc6749). Before authenticating against the SAP Ariba APIs, lets remind ourselves what we should expect as a successful authentication response. For this, we can reference to [RFC 8693 - OAuth 2.0 Token Exchange](https://tools.ietf.org/html/rfc8693), which contains additional details and explanation on the different fields that we can expect in the response of an authentication request.
+As mentioned in a previous [exercise](../02/readme.md), OAuth 2.0 is an industry standard, based on work within the context of the Internet Engineering Task Force (IETF) and codified in [RFC 6749 - The OAuth 2.0 Authorization Framework](https://tools.ietf.org/html/rfc6749). Before authenticating against the SAP Ariba APIs, lets remind ourselves what we should expect as a successful authentication response. For this, we can reference to [RFC 8693 - OAuth 2.0 Token Exchange](https://tools.ietf.org/html/rfc8693), which contains additional details and explanation on the different fields that we can expect in the response of an authentication request.
 
 :point_right: Visit the [RFC 8693 - 2.2.1 Successful Response section](https://tools.ietf.org/html/rfc8693#section-2.2.1) and get familiar with the fields we should expect in the response from the SAP Ariba authorization server. 
 
@@ -93,7 +93,7 @@ The script can be run in the following modes (by specifying the `--mode` paramet
 The code sample below shows what it is required, from a request perspective, to authenticate against the SAP Ariba API OAuth server. You will need to specify `client_credentials` as the `grant_type` and include the `BASE64_AUTHSTRING` value in the `Authorization` header.
 
 ```python
-# Code from ariba_authentication.py script
+# Code from ariba_authentication.py script L37-43
 payload = 'grant_type=client_credentials'
 headers = {
     'Authorization': f"Basic {BASE64_AUTHSTRING}",
@@ -112,13 +112,13 @@ The output of the command above will be similar to the following response:
 ```json
 Authentication response: 
 {
-    "access_token": "eca00eba-cf80-4417-bb60-b178eff4dc07",
-    "refresh_token": "97249928-ad4c-4052-9beb-294048f7a3bc",
-    "token_type": "bearer",
-    "scope": null,
-    "expires_in": 1440
+ "access_token": "c90bcfc4-0222-4501-93d4-1d77abb4aa13",
+ "refresh_token": "2ef288b1-4007-4b57-bc68-69b0378c7880",
+ "token_type": "bearer",
+ "scope": null,
+ "expires_in": 1440
 }
-Next refresh: 2020-09-30 18:32:32.589158
+Next refresh: 2020-10-01 11:20:22.151218
 ```
 You can see that the OAuth server response includes the fields were highlighted in step 1. Now that we know how to retrieve an `access_token`, lets see how to refresh a token. 
 
@@ -127,7 +127,7 @@ You can see that the OAuth server response includes the fields were highlighted 
 A different `grant_type` is required in the request (`refresh_token`), and we need to include the `refresh_token` value from the previous response in the payload. Besides that, the URL is exactly the same and we also need to include the `BASE64_AUTHSTRING` in the `Authorization` header.
 
 ```python
-# Code from ariba_authentication.py script
+# Code from ariba_authentication.py script L69-75
 payload = f'grant_type=refresh_token&refresh_token={refresh_token}'
 headers = {
     'Authorization': f"Basic {BASE64_AUTHSTRING}",
@@ -139,24 +139,24 @@ response = requests.request("POST", API_OAUTH_URL, headers=headers, data=payload
 
 :point_right: Now, that you know what is the difference between getting an access token and refreshing an access token when communicating with the SAP Ariba API OAuth server, go ahead and refresh the access token by running the following from command line:
 ```bash
-python ariba_authentication.py --mode=refresh_token --verbose
+$ python ariba_authentication.py --mode=refresh_token --verbose
 ```
 
 The output of the command above will be similar to the following response:
 ```json
 Refresh token response: 
 {
-    "timeUpdated": 1601482365340,
-    "access_token": "dc5a882d-5323-4ebf-a067-f9560d2f9f55",
-    "refresh_token": "1995904e-722b-4e3c-b808-235efcf77f36",
-    "token_type": "bearer",
-    "scope": null,
-    "expires_in": 1427
+ "timeUpdated": 1601544024316,
+ "access_token": "1dc0ad40-43ea-401f-a0f7-c4734962cbec",
+ "refresh_token": "9223adc6-ca6c-40dd-9018-fcb16875a081",
+ "token_type": "bearer",
+ "scope": null,
+ "expires_in": 1440
 }
-Next refresh: 2020-09-30 18:34:52.438197
+Next refresh: 2020-10-01 11:42:24.361207
 ```
 
-You can see that there is an additional field when refreshing a token - `timeUpdated`. It just tells us when was the token updated. 
+You can see that there is an additional field when refreshing a token - `timeUpdated`, which informs us when was the token updated. 
 
 > In the case of the SAP Ariba APIs, it is possible to refresh an access token 2 minutes before it expires.
 
@@ -170,3 +170,4 @@ You've made it to the end of this exercise :clap: :clap:. We've covered what we 
 1. What is encoded in the BASE64_AUTHSTRING value?
 2. Can we authenticate against the API more than once (step 4)? What happens to the previous access_token received?
 3. What happens if we try to refresh a token that has not expired and that will not expire soon? *Hint: Send a refresh token request after acquiring a new access token.*
+4. What is the behaviour of the script if we run it with `--mode=loop` and no token exists? What if a token already exists?
