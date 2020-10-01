@@ -3,8 +3,6 @@ import time
 import argparse
 from os import getenv
 from enum import Enum
-#import base64
-#from pathlib import Path
 import requests
 import json
 from datetime import datetime, timedelta
