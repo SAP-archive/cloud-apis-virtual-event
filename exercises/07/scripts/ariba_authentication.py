@@ -32,7 +32,7 @@ class RunMode(Enum):
 
 def get_access_token():
     global NEXT_REFRESH
-    NEXT_REFRESH = datetime.now() + timedelta(seconds=1200)
+    NEXT_REFRESH = datetime.now() + timedelta(seconds=1320)
 
     payload = 'grant_type=client_credentials'
     headers = {
@@ -48,7 +48,7 @@ def get_access_token():
         json.dump(parsed_json, outfile)
 
     if VERBOSE:
-        print(f"Authentication response: \n{parsed_json}")
+        print(f"Authentication response: \n{json.dumps(parsed_json, indent = 1)}")
     
     print(f"Next refresh: {NEXT_REFRESH}")
     
@@ -82,10 +82,10 @@ def refresh_access_token():
             json.dump(parsed_json, outfile)
 
         # Calculate when the next refresh will occur
-        NEXT_REFRESH = datetime.now() + timedelta(seconds=expires_in - 100)
+        NEXT_REFRESH = datetime.now() + timedelta(seconds=expires_in - 120)
 
         if VERBOSE:
-            print(f"Refresh token response: \n{parsed_json}")
+            print(f"Refresh token response: \n{json.dumps(parsed_json, indent = 1)}")
         
         print(f"Next refresh: {NEXT_REFRESH}")
     else:
