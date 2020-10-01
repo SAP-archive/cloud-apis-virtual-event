@@ -25,7 +25,7 @@ Below, steps to install Python in Windows:
 1. Navigate to directory `scripts`, create virtual environment and install packages required to run `ariba_api_authentication.py`
 	```bash
     cd scripts
-	mkvirtualenv ariba-api-authentication
+	mkvirtualenv ariba-api-authentication -r requirements.txt
 	pip install -r requirements.txt
 	```
 1. Ensure to activate the Python environment:
