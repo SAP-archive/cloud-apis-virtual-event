@@ -1,6 +1,6 @@
-# Exercise 07 - Authenticating against SAP Ariba APIs using Python
+# Exercise 07 - Authenticate :heavy_plus_sign: refresh tokens in the SAP Ariba APIs using :snake:
 
-Now that we are familiar with the basic concepts of OAuth 2.0, we'll look at how to authenticate against the SAP Ariba APIs using Python. We will first retrieve an access token, look at the response of the authentication server and refresh an access token once the original token expires.
+Now that we are familiar with the basic concepts of OAuth 2.0, we'll look at how to authenticate and refresh tokens in the SAP Ariba APIs using Python (:snake:). We will first retrieve an access token, look at the response of the authentication server and refresh an access token once the original token expires.
 
 The SAP Ariba APIs allows creating integrations between applications/services/machines. The APIs are commonly used to extend the capabilities of SAP Ariba, e.g. extend approval process, interact with invoices, or it can just be to retrieve transactional/analytical data from the SAP Ariba realm (instance). 
 
