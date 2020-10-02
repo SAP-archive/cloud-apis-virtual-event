@@ -16,7 +16,9 @@ Unfortunately, there is no standard way APIs implement pagination but the proces
 
 :point_right: Navigate to the help documentation of the SAP Ariba [Analytical Reporting API](https://help.sap.com/viewer/bf0cde439a0142fbbaf511bfac5b594d/latest/en-US/1f8247e9e767438c8f18db7973779eaf.html) and get familiar with how we can invoke the Analytical Reporting [synchronous API](https://help.sap.com/viewer/bf0cde439a0142fbbaf511bfac5b594d/latest/en-US/e8f72dd7ea794de7b06417aa32e4524d.html). Ask yourself the following: how can I know the total number of records available for my request? How can I request additional batches of data? 
 
-We'll use the diagram below to explain how pagination works in the SAP Ariba API that you'll be using in the exercise. In the case of the SAP Ariba API we will be using in this exercise, the pagination token is specified as a query parameter in the URL -> `?pageToken=[TOKEN_VALUE]`.
+We'll use the diagram below to explain how pagination works in the SAP Ariba API ([Analytical Reporting API](https://help.sap.com/viewer/bf0cde439a0142fbbaf511bfac5b594d/latest/en-US/1f8247e9e767438c8f18db7973779eaf.html)) that you'll be using in the exercise. In this API, the pagination token is specified as a query parameter in the URL, e.g. `https://openapi.ariba.com/api/analytics-reporting-details/v1/prod/views/SourcingProjectSourcingSystemView?pageToken=[TOKEN_VALUE]`.
+
+> :warning: In the diagram below, I'm using api.ariba.com/report as the domain for convenience. This is not the URL of the Analytical Reporting API.
 
 ```
      +--------+                                                      +------------+
