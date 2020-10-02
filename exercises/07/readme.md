@@ -52,7 +52,7 @@ The Python script uses [python-dotenv](https://pypi.org/project/python-dotenv/) 
 
 :point_right: Navigate to the scripts folder and create a file called `.env`. Copy and paste the sample config settings shown below and replace the values of `REALM`, `API_OAUTH_URL`, `API_KEY`, and `BASE64_AUTHSTRING` with the values provided by your administrator. 
 
-> For a detailed explanation of the SAP Ariba developer portal, creating an application and its approval process, checkout the [SAP Ariba developer portal YouTube playlist]()
+> For a detailed explanation of the SAP Ariba developer portal, creating an application and its approval process, checkout the [SAP Ariba for Developers YouTube playlist :tv:](https://www.youtube.com/watch?v=oXW3SBCadoI&list=PL6RpkC85SLQDXSLHrSPtu8wztzDs8kYPX)
 
 The contents of the new .env file should look similar to the one below:
 ```text
