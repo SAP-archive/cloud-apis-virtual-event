@@ -1,4 +1,4 @@
-# Exercise 08 - Pagination in the SAP Ariba APIs
+# Exercise 08 - SAP Ariba APIs: Data pagination
 
 Now that we know how to authenticate against the SAP Ariba APIs, we'll be looking at how to retrieve large amounts of data by using a mechanism known as pagination. Pagination is commonly used by APIs to limit the amount of data returned in a response. Limiting the data in the response normally improves the APIs performance, ensuring that the request response doesn't take a long time or returning unnecessary data to the client.
 
@@ -94,7 +94,7 @@ The script can be run in the following modes (by specifying the `--mode` paramet
 
 It is possible to specify the view template (`--view_template` parameter) and the filter criteria (`--filters` parameter) of the data that you want to extract. 
 - `--view_template`: By default it will use the `SourcingProjectSourcingSystemView` view template, which is available out of the box in SAP Ariba.
-- `--filters`: The script expects a JSON structure to define the filter criteria, e.g. '{"createdDateFrom":"2019-07-07T00:00:00Z","createdDateTo":"2020-07-06T00:00:00Z"}'
+- `--filters`: The script expects a JSON structure to define the filter criteria, e.g. `'{"createdDateFrom":"2019-07-07T00:00:00Z","createdDateTo":"2020-07-06T00:00:00Z"}'`
 
 ### 4. Find out how many records we can retrieve using the view template + filter combination
 
