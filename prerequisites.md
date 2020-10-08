@@ -2,7 +2,7 @@
 
 There are hardware, software and service prerequisites for participating in this virtual event.
 
-Note that there are these **general** prerequisites, and that for some exercises there are **exercise-specific** prerequisites, which are documented separately and also referred to at the start of each of those exercises.
+Note that there are these **general** prerequisites, and that for some exercises there are [**exercise-specific** prerequisites](#exercise-specific-prerequisites), which are documented separately and also referred to at the start of each of those exercises.
 
 ## Hardware
 
