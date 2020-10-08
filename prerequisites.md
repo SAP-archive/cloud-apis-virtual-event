@@ -2,6 +2,8 @@
 
 There are hardware, software and service prerequisites for participating in this virtual event.
 
+Note that there are these **general** prerequisites, and that for some exercises there are **exercise-specific** prerequisites, which are documented separately and also referred to at the start of each of those exercises.
+
 ## Hardware
 
 Each participant must have their own laptop with enough admin privileges to be able to install software. The laptop must also be able to connect to the Internet.
@@ -29,3 +31,12 @@ Further to the software prerequisites described above, we also recommend:
 
 - The [JSON Formatter extension](https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en) for Google Chrome
 - The [XML Tree extension](https://chrome.google.com/webstore/detail/xml-tree/gbammbheopgpmaagmckhpjbfgdfkpadb) for Google Chrome
+
+## Exercise-specific prerequisites
+
+There are currently exercise-specific prerequisites for the following exercises, please pay attention to those if you intend to complete them:
+
+- [Exercise 07 - Authentication & refresh tokens with SAP Ariba APIs](exercises/07/)
+- [Exercise 08 - Data pagincation with SAP Ariba APIs](exercises/08/)
+
+
