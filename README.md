@@ -44,14 +44,14 @@ In these next few exercises you'll get your feet wet with the Workflow APIs. Fir
 - [Exercise 05 - Workflow API calls, authorities, access token contents & more](exercises/05/)
 - [Exercise 06 - Calling the Workflow API from within the SAP API Business Hub](exercises/06/)
 
+**Authentication, refresh tokens & data pagination with the SAP Ariba APIs using Python**
+
+In these exercises, you'll learn how you can use Python to authenticate against the SAP Ariba APIs, what refresh tokens are and how to use them, how to retrieve large amounts of data from an API by using a mechanism commonly known as pagination and in which scenarios they are commonly used.
+
+- [Exercise 07 - Authentication & refresh tokens with SAP Ariba APIs](exercises/07/)
+- [Exercise 08 - Data pagination with SAP Ariba APIs](exercises/08/)
+
 > Subsequent exercise groups in this Virtual Event are in "planned" status only and do not yet exist.
-
-**Authenticate and data pagination in the SAP Ariba APIs using Python**
-
-In these exercise, you'll learn how you can use Python to authenticate against the SAP Ariba APIs, the usage of refresh tokens, how to retrieve large amounts of data from an API by using a mechanism commonly known as pagination and in which scenarios they are commonly used.
-
-- [Exercise 07 - SAP Ariba APIs: Authenticate and refresh tokens using Python](exercises/07/)
-- [Exercise 08 - SAP Ariba APIs: Data pagination](exercises/08/)
 
 **Calling Enterprise Messaging APIs with Postman**
 
