@@ -26,7 +26,6 @@ Below, steps to install Python in Windows:
 	```bash
     cd scripts
 	mkvirtualenv ariba-api-authentication -r requirements.txt
-	pip install -r requirements.txt
 	```
 1. Ensure to activate the Python environment:
     ```bash
