@@ -54,7 +54,7 @@ The Python script uses [python-dotenv](https://pypi.org/project/python-dotenv/) 
 
 > For a detailed explanation of the SAP Ariba developer portal, creating an application and its approval process, checkout the [SAP Ariba for Developers YouTube playlist :tv:](https://www.youtube.com/watch?v=oXW3SBCadoI&list=PL6RpkC85SLQDXSLHrSPtu8wztzDs8kYPX)
 
-The contents of the new .env file should look similar to the one below:
+The contents of the new `.env` file should look similar to the one below:
 ```text
 ############
 # Config settings
@@ -84,7 +84,7 @@ The [`ariba_authentication.py`](scripts/ariba_authentication.py) script, include
 The script can be run in the following modes (by specifying the `--mode` parameter):
 - `access_token`: Gets a new access token from the OAuth server.
 - `refresh_token`: Uses the previously retrieved access token to get a new access token from the OAuth server.
-- `loop`: Runs continually and it will refresh an access token before it expires.
+- `loop`: Runs continuously and it will refresh an access token before it expires.
 
 > For the sake of simplicity, the script will be storing the response from the OAuth server in a local file. This file is used by the script when running in refresh_token mode. Also, you can check the OAuth server response and get familiar with the structure.
 
