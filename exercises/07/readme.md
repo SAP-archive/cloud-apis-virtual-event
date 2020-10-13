@@ -41,7 +41,7 @@ Lets quickly see what each of the fields above are:
 - `token_type`: Indicate the type of the `access_token` issued. As shown in an example above, `Bearer` is specified in the `Authorization` header.
 
     *From RFC 8693 -> The client can simply present it (the access token) as is without any additional proof of eligibility beyond the contents of the token itself.*
-- `expires_in`: This field tells us how long before our `access_token` expires. If we are continuously calling the API, we will need to make sure that the `access_token` is refreshed before the
+- `expires_in`: This field tells us how long before our `access_token` expires. If we are continuously calling the API, we will need to make sure that the `access_token` is refreshed before it expires.
 
 
 ### 2. Set up the SAP Ariba API details in script
